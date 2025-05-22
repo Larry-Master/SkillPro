@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import Head from 'next/head';
+import '@/styles/global.css';
 
 export default function EnrollPage({ event_name, student_name, courses, uni_name }) {
   function enroll(courseName) {
