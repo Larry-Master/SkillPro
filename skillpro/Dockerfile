@@ -1,15 +1,20 @@
-# Development Dockerfile for Next.js
-FROM node:20-alpine
+# Basis-Image mit Node.js
+FROM node:18-alpine
 
+# Arbeitsverzeichnis im Container festlegen
 WORKDIR /app
 
-# Nur package.json kopieren, damit npm install gecached wird
-COPY package.json package-lock.json* ./
+# package.json und package-lock.json kopieren
+COPY package*.json ./
 
+# Abhängigkeiten installieren
 RUN npm install
 
-# Port öffnen
+# Restlichen Code kopieren
+COPY . .
+
+# Ports freigeben
 EXPOSE 3000
 
-# Dev-Befehl für Hot Reload
+# Dev-Server starten
 CMD ["npm", "run", "dev"]
