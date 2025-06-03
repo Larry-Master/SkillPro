@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import '../public/style.css'; // Optional: use if your styles are global
+import '@/styles/global.css';
 
 export default function About() {
   return (
