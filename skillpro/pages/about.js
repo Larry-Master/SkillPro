@@ -11,17 +11,6 @@ export default function About() {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
 
-      <header>
-        <h1>About SkillPro</h1>
-        <nav>
-          <Link href="/">Home</Link>
-          {' | '}
-          <Link href="/about">About</Link>
-          {' | '}
-          <Link href="/dashboard">Dashboard</Link>
-        </nav>
-      </header>
-
       <main>
         <section>
           <p>

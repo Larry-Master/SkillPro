@@ -4,6 +4,9 @@ FROM node:18-alpine
 # Arbeitsverzeichnis im Container festlegen
 WORKDIR /app
 
+# NODE_ENV setzen, damit devDependencies installiert werden
+ENV NODE_ENV=development
+
 # package.json und package-lock.json kopieren
 COPY package*.json ./
 

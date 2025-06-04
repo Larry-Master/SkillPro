@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>SkillPro – Home (Static)</title>
+        <title>SkillPro – Home</title>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
@@ -20,10 +20,6 @@ export default function Home() {
           </Link>
         </section>
       </main>
-
-      <footer>
-        <p>© 2025 SkillPro. All rights reserved.</p>
-      </footer>
     </>
   );
 }
