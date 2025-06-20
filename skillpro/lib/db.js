@@ -1,7 +1,7 @@
 // lib/db.js
 const mongoose = require('mongoose');
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://mongo:27017/';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://mongo:27018/';
 
 async function connectDB() {
   if (mongoose.connection.readyState >= 1) return;
