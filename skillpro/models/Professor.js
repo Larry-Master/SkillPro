@@ -6,4 +6,4 @@ const ProfessorSchema = new Schema({
   department: String,
 });
 
-module.exports = mongoose.model('Professor', ProfessorSchema);
+module.exports = mongoose.models.Professor ||mongoose.model('Professor', ProfessorSchema);
