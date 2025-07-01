@@ -23,16 +23,13 @@ export default async function handler(req, res) {
       return res.status(404).json({ message: 'Student or Course not found' });
     }
 
-    // Check if student already enrolled in course
     if (student.enrolledCourses.includes(courseId)) {
       return res.status(409).json({ message: 'Student is already enrolled in this course' });
     }
 
-    // Add course to student's enrolledCourses
     student.enrolledCourses.push(courseId);
     await student.save();
 
-    // Add student to course's enrolledStudents
     course.enrolledStudents.push(studentId);
     await course.save();
 
