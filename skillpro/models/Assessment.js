@@ -8,4 +8,4 @@ const AssessmentSchema = new Schema({
   date: { type: Date, default: Date.now }
 });
 
-export default mongoose.models.Assessment || mongoose.model('Assessment', AssessmentSchema);
+module.exports = mongoose.models.Assessment || mongoose.model('Assessment', AssessmentSchema);

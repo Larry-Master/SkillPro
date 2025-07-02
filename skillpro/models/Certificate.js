@@ -7,4 +7,4 @@ const CertificateSchema = new Schema({
   date: { type: Date, default: Date.now }
 });
 
-export default mongoose.models.Certificate || mongoose.model('Certificate', CertificateSchema);
+module.exports = mongoose.models.Certificate || mongoose.model('Certificate', CertificateSchema);

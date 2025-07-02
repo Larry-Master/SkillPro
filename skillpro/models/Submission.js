@@ -8,4 +8,4 @@ const SubmissionSchema = new Schema({
   submittedAt: { type: Date, default: Date.now }
 });
 
-export default mongoose.models.Submission || mongoose.model('Submission', SubmissionSchema);
+module.exports = mongoose.models.Submission || mongoose.model('Submission', SubmissionSchema);

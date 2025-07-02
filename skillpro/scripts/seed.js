@@ -7,6 +7,8 @@ const Professor = require('../models/Professor');
 const Course = require('../models/Course');
 const Enrollment = require('../models/Enrollment');
 const Assignment = require('../models/Assignment');
+const Certificate = require('../models/Certificate')
+
 
 
 async function seed() {
@@ -18,6 +20,7 @@ async function seed() {
   await Course.deleteMany({});
   await Enrollment.deleteMany({});
   await Assignment.deleteMany({});
+  await Certificate.deleteMany({});
 
 
   // Fixed IDs for curl commands
@@ -25,6 +28,7 @@ async function seed() {
   const fixedStudentId = new ObjectId('64f1b8c8a6e8f94b5a5a1a02');
   const fixedCourseId = new ObjectId('64f1b8c8a6e8f94b5a5a1a03');
   const fixedAssignmentId = new ObjectId('64f1b8c8a6e8f94b5a5a1a04');
+  const fixedCertificateId = new ObjectId('64f1b8c8a6e8f94b5a5a1abc'); 
 
 
   // Create fixed Professor
@@ -66,6 +70,16 @@ const assignment = new Assignment({
 await assignment.save();
 
 
+//Create Certificate
+const certificate = new Certificate({
+  _id: fixedCertificateId,
+  student: fixedStudentId,
+  course: fixedCourseId,
+  issuedAt: new Date(),
+});
+  await certificate.save();
+
+
   // Create enrollment linking student & course
   await Enrollment.create({
     student: fixedStudentId,
@@ -75,6 +89,7 @@ await assignment.save();
   console.log('Database seeded with fixed Professor, Student, and Course!');
   process.exit(0);
 }
+
 
 seed().catch(err => {
   console.error('Seed error:', err);
