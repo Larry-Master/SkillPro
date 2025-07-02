@@ -40,7 +40,7 @@ export default function Dashboard() {
           </div>
 
           <p>
-            <Link href="#">View All Courses</Link>
+            <Link href="/enroll">View All Courses</Link>
           </p>
         </section>
       </main>
