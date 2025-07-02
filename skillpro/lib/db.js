@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 
 // Changed: Added default DB name (skillpro) to the URI
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://mongo:27018/skillpro';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://mongo:27018/';
 
 async function connectDB() {
   if (mongoose.connection.readyState >= 1) return;
@@ -22,5 +22,4 @@ async function connectDB() {
   }
 }
 
-// Changed: Export as object for future flexibility (backward compatible)
-module.exports = { connectDB, mongoose };  // <-- (3) Now exports mongoose too
+module.exports = connectDB;
