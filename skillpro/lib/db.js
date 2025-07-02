@@ -11,9 +11,6 @@ async function connectDB() {
     await mongoose.connect(MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      // New: Added to prevent deprecation warnings
-      useCreateIndex: true,     // <-- (1) For model index support
-      useFindAndModify: false   // <-- (2) Disables deprecated methods
     });
     console.log('✅ MongoDB connected');
   } catch (error) {
