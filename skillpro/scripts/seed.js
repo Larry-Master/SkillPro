@@ -6,6 +6,10 @@ const Student = require('../models/Student');
 const Professor = require('../models/Professor');
 const Course = require('../models/Course');
 const Enrollment = require('../models/Enrollment');
+const Assignment = require('../models/Assignment');
+const Certificate = require('../models/Certificate')
+
+
 
 async function seed() {
   await connectDB();
@@ -15,11 +19,17 @@ async function seed() {
   await Professor.deleteMany({});
   await Course.deleteMany({});
   await Enrollment.deleteMany({});
+  await Assignment.deleteMany({});
+  await Certificate.deleteMany({});
+
 
   // Fixed IDs for curl commands
   const fixedProfId = new ObjectId('64f1b8c8a6e8f94b5a5a1a01');
   const fixedStudentId = new ObjectId('64f1b8c8a6e8f94b5a5a1a02');
   const fixedCourseId = new ObjectId('64f1b8c8a6e8f94b5a5a1a03');
+  const fixedAssignmentId = new ObjectId('64f1b8c8a6e8f94b5a5a1a04');
+  const fixedCertificateId = new ObjectId('64f1b8c8a6e8f94b5a5a1abc'); 
+
 
   // Create fixed Professor
   const professor = new Professor({
@@ -49,6 +59,27 @@ async function seed() {
   });
   await course.save();
 
+  // Create fixed Assignment
+const assignment = new Assignment({
+  _id: fixedAssignmentId,
+  title: 'HTML Basics Assignment',
+  description: 'Build a simple web page using HTML.',
+  course: fixedCourseId, 
+  dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // due in 7 days
+});
+await assignment.save();
+
+
+//Create Certificate
+const certificate = new Certificate({
+  _id: fixedCertificateId,
+  student: fixedStudentId,
+  course: fixedCourseId,
+  issuedAt: new Date(),
+});
+  await certificate.save();
+
+
   // Create enrollment linking student & course
   await Enrollment.create({
     student: fixedStudentId,
@@ -58,6 +89,7 @@ async function seed() {
   console.log('Database seeded with fixed Professor, Student, and Course!');
   process.exit(0);
 }
+
 
 seed().catch(err => {
   console.error('Seed error:', err);
