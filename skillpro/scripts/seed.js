@@ -7,7 +7,9 @@ const Professor = require('../models/Professor');
 const Course = require('../models/Course');
 const Enrollment = require('../models/Enrollment');
 const Assignment = require('../models/Assignment');
-const Certificate = require('../models/Certificate')
+const Certificate = require('../models/Certificate');
+const Review = require('../models/Review');
+
 
 
 
@@ -21,6 +23,8 @@ async function seed() {
   await Enrollment.deleteMany({});
   await Assignment.deleteMany({});
   await Certificate.deleteMany({});
+  await Review.deleteMany({});
+
 
 
   // Fixed IDs for curl commands
@@ -78,6 +82,14 @@ const certificate = new Certificate({
   issuedAt: new Date(),
 });
   await certificate.save();
+
+const review = new Review({
+  student: fixedStudentId,
+  course: fixedCourseId,
+  content: 'Great course!',
+  rating: 5
+});
+await review.save();
 
 
   // Create enrollment linking student & course

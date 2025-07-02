@@ -1,7 +1,8 @@
 // lib/db.js
 const mongoose = require('mongoose');
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://mongo:27018/';
+// Changed: Added default DB name (skillpro) to the URI
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://mongo:27018/skillpro';
 
 async function connectDB() {
   if (mongoose.connection.readyState >= 1) return;
@@ -10,6 +11,9 @@ async function connectDB() {
     await mongoose.connect(MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      // New: Added to prevent deprecation warnings
+      useCreateIndex: true,     // <-- (1) For model index support
+      useFindAndModify: false   // <-- (2) Disables deprecated methods
     });
     console.log('✅ MongoDB connected');
   } catch (error) {
@@ -18,4 +22,5 @@ async function connectDB() {
   }
 }
 
-module.exports = connectDB;
+// Changed: Export as object for future flexibility (backward compatible)
+module.exports = { connectDB, mongoose };  // <-- (3) Now exports mongoose too
