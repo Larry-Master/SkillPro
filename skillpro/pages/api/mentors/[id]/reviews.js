@@ -1,5 +1,5 @@
-import dbConnect from '../../../../lib/db';
-import Review from '../../../../models/Review';
+import connectDB from '@/lib/db';
+import Review from '@models/Review';
 
 export default async function handler(req, res) {
   await dbConnect();

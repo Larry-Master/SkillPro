@@ -1,5 +1,5 @@
-import dbConnect from '../../../lib/dbConnect';
-import Mentor from '../../../models/Mentor';
+import connectDB from '@/lib/db';
+import Mentor from '@models/Mentor';
 
 export default async function handler(req, res) {
   await dbConnect();
