@@ -1,32 +1,31 @@
 // pages/api/mentors/[id]/sessions.js
-import connectDB from '@/lib/db';
-import Mentor from '@models/Mentor';
+const connectDB = require('../../../../lib/db');
+const Mentor   = require('../../../../models/Mentor');
+
 
 export default async function handler(req, res) {
-  await dbConnect();
+  await connectDB();
   const { id } = req.query;
 
   if (req.method === 'GET') {
-    try {
-      const mentor = await Mentor.findById(id).select('sessionsCompleted');
-      if (!mentor) return res.status(404).json({ success: false, message: 'Mentor not found' });
-      res.status(200).json({ success: true, data: { sessionsCompleted: mentor.sessionsCompleted } });
-    } catch (error) {
-      res.status(400).json({ success: false, error: error.message });
-    }
-  } else if (req.method === 'POST') {
-    try {
-      const mentor = await Mentor.findByIdAndUpdate(
-        id,
-        { $inc: { sessionsCompleted: 1 } },
-        { new: true }
-      );
-      if (!mentor) return res.status(404).json({ success: false, message: 'Mentor not found' });
-      res.status(200).json({ success: true, data: { sessionsCompleted: mentor.sessionsCompleted } });
-    } catch (error) {
-      res.status(400).json({ success: false, error: error.message });
-    }
-  } else {
-    res.status(405).json({ success: false, message: 'Method Not Allowed' });
+    // GET /api/mentors/:id/sessions
+    const { sessionsCompleted } = await Mentor.findById(id).select('sessionsCompleted');
+    return res.status(200).json({ success: true, data: { sessionsCompleted } });
   }
+
+  if (req.method === 'POST') {
+    // POST /api/mentors/:id/sessions  → increment count
+    const mentor = await Mentor.findByIdAndUpdate(
+      id,
+      { $inc: { sessionsCompleted: 1 } },
+      { new: true }
+    );
+    return res.status(200).json({
+      success: true,
+      data: { sessionsCompleted: mentor.sessionsCompleted }
+    });
+  }
+
+  res.setHeader('Allow', ['GET','POST']);
+  res.status(405).end(`Method ${req.method} Not Allowed`);
 }

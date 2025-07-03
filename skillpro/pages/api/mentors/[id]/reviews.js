@@ -1,29 +1,32 @@
-import connectDB from '@/lib/db';
-import Review from '@models/Review';
+// pages/api/mentors/[id]/reviews.js
+const connectDB = require('../../../../lib/db');
+const Mentor   = require('../../../../models/Mentor');
+
 
 export default async function handler(req, res) {
-  await dbConnect();
+  await connectDB();
   const { id } = req.query;
 
   if (req.method === 'GET') {
-    try {
-      const reviews = await Review.find({ course: id })
-        .populate('student', 'name email') // 👈 Populate student info
-        .populate('course', 'title');      // 👈 Optionally include course title
-      res.status(200).json(reviews);
-    } catch (error) {
-      res.status(500).json({ error: 'Failed to fetch reviews' });
-    }
+    // GET /api/mentors/:id/reviews
+    const { rating } = await Mentor.findById(id).select('rating');
+    return res.status(200).json({ success: true, data: { rating } });
   }
 
   if (req.method === 'POST') {
-    try {
-      const { student, content, rating } = req.body;
-      const newReview = new Review({ course: id, student, content, rating });
-      await newReview.save();
-      res.status(201).json(newReview);
-    } catch (error) {
-      res.status(400).json({ error: 'Failed to create review' });
-    }
+    // POST /api/mentors/:id/reviews  → add to rating
+    const { rating: delta } = req.body;
+    const mentor = await Mentor.findByIdAndUpdate(
+      id,
+      { $inc: { rating: delta } },
+      { new: true }
+    );
+    return res.status(200).json({
+      success: true,
+      data: { rating: mentor.rating }
+    });
   }
+
+  res.setHeader('Allow', ['GET','POST']);
+  res.status(405).end(`Method ${req.method} Not Allowed`);
 }

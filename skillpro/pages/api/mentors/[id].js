@@ -1,42 +1,39 @@
-import connectDB from '@/lib/db';
-import Mentor from '@models/Mentor';
+// pages/api/mentors/[id].js
+const connectDB = require('../../../lib/db');
+const Mentor   = require('../../../models/Mentor');
+
 
 export default async function handler(req, res) {
-  await dbConnect();
+  await connectDB();
   const { id } = req.query;
 
-  switch (req.method) {
-    case 'GET':
-      try {
-        const mentor = await Mentor.findById(id);
-        if (!mentor) return res.status(404).json({ success: false });
-        res.status(200).json({ success: true, data: mentor });
-      } catch (error) {
-        res.status(400).json({ success: false });
-      }
-      break;
-
-    case 'PUT':
-      try {
-        const updated = await Mentor.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
-        if (!updated) return res.status(404).json({ success: false });
-        res.status(200).json({ success: true, data: updated });
-      } catch (error) {
-        res.status(400).json({ success: false });
-      }
-      break;
-
-    case 'DELETE':
-      try {
-        const deleted = await Mentor.findByIdAndDelete(id);
-        if (!deleted) return res.status(404).json({ success: false });
-        res.status(200).json({ success: true, data: {} });
-      } catch (error) {
-        res.status(400).json({ success: false });
-      }
-      break;
-
-    default:
-      res.status(405).json({ success: false, error: 'Method Not Allowed' });
+  if (req.method === 'GET') {
+    // GET /api/mentors/:id
+    const mentor = await Mentor.findById(id);
+    if (!mentor) return res.status(404).json({ success: false, error: 'Not found' });
+    return res.status(200).json({ success: true, data: mentor });
   }
+
+  if (req.method === 'PUT') {
+    // PUT /api/mentors/:id
+    try {
+      const updated = await Mentor.findByIdAndUpdate(id, req.body, {
+        new: true,
+        runValidators: true
+      });
+      if (!updated) throw new Error('Not found');
+      return res.status(200).json({ success: true, data: updated });
+    } catch (err) {
+      return res.status(400).json({ success: false, error: err.message });
+    }
+  }
+
+  if (req.method === 'DELETE') {
+    // DELETE /api/mentors/:id
+    await Mentor.findByIdAndDelete(id);
+    return res.status(200).json({ success: true, data: {} });
+  }
+
+  res.setHeader('Allow', ['GET','PUT','DELETE']);
+  res.status(405).end(`Method ${req.method} Not Allowed`);
 }
