@@ -1,4 +1,3 @@
-// pages/enroll.js
 import Head from 'next/head';
 import '@/styles/global.css';
 
