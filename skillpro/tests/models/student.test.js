@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-const Student = require('../models/Student');
+const Student = require('../../models/Student');
 
-jest.mock('../models/Student');
+jest.mock('../../models/Student');
 
 describe('Student model', () => {
   afterEach(() => {
