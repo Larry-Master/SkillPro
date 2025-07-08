@@ -7,4 +7,4 @@ const StudentSchema = new Schema({
   enrolledCourses: [{ type: Schema.Types.ObjectId, ref: 'Course' }]
 });
 
-module.exports = mongoose.model('Student', StudentSchema);
+module.exports = mongoose.models.Student || mongoose.model('Student', StudentSchema);
