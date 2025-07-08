@@ -1,14 +1,23 @@
 const mongoose = require('mongoose');
 const connectDB = require('../../lib/db');
 
-jest.mock('mongoose');
+jest.mock('mongoose', () => {
+  const actualMongoose = jest.requireActual('mongoose');
+  return {
+    ...actualMongoose,
+    connect: jest.fn(),
+    connection: {
+      readyState: 0,
+      on: jest.fn(),
+      once: jest.fn(),
+    },
+    Types: actualMongoose.Types,
+  };
+});
 
 describe('connectDB', () => {
   beforeEach(() => {
-    // Mock connection object with readyState
-    mongoose.connection = {
-      readyState: 0,
-    };
+    mongoose.connection.readyState = 0;
   });
 
   afterEach(() => {
