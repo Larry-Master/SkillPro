@@ -5,8 +5,13 @@ const CourseSchema = new Schema({
   title: { type: String, required: true },
   description: { type: String, default: '' },
   professor: { type: Schema.Types.ObjectId, ref: 'Professor', required: true },
-  capacity: { type: Number, default: 0 },
+  capacity: {
+    type: Number,
+    required: true,
+    min: [0, 'Capacity cannot be negative'], 
+  },
   enrolledStudents: [{ type: Schema.Types.ObjectId, ref: 'Student' }]
-  });
+});
+
 
 module.exports = mongoose.models.Course || mongoose.model('Course', CourseSchema);

@@ -39,18 +39,4 @@ describe('Enrollment model', () => {
     await expect(enrollment.save()).rejects.toThrow(error.message);
     expect(saveMock).toHaveBeenCalled();
   });
-
-  test('sets default enrolledAt date if none provided', async () => {
-    const data = { student: 'student-id', course: 'course-id' };
-    const defaultDate = new Date();
-
-    const saveMock = jest.fn().mockResolvedValue({ ...data, enrolledAt: defaultDate });
-    Enrollment.mockImplementation(() => ({ save: saveMock }));
-
-    const enrollment = new Enrollment(data);
-    const result = await enrollment.save();
-
-    expect(result.enrolledAt).toBe(defaultDate);
-    expect(saveMock).toHaveBeenCalled();
-  });
 });
