@@ -1,32 +1,19 @@
-name: Next.js CI
-
-on:
-  push:
-    branches: [dev]
-  pull_request:
-    branches: [dev]
-
 jobs:
   test-and-build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./skillpro
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Use Node.js 18
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      - name: Install dependencies
-        run: npm install
-        working-directory: ./skillpro
+      - run: npm install
 
-      - name: Run tests
-        run: npm test
-        working-directory: ./skillpro
+      - run: npm test
 
-      - name: Build Next.js app
-        run: npm run build
-        working-directory: ./skillpro
+      - run: npm run build
