@@ -45,7 +45,8 @@ describe('connectDB', () => {
 
   // match the actual console log output
   expect(consoleSpy).toHaveBeenCalledWith(
-    expect.stringContaining('✅ MongoDB connected')
+    expect.stringContaining('✅ MongoDB connected to', MONGODB_URI);
+
   );
   });
 
