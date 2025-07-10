@@ -1,6 +1,7 @@
+process.env.MONGODB_URI = 'mongodb://mocked-uri/test';
 const mongoose = require('mongoose');
 const connectDB = require('../../lib/db');
-process.env.MONGODB_URI = 'mongodb://mocked-uri/test';
+
 
 
 // Mock mongoose so we can control its behavior in tests
