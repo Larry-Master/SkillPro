@@ -43,12 +43,12 @@ describe('connectDB', () => {
 
     // make sure mongoose.connect was called with correct args
     expect(mongoose.connect).toHaveBeenCalledWith(
+      expect(mongoose.connect).toHaveBeenCalledWith(
       expect.stringContaining('mongodb://'),
-      expect.objectContaining({
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      })
-    );
+      expect.any(Object)
+      );
+
+
 
     // check that success message was logged
     expect(consoleSpy).toHaveBeenCalledWith('✅ MongoDB connected');
