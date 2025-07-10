@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const connectDB = require('../../lib/db');
 
+const MONGODB_URI = process.env.MONGODB_URI || process.env.ATLAS_MONGODB_URI;
+
 // Mock mongoose so we can control its behavior in tests
 jest.mock('mongoose', () => {
   const actualMongoose = jest.requireActual('mongoose');
