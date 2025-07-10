@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const MONGODB_URI = process.env.NODE_ENV === 'production'
     ? process.env.ATLAS_MONGODB_URI
-    : process.env.MONGODB_URI;
+    : process.env.MONGODB_URI; //testing 
 
 async function connectDB() {
   if (mongoose.connection.readyState >= 1) return;
