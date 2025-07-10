@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const connectDB = require('../../lib/db');
+process.env.MONGODB_URI = 'mongodb://mocked-uri/test';
 
 
 // Mock mongoose so we can control its behavior in tests
@@ -39,7 +40,7 @@ describe('connectDB', () => {
   it('connects if not already connected', async () => {
   mongoose.connect.mockResolvedValueOnce();
   const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
-  process.env.MONGODB_URI = 'mongodb://mocked-uri/test';
+
 
   await connectDB();
 
