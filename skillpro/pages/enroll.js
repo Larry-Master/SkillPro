@@ -35,7 +35,7 @@ export default function EnrollPage({ courses }) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch('http://localhost:3000/api/courses');
+  const res = await fetch('/api/courses');
   const courses = await res.json();
 
   return {
