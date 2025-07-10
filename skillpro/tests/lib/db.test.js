@@ -1,46 +1,47 @@
 const mongoose = require('mongoose');
 const connectDB = require('../../lib/db');
 
+// Mock mongoose so we can control its behavior in tests
 jest.mock('mongoose', () => {
   const actualMongoose = jest.requireActual('mongoose');
   return {
     ...actualMongoose,
-    connect: jest.fn(),
+    connect: jest.fn(), // mock connect method
     connection: {
-      readyState: 0,
+      readyState: 0, // simulate disconnected state by default
       on: jest.fn(),
       once: jest.fn(),
     },
-    Types: actualMongoose.Types,
+    Types: actualMongoose.Types, // keep actual Types for ObjectId, etc.
   };
 });
 
 describe('connectDB', () => {
   beforeEach(() => {
-    mongoose.connection.readyState = 0;
+    mongoose.connection.readyState = 0; // reset connection state before each test
+    jest.clearAllMocks(); // clear call counts on mocks
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    jest.restoreAllMocks(); // restore any spied methods (console, process, etc.)
   });
 
   it('returns early if mongoose is already connected', async () => {
-    mongoose.connection.readyState = 1;
-    const connectSpy = jest.spyOn(mongoose, 'connect');
+    mongoose.connection.readyState = 1; // simulate already connected
 
     await connectDB();
 
-    expect(connectSpy).not.toHaveBeenCalled();
+    // connect should NOT be called because we are already connected
+    expect(mongoose.connect).not.toHaveBeenCalled();
   });
 
   it('connects if not already connected', async () => {
-    mongoose.connection.readyState = 0;
-    mongoose.connect.mockResolvedValueOnce();
-
-    const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    mongoose.connect.mockResolvedValueOnce(); // mock successful connection
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {}); // spy on console.log
 
     await connectDB();
 
+    // make sure mongoose.connect was called with correct args
     expect(mongoose.connect).toHaveBeenCalledWith(
       expect.stringContaining('mongodb://'),
       expect.objectContaining({
@@ -48,29 +49,23 @@ describe('connectDB', () => {
         useUnifiedTopology: true,
       })
     );
-    expect(consoleSpy).toHaveBeenCalledWith('✅ MongoDB connected');
 
-    consoleSpy.mockRestore();
+    // check that success message was logged
+    expect(consoleSpy).toHaveBeenCalledWith('✅ MongoDB connected');
   });
 
   it('logs and exits on connection error', async () => {
-    mongoose.connection.readyState = 0;
     const error = new Error('Connection failed');
-
-    mongoose.connect.mockRejectedValueOnce(error);
+    mongoose.connect.mockRejectedValueOnce(error); // mock connection failure
 
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
     const exitSpy = jest.spyOn(process, 'exit').mockImplementation(() => {});
 
     await connectDB();
 
-    expect(consoleSpy).toHaveBeenCalledWith(
-      '❌ MongoDB connection error:',
-      error
-    );
+    // check error was logged
+    expect(consoleSpy).toHaveBeenCalledWith('❌ MongoDB connection error:', error);
+    // check process.exit was called with 1 (failure)
     expect(exitSpy).toHaveBeenCalledWith(1);
-
-    consoleSpy.mockRestore();
-    exitSpy.mockRestore();
   });
 });
