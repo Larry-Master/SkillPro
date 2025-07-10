@@ -34,8 +34,12 @@ export default function EnrollPage({ courses }) {
   );
 }
 
-export async function getServerSideProps() {
-  const res = await fetch('/api/courses');
+export async function getServerSideProps(context) {
+  const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
+  const host = context.req.headers.host; // e.g. localhost:3000 or your deployed domain
+  const baseUrl = `${protocol}://${host}`;
+
+  const res = await fetch(`${baseUrl}/api/courses`);
   const courses = await res.json();
 
   return {
