@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const connectDB = require('../../lib/db');
 
-const MONGODB_URI = process.env.MONGODB_URI || process.env.ATLAS_MONGODB_URI;
 
 // Mock mongoose so we can control its behavior in tests
 jest.mock('mongoose', () => {
@@ -40,14 +39,14 @@ describe('connectDB', () => {
   it('connects if not already connected', async () => {
   mongoose.connect.mockResolvedValueOnce();
   const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+  process.env.MONGODB_URI = 'mongodb://mocked-uri/test';
 
   await connectDB();
 
   expect(mongoose.connect).toHaveBeenCalled();
 
   // match the actual console log output
-  expect(consoleSpy).toHaveBeenCalledWith(`✅ MongoDB connected to ${MONGODB_URI}`);
-
+  expect(consoleSpy).toHaveBeenCalledWith('✅ MongoDB connected to', process.env.MONGODB_URI);
   });
 
 
