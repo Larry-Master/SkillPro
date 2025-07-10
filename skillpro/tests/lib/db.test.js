@@ -36,23 +36,24 @@ describe('connectDB', () => {
   });
 
   it('connects if not already connected', async () => {
-    mongoose.connect.mockResolvedValueOnce(); // mock successful connection
-    const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {}); // spy on console.log
+  mongoose.connect.mockResolvedValueOnce(); // mock successful connection
+  const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {}); // spy on console.log
 
-    await connectDB();
+  await connectDB();
 
-    // make sure mongoose.connect was called with correct args
-    expect(mongoose.connect).toHaveBeenCalledWith(
-      expect(mongoose.connect).toHaveBeenCalledWith(
-      expect.stringContaining('mongodb://'),
-      expect.any(Object)
-      );
+  expect(mongoose.connect).toHaveBeenCalledWith(
+    expect.stringContaining('mongodb://'),
+    expect.any(Object)
+  );
 
+  // match the actual console log output
+  expect(consoleSpy).toHaveBeenCalledWith(
+    expect.stringContaining('✅ MongoDB connected')
+  );
 
-
-    // check that success message was logged
-    expect(consoleSpy).toHaveBeenCalledWith('✅ MongoDB connected');
+  consoleSpy.mockRestore(); // cleanup
   });
+
 
   it('logs and exits on connection error', async () => {
     const error = new Error('Connection failed');
