@@ -43,12 +43,12 @@ describe('connectDB', () => {
 
   expect(mongoose.connect).toHaveBeenCalled();
 
-  // match the actual console log output
   expect(consoleSpy).toHaveBeenCalledWith(
-    expect.stringContaining('✅ MongoDB connected to', MONGODB_URI);
-
+    expect.stringContaining('✅ MongoDB connected to'),
+    expect.anything()
   );
-  });
+});
+
 
 
   it('logs and exits on connection error', async () => {
