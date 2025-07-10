@@ -9,8 +9,22 @@ services:
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
-      - MONGODB_URI=mongodb+srv://skillpro:htwskillpro2025@skillprocluster.agy7z8z.mongodb.net/skillprodb
+      - MONGODB_URI=mongodb://mongo:27018/    # Default to local MongoDB URI
+      - ATLAS_MONGODB_URI=mongodb+srv://skillpro:htwskillpro2025@skillprocluster.agy7z8z.mongodb.net/skillprodb
     command: sh -c "node scripts/seed.js && npm run dev"
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: always
+    ports:
+      - "27018:27018"
+    volumes:
+      - mongo-data:/data/db
+      - ./mongod.conf:/etc/mongod.conf:ro
+    command: ["mongod", "--config", "/etc/mongod.conf"]
 
 volumes:
   mongo-data:
