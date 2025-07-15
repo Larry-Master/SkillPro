@@ -12,17 +12,15 @@ let mongod;
 let server;
 let request;
 
-jest.setTimeout(15000); // Increase timeout because DB setup might take time
+jest.setTimeout(15000); // timeout increase
 
 beforeAll(async () => {
-  // Start in-memory MongoDB server
   mongod = await MongoMemoryServer.create();
-  // Connect mongoose to this in-memory DB
-  await mongoose.connect(mongod.getUri());
+  const uri = mongod.getUri();
+  process.env.MONGODB_URI = uri;
+  await mongoose.connect(uri);
 
-  // Create a simple HTTP server to handle requests using our API handler
   server = http.createServer(async (req, res) => {
-    // Patch res object to add Express-like methods (status, json)
     res.status = code => {
       res.statusCode = code;
       return res;
@@ -32,17 +30,15 @@ beforeAll(async () => {
       res.end(JSON.stringify(data));
     };
 
-    // Extract courseId param from URL path and put it into req.query
     const url = new URL(req.url, `http://${req.headers.host}`);
     req.query = { courseId: url.pathname.split('/').pop() };
 
-    // Call the actual API handler
     await handler(req, res);
   });
 
-  // Wrap server with supertest to easily test endpoints
   request = supertest(server);
 });
+
 
 afterAll(async () => {
   // Disconnect mongoose and stop in-memory server after tests

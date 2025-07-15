@@ -66,4 +66,12 @@ describe('connectDB', () => {
     // check process.exit was called with 1 (failure)
     expect(exitSpy).toHaveBeenCalledWith(1);
   });
+
+  it('throws error if no MongoDB URI provided', async () => {
+  // Clear both env variables
+  delete process.env.MONGODB_URI;
+  delete process.env.ATLAS_MONGODB_URI;
+
+  await expect(connectDB()).rejects.toThrow('No MongoDB URI provided to connectDB()');
+});
 });
