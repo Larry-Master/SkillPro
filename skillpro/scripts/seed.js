@@ -72,7 +72,7 @@ const assignment = new Assignment({
   _id: fixedAssignmentId,
   title: 'HTML Basics Assignment',
   description: 'Build a simple web page using HTML.',
-  course: fixedCourseId, 
+  course: fixedCourseId,
   dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // due in 7 days
 });
 await assignment.save();
@@ -116,7 +116,7 @@ await review.save();
     course: fixedCourseId,
   });
 
-  console.log('Database seeded with fixed Professor, Student, and Course!');
+  console.log('Database seeded with fixed Data!');
   process.exit(0);
 }
 

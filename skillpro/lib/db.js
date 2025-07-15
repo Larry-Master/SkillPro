@@ -1,13 +1,15 @@
 const mongoose = require('mongoose');
 
-const MONGODB_URI = process.env.MONGODB_URI || process.env.ATLAS_MONGODB_URI;
+async function connectDB(uri) {
+  if (!uri) throw new Error('No MongoDB URI provided to connectDB()');
 
-async function connectDB() {
-  if (mongoose.connection.readyState >= 1) return;
+  if (mongoose.connection.readyState > 0) {
+    await mongoose.disconnect(); // clean previous connection
+  }
 
   try {
-    await mongoose.connect(MONGODB_URI);
-    console.log('✅ MongoDB connected to', MONGODB_URI);
+    await mongoose.connect(uri);
+    console.log(`✅ Connected to DB: ${uri.includes('mongodb+srv') ? 'Atlas' : 'Local'}`);
   } catch (error) {
     console.error('❌ MongoDB connection error:', error);
     process.exit(1);
