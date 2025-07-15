@@ -12,13 +12,17 @@ exports[`EnrollPage component renders correctly and matches snapshot 1`] = `
     <ul>
       <li>
         Math 101 
-        <button>
+        <button
+          aria-label="Enroll in Math 101"
+        >
           Enroll
         </button>
       </li>
       <li>
         History 202 
-        <button>
+        <button
+          aria-label="Enroll in History 202"
+        >
           Enroll
         </button>
       </li>

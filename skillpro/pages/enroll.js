@@ -20,7 +20,10 @@ export default function EnrollPage({ courses }) {
           {courses.map((course) => (
             <li key={course._id}>
               {course.title}{' '}
-              <button onClick={() => enroll(course.title)}>Enroll</button>
+              <button aria-label={`Enroll in ${course.title}`} onClick={() => enroll(course.title)}>
+              Enroll
+              </button>
+
             </li>
           ))}
         </ul>

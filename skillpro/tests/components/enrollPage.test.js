@@ -4,14 +4,14 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import EnrollPage, { getServerSideProps } from '../../pages/enroll';
 
-describe('EnrollPage component', () => {
-  const mockCourses = [
-    { _id: '1', title: 'Math 101' },
-    { _id: '2', title: 'History 202' },
-  ];
+const mockCourses = [
+  { _id: '1', title: 'Math 101' },
+  { _id: '2', title: 'History 202' },
+];
 
-  beforeAll(() => {
-    // Mock window.alert so it doesn't actually pop up
+describe('EnrollPage component', () => {
+  beforeEach(() => {
+    // Mock window.alert
     window.alert = jest.fn();
   });
 
@@ -24,71 +24,48 @@ describe('EnrollPage component', () => {
     expect(asFragment()).toMatchSnapshot();
   });
 
-  it('calls alert with course title on enroll button click', () => {
+  it('alerts correct message on enroll button click', () => {
     render(<EnrollPage courses={mockCourses} />);
-    const firstCourse = screen.getByText('Math 101');
-    const enrollButton = firstCourse.parentElement.querySelector('button');
-    fireEvent.click(enrollButton);
+    // Use aria-label (in the enroll react component) to precisely select the enroll button for "Math 101"
+    fireEvent.click(screen.getByLabelText('Enroll in Math 101'));
     expect(window.alert).toHaveBeenCalledWith('You have enrolled in Math 101!');
   });
 });
 
 describe('getServerSideProps', () => {
-  beforeAll(() => {
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        json: () =>
-          Promise.resolve([
-            { _id: '1', title: 'Math 101' },
-            { _id: '2', title: 'History 202' },
-          ]),
-      })
-    );
-  });
-
   afterEach(() => {
     jest.clearAllMocks();
+    // Reset NODE_ENV after each test
+    process.env.NODE_ENV = 'test';
   });
 
-  it('fetches courses and returns as props', async () => {
-    const context = {
+  // Helper to mock global.fetch returning JSON data
+  const fetchMock = (data) =>
+    jest.fn().mockResolvedValue({ json: () => Promise.resolve(data) });
+
+  it('fetches courses with http in development', async () => {
+    global.fetch = fetchMock(mockCourses);
+
+    const result = await getServerSideProps({
       req: { headers: { host: 'localhost:3000' } },
-    };
+    });
 
-    const result = await getServerSideProps(context);
-
+    // Expect http protocol during development environment
     expect(fetch).toHaveBeenCalledWith('http://localhost:3000/api/courses');
-    expect(result).toEqual({
-      props: {
-        courses: [
-          { _id: '1', title: 'Math 101' },
-          { _id: '2', title: 'History 202' },
-        ],
-      },
-    });
+    expect(result).toEqual({ props: { courses: mockCourses } });
   });
-  it('uses https in production for getServerSideProps', async () => {
-    process.env.NODE_ENV = 'production'; // Simulate production
 
-    const context = {
+  it('fetches courses with https in production', async () => {
+    process.env.NODE_ENV = 'production'; // Simulate production environment
+    const prodCourses = [{ _id: '3', title: 'Physics 303' }];
+    global.fetch = fetchMock(prodCourses);
+
+    const result = await getServerSideProps({
       req: { headers: { host: 'example.com' } },
-    };
-
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        json: () => Promise.resolve([{ _id: '3', title: 'Physics 303' }]),
-      })
-    );
-
-    const result = await getServerSideProps(context);
-
-    expect(fetch).toHaveBeenCalledWith('https://example.com/api/courses');
-    expect(result).toEqual({
-      props: {
-        courses: [{ _id: '3', title: 'Physics 303' }],
-      },
     });
 
-    process.env.NODE_ENV = 'test'; // Reset for safety
+    // Expect https protocol in production
+    expect(fetch).toHaveBeenCalledWith('https://example.com/api/courses');
+    expect(result).toEqual({ props: { courses: prodCourses } });
   });
 });
