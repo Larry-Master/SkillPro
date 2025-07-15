@@ -67,4 +67,28 @@ describe('getServerSideProps', () => {
       },
     });
   });
+  it('uses https in production for getServerSideProps', async () => {
+    process.env.NODE_ENV = 'production'; // Simulate production
+
+    const context = {
+      req: { headers: { host: 'example.com' } },
+    };
+
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve([{ _id: '3', title: 'Physics 303' }]),
+      })
+    );
+
+    const result = await getServerSideProps(context);
+
+    expect(fetch).toHaveBeenCalledWith('https://example.com/api/courses');
+    expect(result).toEqual({
+      props: {
+        courses: [{ _id: '3', title: 'Physics 303' }],
+      },
+    });
+
+    process.env.NODE_ENV = 'test'; // Reset for safety
+  });
 });
