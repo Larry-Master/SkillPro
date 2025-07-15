@@ -2,6 +2,7 @@
 
 **SkillPro** is a full-stack web application built with **Next.js**, designed to help students engage with learning content, manage course enrollment, and interact with professors. It uses **MongoDB** for data storage and supports robust testing and continuous integration workflows.
 
+Live Version : https://skill-pro-tau.vercel.app
 To start the application using Docker use : docker-compose up --build 
 
 ---
