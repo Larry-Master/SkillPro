@@ -9,7 +9,9 @@ async function connectDB() {
 
   try {
     await mongoose.connect(uri);
-    console.log('✅ MongoDB connected to', uri);
+    const dbName = new URL(uri).pathname.replace('/', ''); // IMPORTANT TO NOT LEAK REAL MONGO CREDENTIALS
+    console.log('✅ MongoDB connected to', dbName);
+
   } catch (error) {
     console.error('❌ MongoDB connection error:', error);
     process.exit(1);

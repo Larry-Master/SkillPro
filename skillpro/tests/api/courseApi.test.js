@@ -174,4 +174,6 @@ describe('Course API', () => {
       expect(res.body.message).toBe('Method Not Allowed');
     });
   });
+
+
 });
