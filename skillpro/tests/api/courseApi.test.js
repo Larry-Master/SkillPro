@@ -3,7 +3,7 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 const supertest = require('supertest');
 const http = require('http');
 
-const handler = require('../../pages/api/enroll/[courseId].js');
+const handler = require('../../pages/api/course/[courseId].js');
 const Course = require('../../models/Course');
 const Professor = require('../../models/Professor');
 const Student = require('../../models/Student');
