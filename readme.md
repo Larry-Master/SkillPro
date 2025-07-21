@@ -23,7 +23,7 @@ To start the application using Docker use : docker-compose up --build
 - Middleware tested with Jest and spies
 - End-to-end tests of the REST API
 - `.bat` scripts for curl-based manual API testing
-- Snapshot testing support (optional)
+- Snapshot testing support
 - GitHub Actions integration for automated testing
 
 ### Infrastructure
