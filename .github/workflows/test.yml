@@ -7,7 +7,7 @@ on:
     branches: [dev, main, live]
 
 jobs:
-  test-and-build:
+  test:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -23,5 +23,21 @@ jobs:
       - run: npm install
 
       - run: npm test
+
+  build:
+    needs: test 
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./skillpro
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - run: npm install
 
       - run: npm run build
