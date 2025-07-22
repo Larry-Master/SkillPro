@@ -4,6 +4,8 @@
   --card-bg: #ffffff;
   --text: #333;
   --accent: #005eff;
+  --border: #ddd;
+  --light-gray: #f4f4f4;
 }
 
 * {
