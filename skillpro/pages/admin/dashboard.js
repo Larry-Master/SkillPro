@@ -15,7 +15,6 @@ export default function AdminDashboard() {
   const [students, setStudents] = useState([]);
   const [courses, setCourses] = useState([]);
 
-  // Separate loading states
   const [studentsLoading, setStudentsLoading] = useState(true);
   const [coursesLoading, setCoursesLoading] = useState(true);
 
@@ -113,13 +112,13 @@ export default function AdminDashboard() {
         </h1>
 
         <div className={styles.sectionsWrapper}>
-          {/* Students */}
+          {/* Students Section */}
           <section className={styles.section}>
             <h2>
               <Users size={18} /> Students
             </h2>
             {studentsLoading ? (
-              <p><Loader2 className="animate-spin" /> Loading students...</p>
+              <p><Loader2 /> Loading students...</p>
             ) : (
               <>
                 <p>{students.length} total</p>
@@ -137,34 +136,33 @@ export default function AdminDashboard() {
             )}
           </section>
 
-          {/* Courses */}
+          {/* Courses Section */}
           <section className={styles.section}>
-          <h2>
-          <BookOpen size={18} /> Courses
-          </h2>
-          {coursesLoading ? (
-            <p><Loader2 className="animate-spin" /> Loading courses...</p>
+            <h2>
+              <BookOpen size={18} /> Courses
+            </h2>
+            {coursesLoading ? (
+              <p><Loader2 /> Loading courses...</p>
             ) : (
               <>
-              <p>{courses.length} total</p>
-              <ul>
-              {courses.slice(0, 5).map(c => (
-                <li key={c._id} className={styles.listItem}>
-                {c.title}
-                <button onClick={() => handleDeleteCourse(c._id)} className={styles.button}>
-              <Trash2 size={16} />
-            </button>
-          </li>
-        ))}
-      </ul>
-
-      {/* Add CreateCourse component here */}
-      <CreateCourse onCourseCreated={newCourse => setCourses(prev => [newCourse, ...prev])} />
-    </>
-  )}
+                <p>{courses.length} total</p>
+                <ul>
+                  {courses.slice(0, 5).map(c => (
+                    <li key={c._id} className={styles.listItem}>
+                      {c.title}
+                      <button onClick={() => handleDeleteCourse(c._id)} className={styles.button}>
+                        <Trash2 size={16} />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+                {/* CreateCourse component */}
+                <CreateCourse onCourseCreated={newCourse => setCourses(prev => [newCourse, ...prev])} />
+              </>
+            )}
           </section>
 
-          {/* Enroll */}
+          {/* Enroll Section */}
           <section className={styles.section}>
             <h2>
               <PlusCircle size={18} /> Enroll

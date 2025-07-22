@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styles from './CreateCourse.module.css'; // create CSS module for styling
+import styles from './CreateCourse.module.css';
 
 export default function CreateCourse({ onCourseCreated }) {
   const [title, setTitle] = useState('');
