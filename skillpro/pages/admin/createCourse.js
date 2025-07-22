@@ -57,8 +57,7 @@ export default function CreateCourse({ onCourseCreated, courses = [], students =
   return (
     <div className="section">
       <h2 className="sectionTitle">
-        <PlusCircle size={18} />
-        Create New Course
+      <PlusCircle size={18} /> Create New Course
       </h2>
 
       <form className={styles.form} onSubmit={handleSubmit}>
