@@ -12,16 +12,16 @@ jobs:
     defaults:
       run:
         working-directory: ./skillpro
+
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
-          cache-dependency-path: skillpro/package-lock.json
 
       - run: npm ci
+
       - run: npm test
 
   build:
@@ -30,22 +30,14 @@ jobs:
     defaults:
       run:
         working-directory: ./skillpro
+
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
-          cache-dependency-path: skillpro/package-lock.json
-
-      - name: Cache Next.js build cache
-        uses: actions/cache@v3
-        with:
-          path: .next/cache
-          key: ${{ runner.os }}-next-cache-${{ hashFiles('skillpro/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-next-cache-
 
       - run: npm ci
+
       - run: npm run build
