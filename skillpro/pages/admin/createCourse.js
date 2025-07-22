@@ -118,6 +118,6 @@ export default function CreateCourse({ onCourseCreated, courses = [], students =
           {loading ? 'Creating...' : 'Create Course'}
         </button>
       </form>
-
+        </div>
   );
 }
