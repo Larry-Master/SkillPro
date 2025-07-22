@@ -122,7 +122,7 @@ export default function AdminDashboard() {
             ) : (
               <>
                 <p>{students.length} total</p>
-                <ul className={styles.scrollList}>
+                <ul className={styles.scrollableList}>
                 {students.map(s => (
                   <li key={s._id} className={styles.listItem}>
                   {s.name}
@@ -146,7 +146,7 @@ export default function AdminDashboard() {
             ) : (
               <>
                 <p>{courses.length} total</p>
-                <ul className={styles.scrollList}>
+                <ul className={styles.scrollableList}>
                 {courses.map(c => (
                   <li key={c._id} className={styles.listItem}>
                   {c.title}

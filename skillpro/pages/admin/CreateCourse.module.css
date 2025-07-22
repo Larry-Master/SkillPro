@@ -51,9 +51,3 @@
 .button:hover:not(:disabled) {
   background-color: #1a252f;
 }
-
-.scrollableList {
-  max-height: 150px;
-  overflow-y: auto;
-  padding-right: 4px;
-}
