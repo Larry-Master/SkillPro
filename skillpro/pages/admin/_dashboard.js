@@ -8,36 +8,48 @@ import {
   PlusCircle,
   Loader2,
   Trash2,
-} from 'lucide-react'; // modern icons
+} from 'lucide-react';
 
 export default function AdminDashboard() {
   const [students, setStudents] = useState([]);
   const [courses, setCourses] = useState([]);
-  const [loading, setLoading] = useState(true);
+
+  // Separate loading states
+  const [studentsLoading, setStudentsLoading] = useState(true);
+  const [coursesLoading, setCoursesLoading] = useState(true);
+
   const [selectedStudent, setSelectedStudent] = useState('');
   const [selectedCourse, setSelectedCourse] = useState('');
   const [enrollLoading, setEnrollLoading] = useState(false);
 
   useEffect(() => {
-    async function fetchData() {
+    async function fetchStudents() {
       try {
-        const [studentsRes, coursesRes] = await Promise.all([
-          fetch('/api/students'),
-          fetch('/api/courses'),
-        ]);
-        const [studentsData, coursesData] = await Promise.all([
-          studentsRes.json(),
-          coursesRes.json(),
-        ]);
-        setStudents(studentsData);
-        setCourses(coursesData);
+        const res = await fetch('/api/students');
+        const data = await res.json();
+        setStudents(data);
       } catch (err) {
-        console.error('Error loading data:', err);
+        console.error('Error loading students:', err);
       } finally {
-        setLoading(false);
+        setStudentsLoading(false);
       }
     }
-    fetchData();
+    fetchStudents();
+  }, []);
+
+  useEffect(() => {
+    async function fetchCourses() {
+      try {
+        const res = await fetch('/api/courses');
+        const data = await res.json();
+        setCourses(data);
+      } catch (err) {
+        console.error('Error loading courses:', err);
+      } finally {
+        setCoursesLoading(false);
+      }
+    }
+    fetchCourses();
   }, []);
 
   async function handleDeleteStudent(id) {
@@ -55,7 +67,6 @@ export default function AdminDashboard() {
   async function handleDeleteCourse(id) {
     if (!confirm('Delete this course?')) return;
     try {
-      console.log('Deleting course:', `/api/courses/${id}`);
       const res = await fetch(`/api/courses/${id}`, { method: 'DELETE' });
       if (!res.ok) throw new Error('Delete failed');
       setCourses(prev => prev.filter(c => c._id !== id));
@@ -100,89 +111,97 @@ export default function AdminDashboard() {
           Admin Dashboard
         </h1>
 
-        {loading ? (
-          <p>
-            <Loader2 className="animate-spin" /> Loading...
-          </p>
-        ) : (
-          <div className={styles.sectionsWrapper}>
-            {/* Students */}
-            <section className={styles.section}>
-              <h2>
-                <Users size={18} /> Students
-              </h2>
-              <p>{students.length} total</p>
-              <ul>
-                {students.slice(0, 5).map(s => (
-                  <li key={s._id} className={styles.listItem}>
-                    {s.name}
-                    <button onClick={() => handleDeleteStudent(s._id)} className={styles.button}>
-                      <Trash2 size={16} />
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </section>
+        <div className={styles.sectionsWrapper}>
+          {/* Students */}
+          <section className={styles.section}>
+            <h2>
+              <Users size={18} /> Students
+            </h2>
+            {studentsLoading ? (
+              <p><Loader2 className="animate-spin" /> Loading students...</p>
+            ) : (
+              <>
+                <p>{students.length} total</p>
+                <ul>
+                  {students.slice(0, 5).map(s => (
+                    <li key={s._id} className={styles.listItem}>
+                      {s.name}
+                      <button onClick={() => handleDeleteStudent(s._id)} className={styles.button}>
+                        <Trash2 size={16} />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </section>
 
-            {/* Courses */}
-            <section className={styles.section}>
-              <h2>
-                <BookOpen size={18} /> Courses
-              </h2>
-              <p>{courses.length} total</p>
-              <ul>
-                {courses.slice(0, 5).map(c => (
-                  <li key={c._id} className={styles.listItem}>
-                    {c.title}
-                    <button onClick={() => handleDeleteCourse(c._id)} className={styles.button}>
-                      <Trash2 size={16} />
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </section>
+          {/* Courses */}
+          <section className={styles.section}>
+            <h2>
+              <BookOpen size={18} /> Courses
+            </h2>
+            {coursesLoading ? (
+              <p><Loader2 className="animate-spin" /> Loading courses...</p>
+            ) : (
+              <>
+                <p>{courses.length} total</p>
+                <ul>
+                  {courses.slice(0, 5).map(c => (
+                    <li key={c._id} className={styles.listItem}>
+                      {c.title}
+                      <button onClick={() => handleDeleteCourse(c._id)} className={styles.button}>
+                        <Trash2 size={16} />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </section>
 
-            {/* Enroll */}
-            <section className={styles.section}>
-              <h2>
-                <PlusCircle size={18} /> Enroll
-              </h2>
-              <select
-                className={styles.select}
-                value={selectedStudent}
-                onChange={e => setSelectedStudent(e.target.value)}
-              >
-                <option value="">Select Student</option>
-                {students.map(s => (
-                  <option key={s._id} value={s._id}>
-                    {s.name}
-                  </option>
-                ))}
-              </select>
+          {/* Enroll */}
+          <section className={styles.section}>
+            <h2>
+              <PlusCircle size={18} /> Enroll
+            </h2>
+            <select
+              className={styles.select}
+              value={selectedStudent}
+              onChange={e => setSelectedStudent(e.target.value)}
+              disabled={studentsLoading}
+            >
+              <option value="">Select Student</option>
+              {students.map(s => (
+                <option key={s._id} value={s._id}>
+                  {s.name}
+                </option>
+              ))}
+            </select>
 
-              <select
-                className={styles.select}
-                value={selectedCourse}
-                onChange={e => setSelectedCourse(e.target.value)}
-              >
-                <option value="">Select Course</option>
-                {courses.map(c => (
-                  <option key={c._id} value={c._id}>
-                    {c.title}
-                  </option>
-                ))}
-              </select>
+            <select
+              className={styles.select}
+              value={selectedCourse}
+              onChange={e => setSelectedCourse(e.target.value)}
+              disabled={coursesLoading}
+            >
+              <option value="">Select Course</option>
+              {courses.map(c => (
+                <option key={c._id} value={c._id}>
+                  {c.title}
+                </option>
+              ))}
+            </select>
 
-              <button
-                onClick={handleEnroll}
-                disabled={enrollLoading}
-                className={styles.enrollButton}
-              >
-                {enrollLoading ? 'Enrolling...' : 'Enroll'}
-              </button>
-            </section>
-          </div>
-        )}
+            <button
+              onClick={handleEnroll}
+              disabled={enrollLoading || studentsLoading || coursesLoading}
+              className={styles.enrollButton}
+            >
+              {enrollLoading ? 'Enrolling...' : 'Enroll'}
+            </button>
+          </section>
+        </div>
       </main>
     </>
   );
