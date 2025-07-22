@@ -56,8 +56,8 @@ export default function CreateCourse({ onCourseCreated }) {
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-      <h2 className={styles.title}>
-        <PlusCircle size={18} style={{ marginRight: '6px', verticalAlign: 'middle' }} />
+      <h2>
+        <PlusCircle size={18}/>
         Create New Course
       </h2>
 
