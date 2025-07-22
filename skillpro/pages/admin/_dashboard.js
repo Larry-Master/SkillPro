@@ -107,7 +107,7 @@ export default function AdminDashboard() {
               <ul>
                 {students.slice(0, 5).map(student => (
                   <li key={student._id}>
-                    {student.name} — Progress: {student.progress || 'N/A'}{' '}
+                    {student.name}
                     <button onClick={() => handleDeleteStudent(student._id)} style={{ marginLeft: 8 }}>
                       Delete
                     </button>
