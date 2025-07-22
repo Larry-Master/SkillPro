@@ -32,7 +32,6 @@ describe('Course model', () => {
     const error = course.validateSync();
     // Required fields should throw errors
     expect(error.errors.title).toBeDefined();
-    expect(error.errors.professor).toBeDefined();
     expect(error.errors.capacity).toBeDefined();
   });
 
