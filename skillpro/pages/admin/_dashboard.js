@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
-import styles from './AdminDashboard.module.css';  // Import the CSS Module
+import styles from './AdminDashboard.module.css'; // CSS Module
 
 export default function AdminDashboard() {
   const [students, setStudents] = useState([]);
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // For enrollment UI
   const [selectedStudent, setSelectedStudent] = useState('');
   const [selectedCourse, setSelectedCourse] = useState('');
   const [enrollLoading, setEnrollLoading] = useState(false);
@@ -74,9 +73,7 @@ export default function AdminDashboard() {
         body: JSON.stringify({ studentId: selectedStudent, courseId: selectedCourse }),
       });
       const data = await res.json();
-
       if (!res.ok) throw new Error(data.message || 'Enrollment failed');
-
       alert('Enrollment successful!');
     } catch (err) {
       console.error(err);
@@ -92,16 +89,17 @@ export default function AdminDashboard() {
         <title>Admin Dashboard</title>
       </Head>
       <main className={styles.container}>
-        <h1>📊 Admin Dashboard</h1>
+        <h1 className={styles.title}>📊 Admin Dashboard</h1>
 
         {loading ? (
           <p>Loading data...</p>
         ) : (
-          <>
           <div className={styles.sectionsWrapper}>
+            {/* Students Section */}
+            <section className={styles.card}>
               <h2>👤 Students Overview</h2>
               <p>Total Students: {students.length}</p>
-              <ul>
+              <ul className={styles.list}>
                 {students.slice(0, 5).map(student => (
                   <li key={student._id} className={styles.listItem}>
                     {student.name}
@@ -116,10 +114,11 @@ export default function AdminDashboard() {
               </ul>
             </section>
 
-            <div className={styles.sectionsWrapper}>
+            {/* Courses Section */}
+            <section className={styles.card}>
               <h2>📚 Courses</h2>
               <p>Total Courses: {courses.length}</p>
-              <ul>
+              <ul className={styles.list}>
                 {courses.slice(0, 5).map(course => (
                   <li key={course._id} className={styles.listItem}>
                     {course.title}
@@ -134,8 +133,9 @@ export default function AdminDashboard() {
               </ul>
             </section>
 
-            <div className={styles.sectionsWrapper}>
-              <h2>➕ Enroll Student in Course</h2>
+            {/* Enroll Section */}
+            <section className={styles.card}>
+              <h2>➕ Enroll Student</h2>
               <select
                 onChange={e => setSelectedStudent(e.target.value)}
                 value={selectedStudent}
@@ -170,7 +170,7 @@ export default function AdminDashboard() {
                 {enrollLoading ? 'Enrolling...' : 'Enroll'}
               </button>
             </section>
-          </>
+          </div>
         )}
       </main>
     </>
