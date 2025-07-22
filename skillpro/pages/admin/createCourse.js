@@ -90,7 +90,7 @@ export default function CreateCourse({ onCourseCreated, courses = [], students =
             id="capacity"
             type="number"
             className={styles.input}
-            min="1"
+            min="0"
             value={capacity}
             onChange={e => setCapacity(e.target.value)}
             required
@@ -104,7 +104,6 @@ export default function CreateCourse({ onCourseCreated, courses = [], students =
             className={styles.input}
             value={professor}
             onChange={e => setProfessor(e.target.value)}
-            required
           >
             <option value="">Select professor</option>
             {professors.map(p => (
