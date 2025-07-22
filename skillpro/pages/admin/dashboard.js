@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
-import CreateCourse from './CreateCourse';
+import CreateCourse from './createCourse';
 import styles from './AdminDashboard.module.css';
 
 import {
