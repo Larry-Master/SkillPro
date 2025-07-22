@@ -98,7 +98,7 @@ export default function CreateCourse({ onCourseCreated, courses = [], students =
         </div>
 
         <div>
-          <label htmlFor="professor" className={styles.label}>Professor *</label>
+          <label htmlFor="professor" className={styles.label}>Professor </label>
           <select
             id="professor"
             className={styles.input}
