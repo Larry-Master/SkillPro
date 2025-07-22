@@ -1,5 +1,5 @@
 .container {
-  max-width: 80%;
+  max-width: 90%;
   margin: 20px auto;
   padding: 20px;
   font-family: 'Segoe UI', sans-serif;
@@ -15,7 +15,7 @@
 }
 
 .section {
-  flex: 1 1 30%;
+  flex: 1 1 20%;
   min-width: 280px;
   background-color: white;
   padding: 1rem;
@@ -70,4 +70,10 @@
   border-radius: 4px;
   font-size: 0.95rem;
   box-sizing: border-box;
+}
+
+.scrollableList {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 4px;
 }

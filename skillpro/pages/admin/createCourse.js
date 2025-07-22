@@ -119,31 +119,5 @@ export default function CreateCourse({ onCourseCreated, courses = [], students =
         </button>
       </form>
 
-      {/* Scrollable Courses Section */}
-      <div className="section">
-        <h2 className="sectionTitle">📚 Courses</h2>
-        <div className="scrollableList">
-          {courses.map(course => (
-            <div key={course._id} className={styles.listItem}>
-              {course.title}
-              <button className={styles.button}>🗑️</button>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Scrollable Students Section */}
-      <div className="section">
-        <h2 className="sectionTitle">👨‍🎓 Students</h2>
-        <div className="scrollableList">
-          {students.map(student => (
-            <div key={student._id} className={styles.listItem}>
-              {student.name}
-              <button className={styles.button}>🗑️</button>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
   );
 }
