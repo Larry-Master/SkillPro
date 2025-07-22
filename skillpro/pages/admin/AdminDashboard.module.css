@@ -12,6 +12,14 @@
   margin-bottom: 30px;
 }
 
+.sectionsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
 .listItem {
   display: flex;
   align-items: center;

@@ -98,7 +98,7 @@ export default function AdminDashboard() {
           <p>Loading data...</p>
         ) : (
           <>
-            <section className={styles.section}>
+          <div className={styles.sectionsWrapper}>
               <h2>👤 Students Overview</h2>
               <p>Total Students: {students.length}</p>
               <ul>
@@ -116,7 +116,7 @@ export default function AdminDashboard() {
               </ul>
             </section>
 
-            <section className={styles.section}>
+            <div className={styles.sectionsWrapper}>
               <h2>📚 Courses</h2>
               <p>Total Courses: {courses.length}</p>
               <ul>
@@ -134,7 +134,7 @@ export default function AdminDashboard() {
               </ul>
             </section>
 
-            <section className={styles.section}>
+            <div className={styles.sectionsWrapper}>
               <h2>➕ Enroll Student in Course</h2>
               <select
                 onChange={e => setSelectedStudent(e.target.value)}
