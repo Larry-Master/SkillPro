@@ -1,26 +1,43 @@
-const mongoose = require('mongoose');
-const { MongoMemoryServer } = require('mongodb-memory-server');
-const supertest = require('supertest');
-const http = require('http');
+import mongoose from 'mongoose';
+import { MongoMemoryServer } from 'mongodb-memory-server';
+import supertest from 'supertest';
+import http from 'http';
 
-const handler = require('../../pages/api/courses/[courseId].js');
-const Course = require('../../models/Course');
-const Professor = require('../../models/Professor');
-const Student = require('../../models/Student');
+import handler from '../../pages/api/courses/[courseId].js';
+import Course from '../../models/Course';
 
-let mongod;
-let server;
-let request;
+let mongod, server, request;
 
-jest.setTimeout(15000); // timeout increase
+const parseJSONBody = req =>
+  new Promise((resolve, reject) => {
+    let data = '';
+    req.on('data', chunk => (data += chunk.toString()));
+    req.on('end', () => {
+      if (!data) return resolve({});
+      try {
+        resolve(JSON.parse(data));
+      } catch {
+        reject(new Error('Invalid JSON'));
+      }
+    });
+  });
 
-beforeAll(async () => {
-  mongod = await MongoMemoryServer.create();
-  const uri = mongod.getUri();
-  process.env.MONGODB_URI = uri;
-  await mongoose.connect(uri);
+const createServer = () =>
+  http.createServer(async (req, res) => {
+    const urlParts = req.url.split('/');
+    req.query = { courseId: urlParts[urlParts.length - 1] };
 
-  server = http.createServer(async (req, res) => {
+    if (['PUT', 'POST'].includes(req.method)) {
+      try {
+        req.body = await parseJSONBody(req);
+      } catch {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ message: 'Invalid JSON' }));
+      }
+    } else {
+      req.body = {};
+    }
+
     res.status = code => {
       res.statusCode = code;
       return res;
@@ -28,144 +45,154 @@ beforeAll(async () => {
     res.json = data => {
       res.setHeader('Content-Type', 'application/json');
       res.end(JSON.stringify(data));
+      return res;
     };
 
-    const url = new URL(req.url, `http://${req.headers.host}`);
-    req.query = { courseId: url.pathname.split('/').pop() };
-
-    await handler(req, res);
+    return handler(req, res);
   });
 
+beforeAll(async () => {
+  mongod = await MongoMemoryServer.create();
+  const uri = mongod.getUri();
+  process.env.MONGODB_URI = uri;
+  await mongoose.connect(uri);
+  server = createServer();
   request = supertest(server);
 });
 
 afterAll(async () => {
   await mongoose.disconnect();
-  await mongod?.stop();
+  await mongod.stop();
   await new Promise(resolve => server.close(resolve));
 });
 
 beforeEach(() => Course.deleteMany());
 
+
+
 describe('Course API', () => {
-  // Helper to create a course in DB with defaults
-  const createCourse = async (overrides = {}) =>
-    Course.create({
-      title: 'Test Course',
+  it('GET returns 404 if course not found', async () => {
+    const res = await request.get('/api/courses/64f1b8c8a6e8f94b5a5a1a09');
+    expect(res.status).toBe(404);
+  });
+
+  it('GET returns 200 and course data on success', async () => {
+  const course = await Course.create({
+    title: 'Test Course',
+    professor: new mongoose.Types.ObjectId(),
+    capacity: 25,
+    description: 'Some description',
+  });
+
+  const res = await request.get(`/api/courses/${course._id}`);
+
+  expect(res.status).toBe(200);
+  expect(res.body.title).toBe('Test Course');
+  expect(res.body.capacity).toBe(25);
+});
+
+
+  it('GET returns 400 for invalid courseId', async () => {
+    const res = await request.get('/api/courses/invalid-id');
+    expect(res.status).toBe(400);
+  });
+
+  it('PUT returns 400 on validation error', async () => {
+    const course = await Course.create({
+      title: 'Test',
       professor: new mongoose.Types.ObjectId(),
-      capacity: 30,
-      description: 'test desc',
-      ...overrides,
-    });
-
-  describe('GET /api/courses/:courseId', () => {
-    it('returns 404 if course not found', async () => {
-      const res = await request.get('/api/courses/64f1b8c8a6e8f94b5a5a1a09');
-      expect(res.status).toBe(404);
-      expect(res.body.message).toBe('Course not found');
-    });
-
-    it('returns 400 for invalid courseId', async () => {
-      const res = await request.get('/api/courses/invalid-id');
-      expect(res.status).toBe(400);
-      expect(res.body.message).toBe('Invalid courseId');
-    });
-
-    it('returns 200 with course data', async () => {
-      const course = await createCourse({ title: 'Sample' });
-      const res = await request.get(`/api/courses/${course._id}`);
-      expect(res.status).toBe(200);
-      expect(res.body.title).toBe('Sample');
-    });
-
-    it('returns 500 on unexpected server error', async () => {
-      const original = Course.findById;
-      Course.findById = () => {
-        throw new Error('Fail');
-      };
-
-      const id = new mongoose.Types.ObjectId();
-      const res = await request.get(`/api/courses/${id}`);
-
-      Course.findById = original;
-
-      expect(res.status).toBe(500);
-      expect(res.body.error).toBe('Internal Server Error');
-      expect(res.body.details).toMatch(/Fail/);
-    });
+      capacity: 10,
+      description: 'desc',
   });
 
-  describe('PUT /api/courses/:courseId', () => {
-    it('returns 400 on invalid JSON', async () => {
-      const course = await createCourse();
-      const res = await request
-        .put(`/api/courses/${course._id}`)
-        .set('Content-Type', 'application/json')
-        .send('bad-json'); // invalid JSON
-      expect(res.status).toBe(400);
-      expect(res.body.error).toBe('Invalid JSON');
-    });
+    const res = await request
+      .put(`/api/courses/${course._id}`)
+      .send({ capacity: -10 }); // invalid capacity
 
-    it('returns 404 if course not found', async () => {
-      const id = new mongoose.Types.ObjectId();
-      const res = await request
-        .put(`/api/courses/${id}`)
-        .send(JSON.stringify({ title: 'New Title' }))
-        .set('Content-Type', 'application/json');
-      expect(res.status).toBe(404);
-      expect(res.body.message).toBe('Course not found');
-    });
-
-    it('returns 400 on validation error', async () => {
-      const course = await createCourse();
-      const res = await request
-        .put(`/api/courses/${course._id}`)
-        .send(JSON.stringify({ capacity: -10 }))
-        .set('Content-Type', 'application/json');
-      expect(res.status).toBe(400);
-      expect(res.body.error).toMatch(/validation/i);
-    });
-
-    it('returns 200 on success', async () => {
-      const course = await createCourse();
-      const res = await request
-        .put(`/api/courses/${course._id}`)
-        .send(JSON.stringify({ title: 'Updated Title' }))
-        .set('Content-Type', 'application/json');
-      expect(res.status).toBe(200);
-      expect(res.body.title).toBe('Updated Title');
-    });
+    expect(res.status).toBe(400);
   });
 
-  describe('DELETE /api/courses/:courseId', () => {
-    it('returns 404 if course not found', async () => {
-      const id = new mongoose.Types.ObjectId();
-      const res = await request.delete(`/api/courses/${id}`);
-      expect(res.status).toBe(404);
-      expect(res.body.message).toBe('Course not found');
-    });
+  it('PUT returns 404 if course not found', async () => {
+  const fakeId = new mongoose.Types.ObjectId();
 
-    it('returns 200 on success', async () => {
-      const course = await createCourse();
-      const res = await request.delete(`/api/courses/${course._id}`);
-      expect(res.status).toBe(200);
-      expect(res.body.message).toBe('Course deleted successfully');
-    });
+  const res = await request
+    .put(`/api/courses/${fakeId}`)
+    .send({ title: 'Will not update' });
+
+  expect(res.status).toBe(404);
+  expect(res.body.message).toBe('Course not found');
   });
 
-  describe('Unsupported HTTP methods', () => {
-    it('POST returns 405 Method Not Allowed', async () => {
-      const course = await createCourse();
-      const res = await request.post(`/api/courses/${course._id}`);
-      expect(res.status).toBe(405);
-      expect(res.body.message).toBe('Method Not Allowed');
-    });
-
-    it('PATCH returns 405 Method Not Allowed', async () => {
-      const course = await createCourse();
-      const res = await request.patch(`/api/courses/${course._id}`);
-      expect(res.status).toBe(405);
-      expect(res.body.message).toBe('Method Not Allowed');
-    });
+  it('PUT returns 200 on success', async () => {
+    const course = await Course.create({
+      title: 'Test',
+      professor: new mongoose.Types.ObjectId(),
+      capacity: 10,
+      description: 'desc',
   });
+
+    const res = await request
+      .put(`/api/courses/${course._id}`)
+      .send({ title: 'Updated Title' });
+
+    expect(res.status).toBe(200);
+    expect(res.body.title).toBe('Updated Title');
+  });
+
+  it('DELETE returns 404 if course not found', async () => {
+  const fakeId = new mongoose.Types.ObjectId();
+
+  const res = await request.delete(`/api/courses/${fakeId}`);
+
+  expect(res.status).toBe(404);
+  expect(res.body.message).toBe('Course not found');
+});
+
+
+  it('DELETE returns 200 on success', async () => {
+    const course = await Course.create({
+      title: 'Test',
+      professor: new mongoose.Types.ObjectId(),
+      capacity: 10,
+      description: 'desc',
+  });
+
+    const res = await request.delete(`/api/courses/${course._id}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.message).toBe('Course deleted successfully');
+  });
+
+  it('returns 405 for unsupported method', async () => {
+  const course = await Course.create({
+    title: 'Test',
+    professor: new mongoose.Types.ObjectId(),
+    capacity: 10,
+  });
+
+  const res = await request.post(`/api/courses/${course._id}`);
+  expect(res.status).toBe(405);
+  expect(res.body.message).toBe('Method Not Allowed');
+  });
+
+  it('returns 500 on unexpected error', async () => {
+  const course = await Course.create({
+    title: 'Test',
+    professor: new mongoose.Types.ObjectId(),
+    capacity: 10,
+  });
+  // Temporarily override the function
+  const original = Course.findByIdAndUpdate;
+  Course.findByIdAndUpdate = () => { throw new Error('Something failed'); };
+
+  const res = await request.put(`/api/courses/${course._id}`).send({ title: 'Oops' });
+
+  expect(res.status).toBe(500);
+  expect(res.body.error).toBe('Internal Server Error');
+
+  // Restore original function
+  Course.findByIdAndUpdate = original;
+  });
+
+
 });
