@@ -13,6 +13,7 @@ export default function MyApp({ Component, pageProps }) {
           <a href="/login">Login</a>
           <a href="/register">Register</a>
           <a href="/enroll">View Courses</a>
+          <a href="/admin/_dashboard">Admin Dashboard</a>
         </nav>
       </header>
 
