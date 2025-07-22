@@ -15,8 +15,12 @@ export default async function handler(req, res) {
     try {
       const { _id, title, description, professor, capacity } = req.body;
 
-      const courseData = { title, description, professor, capacity };
+      const courseData = { title, description, capacity };
       if (_id) courseData._id = _id;
+      
+      if (professor && mongoose.Types.ObjectId.isValid(professor)) {
+        courseData.professor = professor;
+      }
 
       const course = await Course.create(courseData);
 
