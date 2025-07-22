@@ -1,11 +1,3 @@
-:root {
-  --primary: #2c3e50;     /* dark blue */
-  --accent: #1abc9c;      /* teal-like blue */
-  --light-gray: #f4f4f4;
-  --text: #333;
-  --border: #ddd;
-}
-
 .container {
   max-width: 1000px;
   margin: 20px auto;

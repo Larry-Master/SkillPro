@@ -2,6 +2,14 @@ import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import styles from './AdminDashboard.module.css';
 
+import {
+  Users,
+  BookOpen,
+  PlusCircle,
+  Loader2,
+  Trash2,
+} from 'lucide-react'; // modern icons
+
 export default function AdminDashboard() {
   const [students, setStudents] = useState([]);
   const [courses, setCourses] = useState([]);
@@ -24,7 +32,7 @@ export default function AdminDashboard() {
         setStudents(studentsData);
         setCourses(coursesData);
       } catch (err) {
-        console.error('Error loading admin data:', err);
+        console.error('Error loading data:', err);
       } finally {
         setLoading(false);
       }
@@ -32,24 +40,26 @@ export default function AdminDashboard() {
     fetchData();
   }, []);
 
-  async function handleDeleteStudent(studentId) {
+  async function handleDeleteStudent(id) {
     if (!confirm('Delete this student?')) return;
     try {
-      const res = await fetch(`/api/students/${studentId}`, { method: 'DELETE' });
-      if (!res.ok) throw new Error();
-      setStudents(prev => prev.filter(s => s._id !== studentId));
+      const res = await fetch(`/api/students/${id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error('Delete failed');
+      setStudents(prev => prev.filter(s => s._id !== id));
     } catch (err) {
+      console.error(err);
       alert('Error deleting student');
     }
   }
 
-  async function handleDeleteCourse(courseId) {
+  async function handleDeleteCourse(id) {
     if (!confirm('Delete this course?')) return;
     try {
-      const res = await fetch(`/api/courses/${courseId}`, { method: 'DELETE' });
-      if (!res.ok) throw new Error();
-      setCourses(prev => prev.filter(c => c._id !== courseId));
+      const res = await fetch(`/api/courses/${id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error('Delete failed');
+      setCourses(prev => prev.filter(c => c._id !== id));
     } catch (err) {
+      console.error(err);
       alert('Error deleting course');
     }
   }
@@ -68,10 +78,11 @@ export default function AdminDashboard() {
         body: JSON.stringify({ studentId: selectedStudent, courseId: selectedCourse }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
+      if (!res.ok) throw new Error(data.message || 'Failed to enroll');
       alert('Enrollment successful!');
     } catch (err) {
-      alert(`Enrollment failed: ${err.message}`);
+      console.error(err);
+      alert(`Error: ${err.message}`);
     } finally {
       setEnrollLoading(false);
     }
@@ -83,25 +94,29 @@ export default function AdminDashboard() {
         <title>Admin Dashboard</title>
       </Head>
       <main className={styles.container}>
-        <h1>📊 Admin Dashboard</h1>
+        <h1 className={styles.title}>
+          <Users size={24} style={{ marginRight: '8px' }} />
+          Admin Dashboard
+        </h1>
 
         {loading ? (
-          <p>Loading...</p>
+          <p>
+            <Loader2 className="animate-spin" /> Loading...
+          </p>
         ) : (
           <div className={styles.sectionsWrapper}>
             {/* Students */}
             <section className={styles.section}>
-              <h2>👤 Students</h2>
+              <h2>
+                <Users size={18} /> Students
+              </h2>
               <p>{students.length} total</p>
               <ul>
-                {students.slice(0, 5).map(student => (
-                  <li key={student._id} className={styles.listItem}>
-                    {student.name}
-                    <button
-                      className={styles.button}
-                      onClick={() => handleDeleteStudent(student._id)}
-                    >
-                      Delete
+                {students.slice(0, 5).map(s => (
+                  <li key={s._id} className={styles.listItem}>
+                    {s.name}
+                    <button onClick={() => handleDeleteStudent(s._id)} className={styles.button}>
+                      <Trash2 size={16} />
                     </button>
                   </li>
                 ))}
@@ -110,17 +125,16 @@ export default function AdminDashboard() {
 
             {/* Courses */}
             <section className={styles.section}>
-              <h2>📚 Courses</h2>
+              <h2>
+                <BookOpen size={18} /> Courses
+              </h2>
               <p>{courses.length} total</p>
               <ul>
-                {courses.slice(0, 5).map(course => (
-                  <li key={course._id} className={styles.listItem}>
-                    {course.title}
-                    <button
-                      className={styles.button}
-                      onClick={() => handleDeleteCourse(course._id)}
-                    >
-                      Delete
+                {courses.slice(0, 5).map(c => (
+                  <li key={c._id} className={styles.listItem}>
+                    {c.title}
+                    <button onClick={() => handleDeleteCourse(c._id)} className={styles.button}>
+                      <Trash2 size={16} />
                     </button>
                   </li>
                 ))}
@@ -129,26 +143,32 @@ export default function AdminDashboard() {
 
             {/* Enroll */}
             <section className={styles.section}>
-              <h2>➕ Enroll</h2>
+              <h2>
+                <PlusCircle size={18} /> Enroll
+              </h2>
               <select
+                className={styles.select}
                 value={selectedStudent}
                 onChange={e => setSelectedStudent(e.target.value)}
-                className={styles.select}
               >
                 <option value="">Select Student</option>
                 {students.map(s => (
-                  <option key={s._id} value={s._id}>{s.name}</option>
+                  <option key={s._id} value={s._id}>
+                    {s.name}
+                  </option>
                 ))}
               </select>
 
               <select
+                className={styles.select}
                 value={selectedCourse}
                 onChange={e => setSelectedCourse(e.target.value)}
-                className={styles.select}
               >
                 <option value="">Select Course</option>
                 {courses.map(c => (
-                  <option key={c._id} value={c._id}>{c.title}</option>
+                  <option key={c._id} value={c._id}>
+                    {c.title}
+                  </option>
                 ))}
               </select>
 
