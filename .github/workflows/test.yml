@@ -19,13 +19,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+          chache: 'npm'
 
-      - run: npm install
+      - run: npm ci
 
       - run: npm test
 
   build:
-    needs: test 
+    needs: test
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -37,7 +38,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+          chache: 'npm'
 
-      - run: npm install
+      - run: npm ci
 
       - run: npm run build
