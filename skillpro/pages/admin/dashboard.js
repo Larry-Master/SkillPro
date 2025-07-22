@@ -139,26 +139,29 @@ export default function AdminDashboard() {
 
           {/* Courses */}
           <section className={styles.section}>
-            <h2>
-              <BookOpen size={18} /> Courses
-            </h2>
-            {coursesLoading ? (
-              <p><Loader2 className="animate-spin" /> Loading courses...</p>
+          <h2>
+          <BookOpen size={18} /> Courses
+          </h2>
+          {coursesLoading ? (
+            <p><Loader2 className="animate-spin" /> Loading courses...</p>
             ) : (
               <>
-                <p>{courses.length} total</p>
-                <ul>
-                  {courses.slice(0, 5).map(c => (
-                    <li key={c._id} className={styles.listItem}>
-                      {c.title}
-                      <button onClick={() => handleDeleteCourse(c._id)} className={styles.button}>
-                        <Trash2 size={16} />
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )}
+              <p>{courses.length} total</p>
+              <ul>
+              {courses.slice(0, 5).map(c => (
+                <li key={c._id} className={styles.listItem}>
+                {c.title}
+                <button onClick={() => handleDeleteCourse(c._id)} className={styles.button}>
+              <Trash2 size={16} />
+            </button>
+          </li>
+        ))}
+      </ul>
+
+      {/* Add CreateCourse component here */}
+      <CreateCourse onCourseCreated={newCourse => setCourses(prev => [newCourse, ...prev])} />
+    </>
+  )}
           </section>
 
           {/* Enroll */}
