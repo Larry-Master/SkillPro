@@ -1,0 +1,73 @@
+.container {
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 20px;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--light-gray);
+  border-radius: 8px;
+}
+
+.sectionsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: space-between;
+}
+
+.section {
+  flex: 1 1 30%;
+  min-width: 280px;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.listItem {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 6px;
+  color: var(--text);
+}
+
+.button,
+.enrollButton {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+
+.button {
+  background: var(--primary);
+  color: white;
+}
+
+.button:hover {
+  background-color: #1a252f;
+}
+
+.enrollButton {
+  background: var(--accent);
+  color: white;
+  margin-top: 8px;
+}
+
+.enrollButton:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+.select {
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 6px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+}
