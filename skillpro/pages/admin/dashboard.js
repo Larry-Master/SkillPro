@@ -156,10 +156,13 @@ export default function AdminDashboard() {
                     </li>
                   ))}
                 </ul>
-                {/* CreateCourse component */}
-                <CreateCourse onCourseCreated={newCourse => setCourses(prev => [newCourse, ...prev])} />
               </>
             )}
+          </section>
+
+          {/* CreateCourse component */}
+          <section className={styles.section}>
+          <CreateCourse onCourseCreated={newCourse => setCourses(prev => [newCourse, ...prev])} />
           </section>
 
           {/* Enroll Section */}
