@@ -14,11 +14,13 @@
     "jsx": "preserve",
     "incremental": true,
     "plugins": [
-      {
-        "name": "next"
-      }
+      { "name": "next" }
     ],
+
+    "baseUrl": ".",
     "paths": {
+      "@/lib/*": ["lib/*"],
+      "@/models/*": ["models/*"],
       "@/*": ["./*"]
     }
   },
