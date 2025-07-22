@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import styles from './CreateCourse.module.css';
 import { PlusCircle } from 'lucide-react';
 
-export default function CreateCourse({ onCourseCreated }) {
+export default function CreateCourse({ onCourseCreated, courses = [], students = [] }) {
   const [professors, setProfessors] = useState([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
