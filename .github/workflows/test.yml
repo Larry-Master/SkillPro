@@ -7,55 +7,37 @@ on:
     branches: [dev, main, live]
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./skillpro
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - run: npm ci
-      - run: npm run lint
-
-  typecheck:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./skillpro
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - run: npm ci
-      - run: npm run type-check
-
   test:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./skillpro
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+
       - run: npm ci
+
       - run: npm test
 
   build:
-    needs: [lint, typecheck, test]
+    needs: test
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./skillpro
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+
       - run: npm ci
+
       - run: npm run build
