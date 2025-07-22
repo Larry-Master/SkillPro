@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
+import styles from './AdminDashboard.module.css';  // Import the CSS Module
 
 export default function AdminDashboard() {
   const [students, setStudents] = useState([]);
@@ -30,7 +31,6 @@ export default function AdminDashboard() {
         setLoading(false);
       }
     }
-
     fetchData();
   }, []);
 
@@ -40,7 +40,6 @@ export default function AdminDashboard() {
     try {
       const res = await fetch(`/api/students/${studentId}`, { method: 'DELETE' });
       if (!res.ok) throw new Error('Failed to delete student');
-
       setStudents(prev => prev.filter(s => s._id !== studentId));
     } catch (err) {
       console.error(err);
@@ -54,7 +53,6 @@ export default function AdminDashboard() {
     try {
       const res = await fetch(`/api/courses/${courseId}`, { method: 'DELETE' });
       if (!res.ok) throw new Error('Failed to delete course');
-
       setCourses(prev => prev.filter(c => c._id !== courseId));
     } catch (err) {
       console.error(err);
@@ -80,7 +78,6 @@ export default function AdminDashboard() {
       if (!res.ok) throw new Error(data.message || 'Enrollment failed');
 
       alert('Enrollment successful!');
-      // Optionally update state here if you want to reflect enrollment in UI
     } catch (err) {
       console.error(err);
       alert(`Enrollment error: ${err.message}`);
@@ -94,21 +91,24 @@ export default function AdminDashboard() {
       <Head>
         <title>Admin Dashboard</title>
       </Head>
-      <main>
+      <main className={styles.container}>
         <h1>📊 Admin Dashboard</h1>
 
         {loading ? (
           <p>Loading data...</p>
         ) : (
           <>
-            <section>
+            <section className={styles.section}>
               <h2>👤 Students Overview</h2>
               <p>Total Students: {students.length}</p>
               <ul>
                 {students.slice(0, 5).map(student => (
-                  <li key={student._id}>
+                  <li key={student._id} className={styles.listItem}>
                     {student.name}
-                    <button onClick={() => handleDeleteStudent(student._id)} style={{ marginLeft: 8 }}>
+                    <button
+                      onClick={() => handleDeleteStudent(student._id)}
+                      className={styles.button}
+                    >
                       Delete
                     </button>
                   </li>
@@ -116,14 +116,17 @@ export default function AdminDashboard() {
               </ul>
             </section>
 
-            <section>
+            <section className={styles.section}>
               <h2>📚 Courses</h2>
               <p>Total Courses: {courses.length}</p>
               <ul>
                 {courses.slice(0, 5).map(course => (
-                  <li key={course._id}>
-                    {course.title}{' '}
-                    <button onClick={() => handleDeleteCourse(course._id)} style={{ marginLeft: 8 }}>
+                  <li key={course._id} className={styles.listItem}>
+                    {course.title}
+                    <button
+                      onClick={() => handleDeleteCourse(course._id)}
+                      className={styles.button}
+                    >
                       Delete
                     </button>
                   </li>
@@ -131,12 +134,12 @@ export default function AdminDashboard() {
               </ul>
             </section>
 
-            <section>
+            <section className={styles.section}>
               <h2>➕ Enroll Student in Course</h2>
               <select
                 onChange={e => setSelectedStudent(e.target.value)}
                 value={selectedStudent}
-                style={{ marginRight: 10 }}
+                className={styles.select}
               >
                 <option value="">Select Student</option>
                 {students.map(s => (
@@ -149,7 +152,7 @@ export default function AdminDashboard() {
               <select
                 onChange={e => setSelectedCourse(e.target.value)}
                 value={selectedCourse}
-                style={{ marginRight: 10 }}
+                className={styles.select}
               >
                 <option value="">Select Course</option>
                 {courses.map(c => (
@@ -159,7 +162,11 @@ export default function AdminDashboard() {
                 ))}
               </select>
 
-              <button onClick={handleEnroll} disabled={enrollLoading}>
+              <button
+                onClick={handleEnroll}
+                disabled={enrollLoading}
+                className={styles.enrollButton}
+              >
                 {enrollLoading ? 'Enrolling...' : 'Enroll'}
               </button>
             </section>
