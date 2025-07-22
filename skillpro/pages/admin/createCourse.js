@@ -56,66 +56,94 @@ export default function CreateCourse({ onCourseCreated }) {
 
   return (
     <div className="section">
-  <h2 className="sectionTitle">
-    <PlusCircle size={18} />
-    Create New Course
-  </h2>
-    <form className={styles.form} onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="title" className={styles.label}>Title *</label>
-        <input
-          id="title"
-          type="text"
-          className={styles.input}
-          value={title}
-          onChange={e => setTitle(e.target.value)}
-          required
-        />
-      </div>
+      <h2 className="sectionTitle">
+        <PlusCircle size={18} />
+        Create New Course
+      </h2>
 
-      <div>
-        <label htmlFor="description" className={styles.label}>Description</label>
-        <textarea
-          id="description"
-          className={styles.textarea}
-          value={description}
-          onChange={e => setDescription(e.target.value)}
-          rows={3}
-        />
-      </div>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="title" className={styles.label}>Title *</label>
+          <input
+            id="title"
+            type="text"
+            className={styles.input}
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+            required
+          />
+        </div>
 
-      <div>
-        <label htmlFor="capacity" className={styles.label}>Capacity *</label>
-        <input
-          id="capacity"
-          type="number"
-          className={styles.input}
-          min="1"
-          value={capacity}
-          onChange={e => setCapacity(e.target.value)}
-          required
-        />
-      </div>
+        <div>
+          <label htmlFor="description" className={styles.label}>Description</label>
+          <textarea
+            id="description"
+            className={styles.textarea}
+            value={description}
+            onChange={e => setDescription(e.target.value)}
+            rows={3}
+          />
+        </div>
 
-      <div>
-        <label htmlFor="professor" className={styles.label}>Professor *</label>
-        <select
-          id="professor"
-          className={styles.input}
-          value={professor}
-          onChange={e => setProfessor(e.target.value)}
-          required
-        >
-          <option value="">Select professor</option>
-          {professors.map(p => (
-            <option key={p._id} value={p._id}>{p.name}</option>
+        <div>
+          <label htmlFor="capacity" className={styles.label}>Capacity *</label>
+          <input
+            id="capacity"
+            type="number"
+            className={styles.input}
+            min="1"
+            value={capacity}
+            onChange={e => setCapacity(e.target.value)}
+            required
+          />
+        </div>
+
+        <div>
+          <label htmlFor="professor" className={styles.label}>Professor *</label>
+          <select
+            id="professor"
+            className={styles.input}
+            value={professor}
+            onChange={e => setProfessor(e.target.value)}
+            required
+          >
+            <option value="">Select professor</option>
+            {professors.map(p => (
+              <option key={p._id} value={p._id}>{p.name}</option>
+            ))}
+          </select>
+        </div>
+
+        <button type="submit" className={styles.button} disabled={loading}>
+          {loading ? 'Creating...' : 'Create Course'}
+        </button>
+      </form>
+
+      {/* Scrollable Courses Section */}
+      <div className="section">
+        <h2 className="sectionTitle">📚 Courses</h2>
+        <div className="scrollableList">
+          {courses.map(course => (
+            <div key={course._id} className={styles.listItem}>
+              {course.title}
+              <button className={styles.button}>🗑️</button>
+            </div>
           ))}
-        </select>
+        </div>
       </div>
 
-      <button type="submit" className={styles.button} disabled={loading}>
-        {loading ? 'Creating...' : 'Create Course'}
-      </button>
-    </form>
+      {/* Scrollable Students Section */}
+      <div className="section">
+        <h2 className="sectionTitle">👨‍🎓 Students</h2>
+        <div className="scrollableList">
+          {students.map(student => (
+            <div key={student._id} className={styles.listItem}>
+              {student.name}
+              <button className={styles.button}>🗑️</button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
