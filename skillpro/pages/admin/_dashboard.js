@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
-import styles from './AdminDashboard.module.css'; // CSS Module
+import styles from './AdminDashboard.module.css';
 
 export default function AdminDashboard() {
   const [students, setStudents] = useState([]);
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const [selectedStudent, setSelectedStudent] = useState('');
   const [selectedCourse, setSelectedCourse] = useState('');
   const [enrollLoading, setEnrollLoading] = useState(false);
@@ -34,34 +33,30 @@ export default function AdminDashboard() {
   }, []);
 
   async function handleDeleteStudent(studentId) {
-    if (!confirm('Are you sure you want to delete this student?')) return;
-
+    if (!confirm('Delete this student?')) return;
     try {
       const res = await fetch(`/api/students/${studentId}`, { method: 'DELETE' });
-      if (!res.ok) throw new Error('Failed to delete student');
+      if (!res.ok) throw new Error();
       setStudents(prev => prev.filter(s => s._id !== studentId));
     } catch (err) {
-      console.error(err);
       alert('Error deleting student');
     }
   }
 
   async function handleDeleteCourse(courseId) {
-    if (!confirm('Are you sure you want to delete this course?')) return;
-
+    if (!confirm('Delete this course?')) return;
     try {
       const res = await fetch(`/api/courses/${courseId}`, { method: 'DELETE' });
-      if (!res.ok) throw new Error('Failed to delete course');
+      if (!res.ok) throw new Error();
       setCourses(prev => prev.filter(c => c._id !== courseId));
     } catch (err) {
-      console.error(err);
       alert('Error deleting course');
     }
   }
 
   async function handleEnroll() {
     if (!selectedStudent || !selectedCourse) {
-      alert('Please select both a student and a course');
+      alert('Select both student and course');
       return;
     }
 
@@ -73,11 +68,10 @@ export default function AdminDashboard() {
         body: JSON.stringify({ studentId: selectedStudent, courseId: selectedCourse }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Enrollment failed');
+      if (!res.ok) throw new Error(data.message);
       alert('Enrollment successful!');
     } catch (err) {
-      console.error(err);
-      alert(`Enrollment error: ${err.message}`);
+      alert(`Enrollment failed: ${err.message}`);
     } finally {
       setEnrollLoading(false);
     }
@@ -89,23 +83,23 @@ export default function AdminDashboard() {
         <title>Admin Dashboard</title>
       </Head>
       <main className={styles.container}>
-        <h1 className={styles.title}>📊 Admin Dashboard</h1>
+        <h1>📊 Admin Dashboard</h1>
 
         {loading ? (
-          <p>Loading data...</p>
+          <p>Loading...</p>
         ) : (
           <div className={styles.sectionsWrapper}>
-            {/* Students Section */}
-            <section className={styles.card}>
-              <h2>👤 Students Overview</h2>
-              <p>Total Students: {students.length}</p>
-              <ul className={styles.list}>
+            {/* Students */}
+            <section className={styles.section}>
+              <h2>👤 Students</h2>
+              <p>{students.length} total</p>
+              <ul>
                 {students.slice(0, 5).map(student => (
                   <li key={student._id} className={styles.listItem}>
                     {student.name}
                     <button
-                      onClick={() => handleDeleteStudent(student._id)}
                       className={styles.button}
+                      onClick={() => handleDeleteStudent(student._id)}
                     >
                       Delete
                     </button>
@@ -114,17 +108,17 @@ export default function AdminDashboard() {
               </ul>
             </section>
 
-            {/* Courses Section */}
-            <section className={styles.card}>
+            {/* Courses */}
+            <section className={styles.section}>
               <h2>📚 Courses</h2>
-              <p>Total Courses: {courses.length}</p>
-              <ul className={styles.list}>
+              <p>{courses.length} total</p>
+              <ul>
                 {courses.slice(0, 5).map(course => (
                   <li key={course._id} className={styles.listItem}>
                     {course.title}
                     <button
-                      onClick={() => handleDeleteCourse(course._id)}
                       className={styles.button}
+                      onClick={() => handleDeleteCourse(course._id)}
                     >
                       Delete
                     </button>
@@ -133,32 +127,28 @@ export default function AdminDashboard() {
               </ul>
             </section>
 
-            {/* Enroll Section */}
-            <section className={styles.card}>
-              <h2>➕ Enroll Student</h2>
+            {/* Enroll */}
+            <section className={styles.section}>
+              <h2>➕ Enroll</h2>
               <select
-                onChange={e => setSelectedStudent(e.target.value)}
                 value={selectedStudent}
+                onChange={e => setSelectedStudent(e.target.value)}
                 className={styles.select}
               >
                 <option value="">Select Student</option>
                 {students.map(s => (
-                  <option key={s._id} value={s._id}>
-                    {s.name}
-                  </option>
+                  <option key={s._id} value={s._id}>{s.name}</option>
                 ))}
               </select>
 
               <select
-                onChange={e => setSelectedCourse(e.target.value)}
                 value={selectedCourse}
+                onChange={e => setSelectedCourse(e.target.value)}
                 className={styles.select}
               >
                 <option value="">Select Course</option>
                 {courses.map(c => (
-                  <option key={c._id} value={c._id}>
-                    {c.title}
-                  </option>
+                  <option key={c._id} value={c._id}>{c.title}</option>
                 ))}
               </select>
 
