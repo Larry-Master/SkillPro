@@ -5,7 +5,7 @@ export default function MyApp({ Component, pageProps }) {
   return (
     <>
       <header>
-        <h1>SkillPro - Your personal Learning Platform</h1>
+        <h1>SkillPro - Your personal Learning-Platform</h1>
         <nav>
           <a href="/">Home</a>
           <a href="/about">About</a>
