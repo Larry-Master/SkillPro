@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.27.6",
+    "dotenv": "^17.2.0",
     "mongoose": "^7.3.4",
     "next": "^15.3.5",
     "react": "^19.0.0",

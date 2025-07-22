@@ -1,3 +1,4 @@
+require('dotenv').config(); // makes sure ENV URI is loaded
 const mongoose = require('mongoose');
 const connectDB = require('../lib/db');
 
@@ -99,7 +100,7 @@ async function seed() {
       industry: 'Frontend Engineering',
       expertise: ['React', 'Web Performance'],
       bio: '10 years building frontend systems in Berlin startups',
-      availability: 'evenings',
+      availability: 'part-time',
       paymentRate: 80
     },
     {
@@ -108,7 +109,7 @@ async function seed() {
       industry: 'Machine Learning',
       expertise: ['Python', 'Scikit-learn', 'TensorFlow'],
       bio: 'Former data scientist at Zalando',
-      availability: 'weekends',
+      availability: 'flexible',
       paymentRate: 100
     },
     {
@@ -117,7 +118,7 @@ async function seed() {
       industry: '3D & Motion',
       expertise: ['Blender', 'Cinema4D'],
       bio: 'Freelance motion designer for TV and games',
-      availability: 'mornings',
+      availability: 'full-time',
       paymentRate: 90
     }
   ]);
