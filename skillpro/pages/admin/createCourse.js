@@ -55,12 +55,13 @@ export default function CreateCourse({ onCourseCreated }) {
   }
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
-      <h2>
-        <PlusCircle size={18}/>
-        Create New Course
-      </h2>
+    <div className="section">
+  <h2>
+    <PlusCircle size={18} />
+    Create New Course
+  </h2>
 
+    <form className={styles.form} onSubmit={handleSubmit}>
       <div>
         <label htmlFor="title" className={styles.label}>Title *</label>
         <input
