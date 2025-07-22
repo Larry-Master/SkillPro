@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styles from './CreateCourse.module.css';
+import styles from './AdminDashboard.module.css';
 
 export default function CreateCourse({ onCourseCreated }) {
   const [title, setTitle] = useState('');
