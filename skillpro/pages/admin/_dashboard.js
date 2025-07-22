@@ -55,6 +55,7 @@ export default function AdminDashboard() {
   async function handleDeleteCourse(id) {
     if (!confirm('Delete this course?')) return;
     try {
+      console.log('Deleting course:', `/api/courses/${id}`);
       const res = await fetch(`/api/courses/${id}`, { method: 'DELETE' });
       if (!res.ok) throw new Error('Delete failed');
       setCourses(prev => prev.filter(c => c._id !== id));
