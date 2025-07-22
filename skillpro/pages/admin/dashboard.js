@@ -122,15 +122,15 @@ export default function AdminDashboard() {
             ) : (
               <>
                 <p>{students.length} total</p>
-                <ul>
-                  {students.slice(0, 5).map(s => (
-                    <li key={s._id} className={styles.listItem}>
-                      {s.name}
-                      <button onClick={() => handleDeleteStudent(s._id)} className={styles.button}>
-                        <Trash2 size={16} />
-                      </button>
-                    </li>
-                  ))}
+                <ul className={styles.scrollList}>
+                {students.map(s => (
+                  <li key={s._id} className={styles.listItem}>
+                  {s.name}
+                  <button onClick={() => handleDeleteStudent(s._id)} className={styles.button}>
+                  <Trash2 size={16} />
+                  </button>
+                  </li>
+                ))}
                 </ul>
               </>
             )}
@@ -146,15 +146,15 @@ export default function AdminDashboard() {
             ) : (
               <>
                 <p>{courses.length} total</p>
-                <ul>
-                  {courses.slice(0, 5).map(c => (
-                    <li key={c._id} className={styles.listItem}>
-                      {c.title}
-                      <button onClick={() => handleDeleteCourse(c._id)} className={styles.button}>
-                        <Trash2 size={16} />
-                      </button>
-                    </li>
-                  ))}
+                <ul className={styles.scrollList}>
+                {courses.map(c => (
+                  <li key={c._id} className={styles.listItem}>
+                  {c.title}
+                  <button onClick={() => handleDeleteCourse(c._id)} className={styles.button}>
+                  <Trash2 size={16} />
+                  </button>
+                  </li>
+                ))}
                 </ul>
               </>
             )}
