@@ -1,7 +1,7 @@
 // tests/models/mentor.test.js
 const mongoose = require('mongoose');
 const { MongoMemoryServer } = require('mongodb-memory-server');
-const Mentor = require('@/models/Mentor');
+const Mentor = require('../../models/Mentor');
 
 let mongod;
 
