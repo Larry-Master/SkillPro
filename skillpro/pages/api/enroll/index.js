@@ -2,11 +2,11 @@ import connectDB from '@/lib/db';
 import enrollStudent from '@/lib/enrollService';
 
 export default async function handler(req, res) {
+  await connectDB();
+
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
-
-  await connectDB();
 
   const { studentId, courseId } = req.body;
 

@@ -5,6 +5,7 @@ import http from 'http';
 
 import handler from '@/pages/api/courses/[courseId].js';
 import Course from '@/models/Course';
+import connectDB from '@/lib/db';
 
 let mongod, server, request;
 
@@ -53,9 +54,8 @@ const createServer = () =>
 
 beforeAll(async () => {
   mongod = await MongoMemoryServer.create();
-  const uri = mongod.getUri();
-  process.env.MONGODB_URI = uri;
-  await mongoose.connect(uri);
+  process.env.MONGODB_URI = mongod.getUri();
+  await connectDB();
   server = createServer();
   request = supertest(server);
 });
@@ -66,7 +66,9 @@ afterAll(async () => {
   await new Promise(resolve => server.close(resolve));
 });
 
-beforeEach(() => Course.deleteMany());
+beforeEach(async () => {
+  await Course.deleteMany();
+});
 
 
 
