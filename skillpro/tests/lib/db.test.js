@@ -4,10 +4,10 @@ import connectDB from '@/lib/db';
 
 let mongod;
 
+
 beforeAll(async () => {
   mongod = await MongoMemoryServer.create();
-  const uri = mongod.getUri();
-  process.env.MONGODB_URI = uri;
+  process.env.MONGODB_URI = mongod.getUri();
 });
 
 afterAll(async () => {
@@ -15,11 +15,11 @@ afterAll(async () => {
   await mongod.stop();
 });
 
-describe('connectDB (integration)', () => {
-  afterEach(async () => {
-    await mongoose.disconnect();
-  });
+afterEach(async() => {
+  await mongoose.disconnect();
+});
 
+describe('connectDB (integration)', () => {
   it('returns early if mongoose is already connected', async () => {
     await mongoose.connect(process.env.MONGODB_URI);
     expect(mongoose.connection.readyState).toBe(1); // connected

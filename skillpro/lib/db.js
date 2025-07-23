@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 async function connectDB() {
   const uri = process.env.ATLAS_MONGODB_URI || process.env.MONGODB_URI;
   if (!uri) throw new Error('No MongoDB URI provided to connectDB()');
-  if (mongoose.connection.readyState >= 1) return;
+  if (mongoose.connection.readyState === 1) return;
 
   try {
     await mongoose.connect(uri);
