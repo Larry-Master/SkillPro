@@ -1,6 +1,5 @@
 /** @type {import('jest').Config} */
 const config = {
-  rootDir: './',
   clearMocks: true,
   collectCoverage: true,
   coverageDirectory: 'coverage',
