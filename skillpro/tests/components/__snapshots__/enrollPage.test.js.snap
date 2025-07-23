@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`EnrollPage component renders correctly and matches snapshot 1`] = `
+<DocumentFragment>
+  <main>
+    <h1>
+      Welcome to the Enrollment Page!
+    </h1>
+    <p>
+      Choose which course to enroll:
+    </p>
+    <ul>
+      <li>
+        Math 101 
+        <button>
+          Enroll
+        </button>
+      </li>
+      <li>
+        History 202 
+        <button>
+          Enroll
+        </button>
+      </li>
+    </ul>
+    <p
+      class="signature"
+    >
+      Signed,
+      <br />
+      HTW Berlin 🦄
+    </p>
+  </main>
+</DocumentFragment>
+`;
