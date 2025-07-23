@@ -1,6 +1,5 @@
-// pages/api/mentors/[id]/reviews.js
 const { connectDB } = require('../../../../lib/db');
-const Mentor = require('../../../../models/Mentor');
+const Mentor        = require('../../../../models/Mentor');
 
 async function handler(req, res) {
   await connectDB();
@@ -11,30 +10,23 @@ async function handler(req, res) {
     if (!mentor) {
       return res.status(404).json({ success: false, message: 'Mentor not found' });
     }
-    return res.status(200).json({
-      success: true,
-      data: { rating: mentor.rating }
-    });
+    return res.status(200).json({ success: true, data: { rating: mentor.rating } });
   }
 
   if (req.method === 'POST') {
-    const { rating: delta } = req.body;
-    const mentor = await Mentor.findByIdAndUpdate(
+    const { rating } = req.body;
+    const updated = await Mentor.findByIdAndUpdate(
       id,
-      { $inc: { rating: delta } },
+      { $inc: { rating } },
       { new: true }
     );
-    if (!mentor) {
+    if (!updated) {
       return res.status(404).json({ success: false, message: 'Mentor not found' });
     }
-    return res.status(200).json({
-      success: true,
-      data: { rating: mentor.rating }
-    });
+    return res.status(200).json({ success: true, data: { rating: updated.rating } });
   }
 
-  res.setHeader('Allow', ['GET', 'POST']);
-  res.status(405).end(`Method ${req.method} Not Allowed`);
+  return res.status(405).json({ success: false, message: 'Method not allowed' });
 }
 
 module.exports = handler;

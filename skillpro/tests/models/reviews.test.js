@@ -1,5 +1,5 @@
 const { createMocks } = require('node-mocks-http');
-const handler = require('../../pages/api/mentors/[id]/sessions');
+const handler = require('../../pages/api/mentors/[id]/reviews');
 const Mentor = require('../../models/Mentor');
 
 // Mock connectDB to avoid hitting a real DB

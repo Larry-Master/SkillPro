@@ -18,3 +18,4 @@ async function connectDB() {
 }
 
 module.exports = connectDB;
+module.exports.connectDB = connectDB; // <- This enables named destructuring

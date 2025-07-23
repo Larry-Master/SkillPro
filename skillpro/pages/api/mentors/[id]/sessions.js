@@ -1,4 +1,3 @@
-
 // pages/api/mentors/[id]/sessions.js
 const { connectDB } = require('../../../../lib/db');
 const Mentor = require('../../../../models/Mentor');
