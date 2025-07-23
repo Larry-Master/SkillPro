@@ -20,7 +20,10 @@ export default function EnrollPage({ courses }) {
           {courses.map((course) => (
             <li key={course._id}>
               {course.title}{' '}
-              <button onClick={() => enroll(course.title)}>Enroll</button>
+              <button aria-label={`Enroll in ${course.title}`} onClick={() => enroll(course.title)}>
+              Enroll
+              </button>
+
             </li>
           ))}
         </ul>
@@ -34,9 +37,10 @@ export default function EnrollPage({ courses }) {
   );
 }
 
+
 export async function getServerSideProps(context) {
   const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
-  const host = context.req.headers.host; // e.g. localhost:3000 or your deployed domain
+  const host = context.req.headers.host; // localhost:3000 or deployed domain
   const baseUrl = `${protocol}://${host}`;
 
   const res = await fetch(`${baseUrl}/api/courses`);
