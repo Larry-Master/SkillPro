@@ -1,32 +1,32 @@
-// pages/api/mentors/[id]/reviews.js
-const connectDB = require('../../../../lib/db');
-const Mentor   = require('../../../../models/Mentor');
+const { connectDB } = require('../../../../lib/db');
+const Mentor        = require('../../../../models/Mentor');
 
-
-export default async function handler(req, res) {
+async function handler(req, res) {
   await connectDB();
   const { id } = req.query;
 
   if (req.method === 'GET') {
-    // GET /api/mentors/:id/reviews
-    const { rating } = await Mentor.findById(id).select('rating');
-    return res.status(200).json({ success: true, data: { rating } });
+    const mentor = await Mentor.findById(id).select('rating');
+    if (!mentor) {
+      return res.status(404).json({ success: false, message: 'Mentor not found' });
+    }
+    return res.status(200).json({ success: true, data: { rating: mentor.rating } });
   }
 
   if (req.method === 'POST') {
-    // POST /api/mentors/:id/reviews  → add to rating
-    const { rating: delta } = req.body;
-    const mentor = await Mentor.findByIdAndUpdate(
+    const { rating } = req.body;
+    const updated = await Mentor.findByIdAndUpdate(
       id,
-      { $inc: { rating: delta } },
+      { $inc: { rating } },
       { new: true }
     );
-    return res.status(200).json({
-      success: true,
-      data: { rating: mentor.rating }
-    });
+    if (!updated) {
+      return res.status(404).json({ success: false, message: 'Mentor not found' });
+    }
+    return res.status(200).json({ success: true, data: { rating: updated.rating } });
   }
 
-  res.setHeader('Allow', ['GET','POST']);
-  res.status(405).end(`Method ${req.method} Not Allowed`);
+  return res.status(405).json({ success: false, message: 'Method not allowed' });
 }
+
+module.exports = handler;

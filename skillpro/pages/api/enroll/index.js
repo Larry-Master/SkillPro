@@ -1,6 +1,5 @@
 import connectDB from '@/lib/db';
-import Student from '@/models/Student';
-import Course from '@/models/Course';
+import enrollStudent from '@/lib/enrollService';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -11,29 +10,9 @@ export default async function handler(req, res) {
 
   const { studentId, courseId } = req.body;
 
-  if (!studentId || !courseId) {
-    return res.status(400).json({ message: 'Missing studentId or courseId' });
-  }
-
   try {
-    const student = await Student.findById(studentId);
-    const course = await Course.findById(courseId);
-
-    if (!student || !course) {
-      return res.status(404).json({ message: 'Student or Course not found' });
-    }
-
-    if (student.enrolledCourses.includes(courseId)) {
-      return res.status(409).json({ message: 'Student is already enrolled in this course' });
-    }
-
-    student.enrolledCourses.push(courseId);
-    await student.save();
-
-    course.enrolledStudents.push(studentId);
-    await course.save();
-
-    return res.status(200).json({ message: 'Enrollment successful' });
+    const result = await enrollStudent(studentId, courseId);
+    return res.status(result.status).json({ message: result.message });
   } catch (error) {
     return res.status(500).json({ message: 'Server error', error: error.message });
   }

@@ -1,7 +1,5 @@
-// lib/db.js
 const mongoose = require('mongoose');
 
-// Changed: Added default DB name (skillpro) to the URI
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://mongo:27018/';
 
 async function connectDB() {
@@ -20,3 +18,4 @@ async function connectDB() {
 }
 
 module.exports = connectDB;
+module.exports.connectDB = connectDB; // <- This enables named destructuring
