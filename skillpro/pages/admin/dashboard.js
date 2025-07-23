@@ -52,27 +52,20 @@ export default function AdminDashboard() {
     fetchCourses();
   }, []);
 
-  async function handleDeleteStudent(id) {
-    if (!confirm('Delete this student?')) return;
+  const handleDelete = async (id, type) => {
+    if (!confirm(`Delete this ${type.toLowerCase()}?`)) return;
     try {
-      const res = await fetch(`/api/students/${id}`, { method: 'DELETE' });
+      const res = await fetch(`/api/${type.toLowerCase()}s/${id}`, { method: 'DELETE' });
       if (!res.ok) throw new Error('Delete failed');
-      setStudents(prev => prev.filter(s => s._id !== id));
+      
+      if (type === 'Student') {
+        setStudents(prev => prev.filter(s => s._id !== id));
+      } else if (type === 'Course') {
+        setCourses(prev => prev.filter(c => c._id !== id));
+      }
     } catch (err) {
       console.error(err);
-      alert('Error deleting student');
-    }
-  }
-
-  async function handleDeleteCourse(id) {
-    if (!confirm('Delete this course?')) return;
-    try {
-      const res = await fetch(`/api/courses/${id}`, { method: 'DELETE' });
-      if (!res.ok) throw new Error('Delete failed');
-      setCourses(prev => prev.filter(c => c._id !== id));
-    } catch (err) {
-      console.error(err);
-      alert('Error deleting course');
+      alert(`Error deleting ${type.toLowerCase()}`);
     }
   }
 
@@ -126,7 +119,7 @@ export default function AdminDashboard() {
                 {students.map(s => (
                   <li key={s._id} className={styles.listItem}>
                   {s.name}
-                  <button onClick={() => handleDeleteStudent(s._id)} className={styles.button}>
+                  <button onClick={() => handleDelete(s._id, 'Student')} className={styles.button}>
                   <Trash2 size={16} />
                   </button>
                   </li>
@@ -150,7 +143,7 @@ export default function AdminDashboard() {
                 {courses.map(c => (
                   <li key={c._id} className={styles.listItem}>
                   {c.title}
-                  <button onClick={() => handleDeleteCourse(c._id)} className={styles.button}>
+                  <button onClick={() => handleDelete(c._id, 'Course')} className={styles.button}>
                   <Trash2 size={16} />
                   </button>
                   </li>
