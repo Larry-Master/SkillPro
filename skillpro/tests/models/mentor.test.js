@@ -7,7 +7,13 @@ let mongod;
 
 beforeAll(async () => {
   mongod = await MongoMemoryServer.create();
-  await mongoose.connect(mongod.getUri());
+  const uri = mongod.getUri();
+  await mongoose.connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+  // Ensure indexes (including unique email) are created before inserting
+  await Mentor.init();
 });
 
 afterAll(async () => {
@@ -38,7 +44,7 @@ describe('Mentor Model', () => {
     const m = await Mentor.create({
       name: 'Test',
       email: 'test@example.com',
-      industry: 'Tech'
+      industry: 'Tech',
     });
     expect(m.rating).toBe(0);
     expect(m.sessionsCompleted).toBe(0);
@@ -48,7 +54,7 @@ describe('Mentor Model', () => {
     await Mentor.create({
       name: 'A',
       email: 'dup@example.com',
-      industry: 'X'
+      industry: 'X',
     });
 
     let err;
@@ -56,7 +62,7 @@ describe('Mentor Model', () => {
       await Mentor.create({
         name: 'B',
         email: 'dup@example.com',
-        industry: 'Y'
+        industry: 'Y',
       });
     } catch (e) {
       err = e;
