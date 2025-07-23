@@ -3,8 +3,8 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import supertest from 'supertest';
 import http from 'http';
 
-import handler from '../../pages/api/courses/[courseId].js';
-import Course from '../../models/Course';
+import handler from '@/pages/api/courses/[courseId].js';
+import Course from '@/models/Course';
 
 let mongod, server, request;
 

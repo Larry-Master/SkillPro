@@ -17,9 +17,9 @@ export default async function handler(req, res) {
 
       const courseData = { title, description, capacity };
       if (_id) courseData._id = _id;
-      
+
       if (professor && mongoose.Types.ObjectId.isValid(professor)) {
-        courseData.professor = professor;
+        courseData.professor = professor; // only include valid professor (this only occur while creating a course without Professor)
       }
 
       const course = await Course.create(courseData);

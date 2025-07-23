@@ -1,6 +1,6 @@
-const Certificate = require('../../models/Certificate');
+const Certificate = require('@/models/Certificate');
 
-jest.mock('../../models/Certificate');
+jest.mock('@/models/Certificate');
 
 describe('Certificate model', () => {
   afterEach(() => jest.clearAllMocks());

@@ -1,6 +1,6 @@
-const Assignment = require('../../models/Assignment');
+const Assignment = require('@/models/Assignment');
 
-jest.mock('../../models/Assignment');
+jest.mock('@/models/Assignment');
 
 describe('Assignment model', () => {
   afterEach(() => jest.clearAllMocks());

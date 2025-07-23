@@ -4,9 +4,9 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 const http = require('http');
 const supertest = require('supertest');
 
-const sessionsHandler = require('../../pages/api/mentors/[id]/sessions');
-const reviewsHandler  = require('../../pages/api/mentors/[id]/reviews');
-const Mentor = require('../../models/Mentor');
+const sessionsHandler = require('@/pages/api/mentors/[id]/sessions');
+const reviewsHandler  = require('@/pages/api/mentors/[id]/reviews');
+const Mentor = require('@/models/Mentor');
 
 // bump timeout for all tests & hooks
 jest.setTimeout(30000);

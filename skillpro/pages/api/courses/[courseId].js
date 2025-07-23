@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import connectDB from '../../../lib/db';
-import Course from '../../../models/Course';
+import connectDB from '@/lib/db';
+import Course from '@/models/Course';
 
 export default async function handler(req, res) {
   await connectDB();

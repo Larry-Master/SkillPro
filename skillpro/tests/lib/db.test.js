@@ -1,6 +1,6 @@
 process.env.MONGODB_URI = 'mongodb://mocked-uri/test';
 const mongoose = require('mongoose');
-const connectDB = require('../../lib/db');
+const connectDB = require('@/lib/db');
 
 
 

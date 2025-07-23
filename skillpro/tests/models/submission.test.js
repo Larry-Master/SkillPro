@@ -1,6 +1,6 @@
-const Submission = require('../../models/Submission');
+const Submission = require('@/models/Submission');
 
-jest.mock('../../models/Submission');
+jest.mock('@/models/Submission');
 
 describe('Submission model', () => {
   afterEach(() => jest.clearAllMocks());

@@ -1,6 +1,6 @@
 import { createMocks } from 'node-mocks-http';
-import handler from '../../pages/api/mentors/[id]/reviews';
-import Mentor from '../../models/Mentor';
+import handler from '@/pages/api/mentors/[id]/reviews';
+import Mentor from '@/models/Mentor';
 
 // Mock connectDB to avoid hitting a real DB
 jest.mock('../../lib/db', () => {

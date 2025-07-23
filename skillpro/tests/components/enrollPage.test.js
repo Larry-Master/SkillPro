@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import { render, screen, fireEvent } from '@testing-library/react';
-import EnrollPage, { getServerSideProps } from '../../pages/enroll';
+import EnrollPage, { getServerSideProps } from '@/pages/enroll';
 
 const mockCourses = [
   { _id: '1', title: 'Math 101' },

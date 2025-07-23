@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Course = require('../../models/Course');
+const Course = require('@/models/Course');
 
 describe('Course model', () => {
   // Sample valid data

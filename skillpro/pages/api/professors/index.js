@@ -1,5 +1,5 @@
-import connectDB from '../../../lib/db';
-import Professor from '../../../models/Professor';
+import connectDB from '@/lib/db';
+import Professor from '@/models/Professor';
 
 export default async function handler(req, res) {
   await connectDB();

@@ -1,6 +1,6 @@
-const Enrollment = require('../../models/Enrollment');
+const Enrollment = require('@/models/Enrollment');
 
-jest.mock('../../models/Enrollment');
+jest.mock('@/models/Enrollment');
 
 describe('Enrollment model', () => {
 

@@ -1,6 +1,6 @@
-const enrollStudent = require('../../lib/enrollService');
-const Student = require('../../models/Student');
-const Course = require('../../models/Course');
+const enrollStudent = require('@/lib/enrollService');
+const Student = require('@/models/Student');
+const Course = require('@/models/Course');
 
 describe('enrollStudent service', () => {
   // Mock student object with empty courses and a fake save function
