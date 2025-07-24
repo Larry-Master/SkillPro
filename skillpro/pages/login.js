@@ -1,8 +1,8 @@
-import Head from 'next/head';
-import '@/styles/global.css';
+import Head from "next/head";
+import "@/styles/global.css";
 
 export default function LoginPage() {
-  const title = 'Login';
+  const title = "Login";
 
   return (
     <>

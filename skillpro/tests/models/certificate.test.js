@@ -1,19 +1,19 @@
-const Certificate = require('@/models/Certificate');
+const Certificate = require("@/models/Certificate");
 
-jest.mock('@/models/Certificate');
+jest.mock("@/models/Certificate");
 
-describe('Certificate model', () => {
+describe("Certificate model", () => {
   afterEach(() => jest.clearAllMocks());
 
-  it('should create and save a new certificate', async () => {
+  it("should create and save a new certificate", async () => {
     const mockCertificateData = {
-      student: '507f1f77bcf86cd799439011',
-      course: '607f1f77bcf86cd799439012',
-      date: new Date('2025-08-02T00:00:00Z')
+      student: "507f1f77bcf86cd799439011",
+      course: "607f1f77bcf86cd799439012",
+      date: new Date("2025-08-02T00:00:00Z"),
     };
     const mockSave = jest.fn().mockResolvedValue(mockCertificateData);
     Certificate.mockImplementation(() => ({
-      save: mockSave
+      save: mockSave,
     }));
 
     const certificate = new Certificate(mockCertificateData);
@@ -24,34 +24,40 @@ describe('Certificate model', () => {
     expect(savedCertificate).toEqual(mockCertificateData);
   });
 
-  it('should throw an error if student is missing', async () => {
+  it("should throw an error if student is missing", async () => {
     const mockCertificateData = {
       // student is missing!
-      course: '607f1f77bcf86cd799439012'
+      course: "607f1f77bcf86cd799439012",
     };
-    const validationError = new Error('Certificate validation failed: student: Path `student` is required.');
-    validationError.name = 'ValidationError';
+    const validationError = new Error(
+      "Certificate validation failed: student: Path `student` is required.",
+    );
+    validationError.name = "ValidationError";
 
     const mockSave = jest.fn().mockRejectedValue(validationError);
     Certificate.mockImplementation(() => ({
-      save: mockSave
+      save: mockSave,
     }));
 
     const certificate = new Certificate(mockCertificateData);
-    await expect(certificate.save()).rejects.toThrow('Certificate validation failed: student: Path `student` is required.');
+    await expect(certificate.save()).rejects.toThrow(
+      "Certificate validation failed: student: Path `student` is required.",
+    );
     expect(mockSave).toHaveBeenCalled();
   });
 
-  it('should set date to default if not provided', async () => {
+  it("should set date to default if not provided", async () => {
     const mockCertificateData = {
-      student: '507f1f77bcf86cd799439011',
-      course: '607f1f77bcf86cd799439012'
+      student: "507f1f77bcf86cd799439011",
+      course: "607f1f77bcf86cd799439012",
       // date is omitted
     };
-    const mockNow = new Date('2025-08-02T12:00:00Z');
-    const mockSave = jest.fn().mockResolvedValue({ ...mockCertificateData, date: mockNow });
+    const mockNow = new Date("2025-08-02T12:00:00Z");
+    const mockSave = jest
+      .fn()
+      .mockResolvedValue({ ...mockCertificateData, date: mockNow });
     Certificate.mockImplementation(() => ({
-      save: mockSave
+      save: mockSave,
     }));
 
     const certificate = new Certificate(mockCertificateData);

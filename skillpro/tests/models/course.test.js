@@ -1,23 +1,23 @@
-const mongoose = require('mongoose');
-const Course = require('@/models/Course');
+const mongoose = require("mongoose");
+const Course = require("@/models/Course");
 
-describe('Course model', () => {
+describe("Course model", () => {
   // Sample valid data
   const validCourseData = {
-    title: 'Distributed Systems',
+    title: "Distributed Systems",
     professor: new mongoose.Types.ObjectId(),
     capacity: 30,
-    description: 'Basic Stuff',
+    description: "Basic Stuff",
   };
 
-  it('creates a course with all fields', () => {
+  it("creates a course with all fields", () => {
     const course = new Course(validCourseData);
 
     // Check main fields
     expect(course).toMatchObject({
-      title: 'Distributed Systems',
+      title: "Distributed Systems",
       capacity: 30,
-      description: 'Basic Stuff',
+      description: "Basic Stuff",
     });
     // professor id should match input
     expect(course.professor).toEqual(validCourseData.professor);
@@ -26,7 +26,7 @@ describe('Course model', () => {
     expect(course.enrolledStudents.length).toBe(0);
   });
 
-  it('fails validation if required fields missing', () => {
+  it("fails validation if required fields missing", () => {
     const course = new Course({});
 
     const error = course.validateSync();
@@ -35,7 +35,7 @@ describe('Course model', () => {
     expect(error.errors.capacity).toBeDefined();
   });
 
-  it('capacity cannot be negative', () => {
+  it("capacity cannot be negative", () => {
     const course = new Course({ ...validCourseData, capacity: -1 });
 
     const error = course.validateSync();
@@ -43,7 +43,7 @@ describe('Course model', () => {
     expect(error.errors.capacity).toBeDefined();
   });
 
-  it('enrolledStudents defaults to empty array', () => {
+  it("enrolledStudents defaults to empty array", () => {
     const course = new Course(validCourseData);
     expect(course.enrolledStudents).toEqual([]);
   });

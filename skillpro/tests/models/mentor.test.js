@@ -1,8 +1,8 @@
 // tests/models/mentor.test.js
 
-const mongoose = require('mongoose');
-const { MongoMemoryServer } = require('mongodb-memory-server');
-const Mentor = require('@/models/Mentor');
+const mongoose = require("mongoose");
+const { MongoMemoryServer } = require("mongodb-memory-server");
+const Mentor = require("@/models/Mentor");
 
 let mongod;
 
@@ -20,8 +20,8 @@ beforeEach(async () => {
   await Mentor.deleteMany();
 });
 
-describe('Mentor Model', () => {
-  it('requires name, email, and industry', async () => {
+describe("Mentor Model", () => {
+  it("requires name, email, and industry", async () => {
     const m = new Mentor({});
     let err;
     try {
@@ -35,29 +35,29 @@ describe('Mentor Model', () => {
     expect(err.errors.industry).toBeDefined();
   });
 
-  it('sets default rating and sessionsCompleted to 0', async () => {
+  it("sets default rating and sessionsCompleted to 0", async () => {
     const m = await Mentor.create({
-      name: 'Test',
-      email: 'test@example.com',
-      industry: 'Tech'
+      name: "Test",
+      email: "test@example.com",
+      industry: "Tech",
     });
     expect(m.rating).toBe(0);
     expect(m.sessionsCompleted).toBe(0);
   });
 
-  it('enforces unique email', async () => {
+  it("enforces unique email", async () => {
     await Mentor.create({
-      name: 'A',
-      email: 'dup@example.com',
-      industry: 'X'
+      name: "A",
+      email: "dup@example.com",
+      industry: "X",
     });
 
     let err;
     try {
       await Mentor.create({
-        name: 'B',
-        email: 'dup@example.com',
-        industry: 'Y'
+        name: "B",
+        email: "dup@example.com",
+        industry: "Y",
       });
     } catch (e) {
       err = e;

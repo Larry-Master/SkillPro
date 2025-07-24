@@ -1,15 +1,9 @@
-import { useEffect, useState } from 'react';
-import Head from 'next/head';
-import CreateCourse from './createCourse';
-import styles from './AdminDashboard.module.css';
+import { useEffect, useState } from "react";
+import Head from "next/head";
+import CreateCourse from "./createCourse";
+import styles from "./AdminDashboard.module.css";
 
-import {
-  Users,
-  BookOpen,
-  PlusCircle,
-  Loader2,
-  Trash2,
-} from 'lucide-react';
+import { Users, BookOpen, PlusCircle, Loader2, Trash2 } from "lucide-react";
 
 export default function AdminDashboard() {
   const [students, setStudents] = useState([]);
@@ -18,18 +12,18 @@ export default function AdminDashboard() {
   const [studentsLoading, setStudentsLoading] = useState(true);
   const [coursesLoading, setCoursesLoading] = useState(true);
 
-  const [selectedStudent, setSelectedStudent] = useState('');
-  const [selectedCourse, setSelectedCourse] = useState('');
+  const [selectedStudent, setSelectedStudent] = useState("");
+  const [selectedCourse, setSelectedCourse] = useState("");
   const [enrollLoading, setEnrollLoading] = useState(false);
 
   useEffect(() => {
     async function fetchStudents() {
       try {
-        const res = await fetch('/api/students');
+        const res = await fetch("/api/students");
         const data = await res.json();
         setStudents(data);
       } catch (err) {
-        console.error('Error loading students:', err);
+        console.error("Error loading students:", err);
       } finally {
         setStudentsLoading(false);
       }
@@ -40,11 +34,11 @@ export default function AdminDashboard() {
   useEffect(() => {
     async function fetchCourses() {
       try {
-        const res = await fetch('/api/courses');
+        const res = await fetch("/api/courses");
         const data = await res.json();
         setCourses(data);
       } catch (err) {
-        console.error('Error loading courses:', err);
+        console.error("Error loading courses:", err);
       } finally {
         setCoursesLoading(false);
       }
@@ -55,36 +49,41 @@ export default function AdminDashboard() {
   const handleDelete = async (id, type) => {
     if (!confirm(`Delete this ${type.toLowerCase()}?`)) return;
     try {
-      const res = await fetch(`/api/${type.toLowerCase()}s/${id}`, { method: 'DELETE' });
-      if (!res.ok) throw new Error('Delete failed');
-      
-      if (type === 'Student') {
-        setStudents(prev => prev.filter(s => s._id !== id));
-      } else if (type === 'Course') {
-        setCourses(prev => prev.filter(c => c._id !== id));
+      const res = await fetch(`/api/${type.toLowerCase()}s/${id}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) throw new Error("Delete failed");
+
+      if (type === "Student") {
+        setStudents((prev) => prev.filter((s) => s._id !== id));
+      } else if (type === "Course") {
+        setCourses((prev) => prev.filter((c) => c._id !== id));
       }
     } catch (err) {
       console.error(err);
       alert(`Error deleting ${type.toLowerCase()}`);
     }
-  }
+  };
 
   async function handleEnroll() {
     if (!selectedStudent || !selectedCourse) {
-      alert('Select both student and course');
+      alert("Select both student and course");
       return;
     }
 
     setEnrollLoading(true);
     try {
-      const res = await fetch('/api/enroll', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ studentId: selectedStudent, courseId: selectedCourse }),
+      const res = await fetch("/api/enroll", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          studentId: selectedStudent,
+          courseId: selectedCourse,
+        }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Failed to enroll');
-      alert('Enrollment successful!');
+      if (!res.ok) throw new Error(data.message || "Failed to enroll");
+      alert("Enrollment successful!");
     } catch (err) {
       console.error(err);
       alert(`Error: ${err.message}`);
@@ -100,7 +99,7 @@ export default function AdminDashboard() {
       </Head>
       <main className={styles.container}>
         <h1 className={styles.title}>
-          <Users size={24} style={{ marginRight: '8px' }} />
+          <Users size={24} style={{ marginRight: "8px" }} />
           Admin Dashboard
         </h1>
 
@@ -111,19 +110,24 @@ export default function AdminDashboard() {
               <Users size={18} /> Students
             </h2>
             {studentsLoading ? (
-              <p><Loader2 /> Loading students...</p>
+              <p>
+                <Loader2 /> Loading students...
+              </p>
             ) : (
               <>
                 <p>{students.length} total</p>
                 <ul className={styles.scrollableList}>
-                {students.map(s => (
-                  <li key={s._id} className={styles.listItem}>
-                  {s.name}
-                  <button onClick={() => handleDelete(s._id, 'Student')} className={styles.button}>
-                  <Trash2 size={16} />
-                  </button>
-                  </li>
-                ))}
+                  {students.map((s) => (
+                    <li key={s._id} className={styles.listItem}>
+                      {s.name}
+                      <button
+                        onClick={() => handleDelete(s._id, "Student")}
+                        className={styles.button}
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </li>
+                  ))}
                 </ul>
               </>
             )}
@@ -135,19 +139,24 @@ export default function AdminDashboard() {
               <BookOpen size={18} /> Courses
             </h2>
             {coursesLoading ? (
-              <p><Loader2 /> Loading courses...</p>
+              <p>
+                <Loader2 /> Loading courses...
+              </p>
             ) : (
               <>
                 <p>{courses.length} total</p>
                 <ul className={styles.scrollableList}>
-                {courses.map(c => (
-                  <li key={c._id} className={styles.listItem}>
-                  {c.title}
-                  <button onClick={() => handleDelete(c._id, 'Course')} className={styles.button}>
-                  <Trash2 size={16} />
-                  </button>
-                  </li>
-                ))}
+                  {courses.map((c) => (
+                    <li key={c._id} className={styles.listItem}>
+                      {c.title}
+                      <button
+                        onClick={() => handleDelete(c._id, "Course")}
+                        className={styles.button}
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </li>
+                  ))}
                 </ul>
               </>
             )}
@@ -155,7 +164,11 @@ export default function AdminDashboard() {
 
           {/* CreateCourse component */}
           <section className={styles.section}>
-          <CreateCourse onCourseCreated={newCourse => setCourses(prev => [newCourse, ...prev])} />
+            <CreateCourse
+              onCourseCreated={(newCourse) =>
+                setCourses((prev) => [newCourse, ...prev])
+              }
+            />
           </section>
 
           {/* Enroll Section */}
@@ -166,11 +179,11 @@ export default function AdminDashboard() {
             <select
               className={styles.select}
               value={selectedStudent}
-              onChange={e => setSelectedStudent(e.target.value)}
+              onChange={(e) => setSelectedStudent(e.target.value)}
               disabled={studentsLoading}
             >
               <option value="">Select Student</option>
-              {students.map(s => (
+              {students.map((s) => (
                 <option key={s._id} value={s._id}>
                   {s.name}
                 </option>
@@ -180,11 +193,11 @@ export default function AdminDashboard() {
             <select
               className={styles.select}
               value={selectedCourse}
-              onChange={e => setSelectedCourse(e.target.value)}
+              onChange={(e) => setSelectedCourse(e.target.value)}
               disabled={coursesLoading}
             >
               <option value="">Select Course</option>
-              {courses.map(c => (
+              {courses.map((c) => (
                 <option key={c._id} value={c._id}>
                   {c.title}
                 </option>
@@ -196,7 +209,7 @@ export default function AdminDashboard() {
               disabled={enrollLoading || studentsLoading || coursesLoading}
               className={styles.enrollButton}
             >
-              {enrollLoading ? 'Enrolling...' : 'Enroll'}
+              {enrollLoading ? "Enrolling..." : "Enroll"}
             </button>
           </section>
         </div>

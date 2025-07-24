@@ -1,6 +1,6 @@
-import Head from 'next/head';
-import Link from 'next/link';
-import '@/styles/global.css';
+import Head from "next/head";
+import Link from "next/link";
+import "@/styles/global.css";
 
 export default function Dashboard() {
   return (
@@ -19,7 +19,7 @@ export default function Dashboard() {
             <div className="course-title">📘 Intro to Web Development</div>
             <p>Continue from Module 3: CSS Basics</p>
             <div className="progress-bar">
-              <span style={{ width: '40%' }}></span>
+              <span style={{ width: "40%" }}></span>
             </div>
           </div>
 
@@ -27,7 +27,7 @@ export default function Dashboard() {
             <div className="course-title">📙 JavaScript Essentials</div>
             <p>Next lesson: Functions and Scope</p>
             <div className="progress-bar">
-              <span style={{ width: '65%' }}></span>
+              <span style={{ width: "65%" }}></span>
             </div>
           </div>
 
@@ -35,7 +35,7 @@ export default function Dashboard() {
             <div className="course-title">🎨 UI/UX Fundamentals</div>
             <p>Recently Completed: User Research Techniques</p>
             <div className="progress-bar">
-              <span style={{ width: '100%' }}></span>
+              <span style={{ width: "100%" }}></span>
             </div>
           </div>
 

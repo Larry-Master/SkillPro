@@ -1,5 +1,5 @@
-import Head from 'next/head';
-import '@/styles/global.css';
+import Head from "next/head";
+import "@/styles/global.css";
 
 export default function RegisterForm({ title = "Register" }) {
   return (

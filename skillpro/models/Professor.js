@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const ProfessorSchema = new Schema({
@@ -6,4 +6,5 @@ const ProfessorSchema = new Schema({
   department: String,
 });
 
-module.exports = mongoose.models.Professor ||mongoose.model('Professor', ProfessorSchema);
+module.exports =
+  mongoose.models.Professor || mongoose.model("Professor", ProfessorSchema);

@@ -1,17 +1,17 @@
-import connectDB from '@/lib/db';
-import Course from '@/models/Course';
-import Student from '@/models/Student';
-import Professor from '@/models/Professor';
+import connectDB from "@/lib/db";
+import Course from "@/models/Course";
+import Student from "@/models/Student";
+import Professor from "@/models/Professor";
 
 export default async function handler(req, res) {
   await connectDB();
 
-  if (req.method === 'GET') {
-    const courses = await Course.find().populate('professor enrolledStudents');
+  if (req.method === "GET") {
+    const courses = await Course.find().populate("professor enrolledStudents");
     return res.status(200).json(courses);
   }
 
-  if (req.method === 'POST') {
+  if (req.method === "POST") {
     try {
       const { _id, title, description, professor, capacity } = req.body;
 
@@ -30,5 +30,5 @@ export default async function handler(req, res) {
     }
   }
 
-  return res.status(405).json({ message: 'Method Not Allowed' });
+  return res.status(405).json({ message: "Method Not Allowed" });
 }

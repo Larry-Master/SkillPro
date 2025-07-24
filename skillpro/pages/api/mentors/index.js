@@ -1,18 +1,17 @@
 // pages/api/mentors/index.js
-const connectDB = require('../../../lib/db');
-const Mentor   = require('../../../models/Mentor');
-
+const connectDB = require("../../../lib/db");
+const Mentor = require("../../../models/Mentor");
 
 export default async function handler(req, res) {
   await connectDB();
 
-  if (req.method === 'GET') {
+  if (req.method === "GET") {
     // GET /api/mentors
     const mentors = await Mentor.find({});
     return res.status(200).json({ success: true, data: mentors });
   }
 
-  if (req.method === 'POST') {
+  if (req.method === "POST") {
     // POST /api/mentors
     try {
       const mentor = await Mentor.create(req.body);
@@ -22,6 +21,6 @@ export default async function handler(req, res) {
     }
   }
 
-  res.setHeader('Allow', ['GET','POST']);
+  res.setHeader("Allow", ["GET", "POST"]);
   res.status(405).end(`Method ${req.method} Not Allowed`);
 }
