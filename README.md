@@ -3,7 +3,7 @@
 [![Build Status](https://github.com/larry-master/skillpro/actions/workflows/test.yml/badge.svg)](https://github.com/larry-master/skillpro/actions/workflows/test.yml)
 [![Coverage Status](https://coveralls.io/repos/github/larry-master/SkillPro/badge.svg?branch=main)](https://coveralls.io/github/larry-master/SkillPro?branch=main)
 
-**SkillPro** is a full-stack web application built with **Next.js**, designed to support student learning, course enrollment, and professor interaction. It uses **MongoDB Atlas** for cloud data storage and deploys via **Vercel** with CI/CD via **GitHub Actions**.
+**SkillPro** is a full-stack web application built with **Next.js** and **React**, designed to support student learning, course enrollment, and professor interaction. It uses **MongoDB Atlas** for cloud data storage and deploys via **Vercel** with CI/CD via **GitHub Actions**.
 
 **Live Application:** [https://skill-pro-tau.vercel.app](https://skill-pro-tau.vercel.app)
 
