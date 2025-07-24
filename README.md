@@ -46,35 +46,35 @@
 - Node.js v18 or higher
 - MongoDB (local or Atlas URI)
 - Git
-- npm or yarn
+- npm
 - Docker (optional)
 
 ### Installation
 
 1. Clone the repository:
-\`\`\`bash
+```bash
 git clone https://github.com/Larry-Master/SkillPro.git
 cd skillpro
-\`\`\`
+```
 
 Install dependencies:
-\`\`\`bash
+```bash
 npm install
-\`\`\`
+```
 
 ### Running Tests
 
 Run all tests with coverage:
-\`\`\`bash
+```bash
 npm test
-\`\`\`
+```
 
 ### Docker Support
 
 Build and run with Docker:
-\`\`\`bash
+```bash
 docker-compose up --build
-\`\`\`
+```
 
 ---
 ## Testing Strategy
