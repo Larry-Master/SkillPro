@@ -21,7 +21,6 @@
 - Certificate generation for completed courses
 
 ### Testing & Quality Assurance 🔍
-- 100% test coverage across all components
 - Unit tests for models and services
 - Integration tests for API endpoints
 - End-to-end API testing
