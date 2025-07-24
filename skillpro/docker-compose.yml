@@ -6,10 +6,10 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
+    env_file: .env
     environment:
-      - NODE_ENV=development
-      - CHOKIDAR_USEPOLLING=true
-      - MONGODB_URI=mongodb://mongo:27018/
+      - MONGODB_URI=${LOCAL_MONGODB_URI}   # Default to local DB
+      - ATLAS_MONGODB_URI=${ATLAS_MONGODB_URI}
     command: sh -c "node scripts/seed.js && npm run dev"
     depends_on:
       - mongo

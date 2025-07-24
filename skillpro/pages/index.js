@@ -1,6 +1,6 @@
-import Head from 'next/head';
-import Link from 'next/link';
-import '@/styles/global.css';
+import Head from "next/head";
+import Link from "next/link";
+import "@/styles/global.css";
 
 export default function Home() {
   return (
@@ -14,10 +14,11 @@ export default function Home() {
       <main>
         <section>
           <h2>Your Personalized Learning Platform</h2>
-          <p>Track your enrolled courses and continue your learning journey effortlessly.</p>
-          <Link href="/dashboard">
-            Go to Dashboard
-          </Link>
+          <p>
+            Track your enrolled courses and continue your learning journey
+            effortlessly.
+          </p>
+          <Link href="/dashboard">Go to Dashboard</Link>
         </section>
       </main>
     </>

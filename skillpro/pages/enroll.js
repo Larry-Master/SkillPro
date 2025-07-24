@@ -1,5 +1,5 @@
-import Head from 'next/head';
-import '@/styles/global.css';
+import Head from "next/head";
+import "@/styles/global.css";
 
 export default function EnrollPage({ courses }) {
   function enroll(courseTitle) {
@@ -19,17 +19,20 @@ export default function EnrollPage({ courses }) {
         <ul>
           {courses.map((course) => (
             <li key={course._id}>
-              {course.title}{' '}
-              <button aria-label={`Enroll in ${course.title}`} onClick={() => enroll(course.title)}>
-              Enroll
+              {course.title}{" "}
+              <button
+                aria-label={`Enroll in ${course.title}`}
+                onClick={() => enroll(course.title)}
+              >
+                Enroll
               </button>
-
             </li>
           ))}
         </ul>
 
         <p className="signature">
-          Signed,<br />
+          Signed,
+          <br />
           HTW Berlin 🦄
         </p>
       </main>
@@ -37,9 +40,8 @@ export default function EnrollPage({ courses }) {
   );
 }
 
-
 export async function getServerSideProps(context) {
-  const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
+  const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
   const host = context.req.headers.host; // localhost:3000 or deployed domain
   const baseUrl = `${protocol}://${host}`;
 

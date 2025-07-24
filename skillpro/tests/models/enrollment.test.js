@@ -1,20 +1,19 @@
-const Enrollment = require('../../models/Enrollment');
+const Enrollment = require("@/models/Enrollment");
 
-jest.mock('../../models/Enrollment');
+jest.mock("@/models/Enrollment");
 
-describe('Enrollment model', () => {
-
+describe("Enrollment model", () => {
   afterEach(() => {
     // Reset mocks so each test starts fresh
     jest.clearAllMocks();
   });
 
-  it('creates and saves a new enrollment', async () => {
+  it("creates and saves a new enrollment", async () => {
     // Sample enrollment data
     const data = {
-      student: 'student-id',
-      course: 'course-id',
-      enrolledAt: new Date('2025-07-02T00:00:00Z')
+      student: "student-id",
+      course: "course-id",
+      enrolledAt: new Date("2025-07-02T00:00:00Z"),
     };
 
     // Mock the save function to just return the data
@@ -37,13 +36,15 @@ describe('Enrollment model', () => {
     expect(result).toEqual(data);
   });
 
-  it('throws error if student is missing', async () => {
+  it("throws error if student is missing", async () => {
     // Missing the required student field here
-    const data = { course: 'course-id' };
+    const data = { course: "course-id" };
 
     // Simulate validation error thrown by mongoose
-    const error = new Error('Enrollment validation failed: student: Path `student` is required.');
-    error.name = 'ValidationError';
+    const error = new Error(
+      "Enrollment validation failed: student: Path `student` is required.",
+    );
+    error.name = "ValidationError";
 
     // Mock save to reject with this validation error
     const saveMock = jest.fn().mockRejectedValue(error);

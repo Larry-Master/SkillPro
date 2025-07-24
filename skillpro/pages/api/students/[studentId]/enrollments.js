@@ -1,24 +1,23 @@
-import connectDB from '@/lib/db';
-import Student from '@/models/Student';
+import connectDB from "@/lib/db";
+import Student from "@/models/Student";
 
 export default async function handler(req, res) {
   await connectDB();
   const { studentId } = req.query;
 
-  if (req.method === 'POST') {
-    const { courseId } = req.body; 
+  if (req.method === "POST") {
+    const { courseId } = req.body;
 
     if (!courseId) {
-      return res.status(400).json({ error: 'courseId is required' });
+      return res.status(400).json({ error: "courseId is required" });
     }
 
     try {
       const student = await Student.findById(studentId);
       if (!student) {
-        return res.status(404).json({ error: 'Student not found' });
+        return res.status(404).json({ error: "Student not found" });
       }
 
-       
       if (!student.enrolledCourses.includes(courseId)) {
         student.enrolledCourses.push(courseId);
         await student.save();
@@ -30,5 +29,5 @@ export default async function handler(req, res) {
     }
   }
 
-  return res.status(405).json({ message: 'Method Not Allowed' });
+  return res.status(405).json({ message: "Method Not Allowed" });
 }

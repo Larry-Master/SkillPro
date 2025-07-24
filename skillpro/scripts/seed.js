@@ -1,127 +1,199 @@
-const mongoose = require('mongoose');
-const ObjectId = mongoose.Types.ObjectId;
+require("dotenv").config(); // makes sure ENV URI is loaded
+const mongoose = require("mongoose");
+const connectDB = require("../lib/db");
 
-const connectDB = require('../lib/db');
-const Student = require('../models/Student');
-const Professor = require('../models/Professor');
-const Course = require('../models/Course');
-const Enrollment = require('../models/Enrollment');
-const Assignment = require('../models/Assignment');
-const Certificate = require('../models/Certificate');
-const Review = require('../models/Review');
-const Mentor = require('../models/Mentor');
-
-
-
-
+const Student = require("../models/Student");
+const Professor = require("../models/Professor");
+const Course = require("../models/Course");
+const Enrollment = require("../models/Enrollment");
+const Assignment = require("../models/Assignment");
+const Certificate = require("../models/Certificate");
+const Review = require("../models/Review");
+const Mentor = require("../models/Mentor");
 
 async function seed() {
   await connectDB();
 
-  // Clear all existing data
-  await Student.deleteMany({});
-  await Professor.deleteMany({});
-  await Course.deleteMany({});
-  await Enrollment.deleteMany({});
-  await Assignment.deleteMany({});
-  await Certificate.deleteMany({});
-  await Review.deleteMany({});
-  await Mentor.deleteMany({});
+  // Wipe all existing records
+  await Promise.all([
+    Student.deleteMany({}),
+    Professor.deleteMany({}),
+    Course.deleteMany({}),
+    Enrollment.deleteMany({}),
+    Assignment.deleteMany({}),
+    Certificate.deleteMany({}),
+    Review.deleteMany({}),
+    Mentor.deleteMany({}),
+  ]);
 
+  // --- Professors ---
+  const professors = await Professor.insertMany([
+    { name: "Dr. Sarah Müller", department: "Web Development" },
+    { name: "Prof. Daniel Rivera", department: "Computer Graphics" },
+    { name: "Dr. Nina Petrova", department: "AI & Data Science" },
+  ]);
 
+  // --- Courses ---
+  const courses = await Course.insertMany([
+    {
+      title: "Web Technologies",
+      description: "HTML, CSS, JS basics",
+      professor: professors[0]._id,
+      capacity: 30,
+    },
+    {
+      title: "Distributed Systems",
+      description: "Client-server architecture & sockets",
+      professor: professors[1]._id,
+      capacity: 25,
+    },
+    {
+      title: "Human-Computer Interaction",
+      description: "UX/UI and user testing methods",
+      professor: professors[0]._id,
+      capacity: 20,
+    },
+    {
+      title: "Machine Learning Basics",
+      description: "Intro to supervised learning",
+      professor: professors[2]._id,
+      capacity: 30,
+    },
+    {
+      title: "3D Modeling and Animation",
+      description: "Fundamentals of 3D design and motion",
+      professor: professors[1]._id,
+      capacity: 15,
+    },
+  ]);
 
-  // Fixed IDs for curl commands
-  const fixedProfId = new ObjectId('64f1b8c8a6e8f94b5a5a1a01');
-  const fixedStudentId = new ObjectId('64f1b8c8a6e8f94b5a5a1a02');
-  const fixedCourseId = new ObjectId('64f1b8c8a6e8f94b5a5a1a03');
-  const fixedAssignmentId = new ObjectId('64f1b8c8a6e8f94b5a5a1a04');
-  const fixedCertificateId = new ObjectId('64f1b8c8a6e8f94b5a5a1abc');
-  const fixedMentorId = new ObjectId('64f1b8c8a6e8f94b5a5a1aaa');
-  const fixedReviewId = new ObjectId('64f1b8c8a6e8f94b5a5a1bbb');
+  // --- Students ---
+  const students = await Student.insertMany([
+    { name: "Leyla Demir", email: "leyla.demir@htw-berlin.de" },
+    { name: "Mateo Rossi", email: "mateo.rossi@htw-berlin.de" },
+    { name: "Sofia Chen", email: "sofia.chen@htw-berlin.de" },
+    { name: "Lucas Schneider", email: "lucas.schneider@htw-berlin.de" },
+    { name: "Emily Johnson", email: "emily.johnson@htw-berlin.de" },
+  ]);
 
-  // Create fixed Professor
-  const professor = new Professor({
-    _id: fixedProfId,
-    name: 'Prof. Dr. Michael Hoffman',
-    department: 'Computer Science',
-  });
-  await professor.save();
+  // --- Enrollments ---
+  const enrollments = await Promise.all([
+    Enrollment.create({ student: students[0]._id, course: courses[0]._id }),
+    Enrollment.create({ student: students[1]._id, course: courses[1]._id }),
+    Enrollment.create({ student: students[2]._id, course: courses[2]._id }),
+    Enrollment.create({ student: students[3]._id, course: courses[3]._id }),
+    Enrollment.create({ student: students[4]._id, course: courses[4]._id }),
+  ]);
 
-  // Create fixed Student
-  const student = new Student({
-    _id: fixedStudentId,
-    name: 'Anna Smith',
-    email: 'anna.smith@student.htw-berlin.de',
-    enrolledCourses: [fixedCourseId],
-  });
-  await student.save();
+  // Add enrolledCourses to students
+  for (const enrollment of enrollments) {
+    await Student.findByIdAndUpdate(enrollment.student, {
+      $push: { enrolledCourses: enrollment.course },
+    });
+    await Course.findByIdAndUpdate(enrollment.course, {
+      $push: { enrolledStudents: enrollment.student },
+    });
+  }
 
-  // Create fixed Course
-  const course = new Course({
-    _id: fixedCourseId,
-    title: 'Distributed Systems',
-    description: 'Basics of distributed systems',
-    professor: fixedProfId,
-    capacity: 30,
-    enrolledStudents: [fixedStudentId],
-  });
-  await course.save();
+  // --- Assignments ---
+  await Assignment.insertMany([
+    {
+      title: "HTML Portfolio Page",
+      description: "Create a personal website using HTML/CSS.",
+      course: courses[0]._id,
+      dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    },
+    {
+      title: "Distributed Chat App",
+      description: "Build a basic TCP-based chat app.",
+      course: courses[1]._id,
+      dueDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
+    },
+    {
+      title: "UX Case Study",
+      description: "Analyze and redesign a real-world app’s UI.",
+      course: courses[2]._id,
+      dueDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000),
+    },
+  ]);
 
-  // Create fixed Assignment
-const assignment = new Assignment({
-  _id: fixedAssignmentId,
-  title: 'HTML Basics Assignment',
-  description: 'Build a simple web page using HTML.',
-  course: fixedCourseId, 
-  dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // due in 7 days
-});
-await assignment.save();
+  // --- Mentors ---
+  const mentors = await Mentor.insertMany([
+    {
+      name: "Alex Novak",
+      email: "alex.novak@techmentor.com",
+      industry: "Frontend Engineering",
+      expertise: ["React", "Web Performance"],
+      bio: "10 years building frontend systems in Berlin startups",
+      availability: "part-time",
+      paymentRate: 80,
+    },
+    {
+      name: "Maria Ivanova",
+      email: "maria.ivanova@mlmentor.ai",
+      industry: "Machine Learning",
+      expertise: ["Python", "Scikit-learn", "TensorFlow"],
+      bio: "Former data scientist at Zalando",
+      availability: "flexible",
+      paymentRate: 100,
+    },
+    {
+      name: "Thomas Meier",
+      email: "thomas.meier@motiondesign.io",
+      industry: "3D & Motion",
+      expertise: ["Blender", "Cinema4D"],
+      bio: "Freelance motion designer for TV and games",
+      availability: "full-time",
+      paymentRate: 90,
+    },
+  ]);
 
+  // --- Certificates ---
+  await Certificate.insertMany([
+    {
+      student: students[0]._id,
+      course: courses[0]._id,
+      issuedAt: new Date(),
+    },
+    {
+      student: students[1]._id,
+      course: courses[1]._id,
+      issuedAt: new Date(),
+    },
+    {
+      student: students[2]._id,
+      course: courses[2]._id,
+      issuedAt: new Date(),
+    },
+  ]);
 
-//Create Certificate
-const certificate = new Certificate({
-  _id: fixedCertificateId,
-  student: fixedStudentId,
-  course: fixedCourseId,
-  issuedAt: new Date(),
-});
-  await certificate.save();
+  // --- Reviews ---
+  await Review.insertMany([
+    {
+      student: students[0]._id,
+      mentor: mentors[0]._id,
+      content: "Alex was super helpful with React hooks!",
+      rating: 5,
+    },
+    {
+      student: students[1]._id,
+      mentor: mentors[1]._id,
+      content: "Maria explained ML models clearly. Very useful.",
+      rating: 4,
+    },
+    {
+      student: students[2]._id,
+      mentor: mentors[2]._id,
+      content: "Thomas gave me awesome animation tips!",
+      rating: 5,
+    },
+  ]);
 
-// Create fixed Mentor
-const mentor = new Mentor({
-  _id: fixedMentorId,
-  name: 'Dr. Lisa Meier',
-  email: 'lisa.meier@industry-mentor.com',
-  industry: 'Software Architecture',
-  expertise: ['Software Architecture'],
-  bio: '20+ years architecting microservices',
-  availability: 'flexible',
-  paymentRate: 120
-});
-await mentor.save();
-
-//Create a Review
-const review = new Review({
-  _id: fixedReviewId,
-  student: fixedStudentId,
-  mentor: fixedMentorId, // ✅ This is now passed
-  content: 'Great mentorship and career advice!',
-  rating: 5
-});
-await review.save();
-
-  // Create enrollment linking student & course
-  await Enrollment.create({
-    student: fixedStudentId,
-    course: fixedCourseId,
-  });
-
-  console.log('Database seeded with fixed Professor, Student, and Course!');
+  console.log("Database seeded successfully!");
   process.exit(0);
 }
 
-
-seed().catch(err => {
-  console.error('Seed error:', err);
+seed().catch((err) => {
+  console.error("Seeding failed:", err);
   process.exit(1);
 });

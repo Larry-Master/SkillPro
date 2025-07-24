@@ -1,71 +1,66 @@
-const mongoose = require('mongoose');
-const connectDB = require('../../lib/db');
+import mongoose from "mongoose";
+import { MongoMemoryServer } from "mongodb-memory-server";
+import connectDB from "@/lib/db";
 
-// Mock mongoose so we can control its behavior in tests
-jest.mock('mongoose', () => {
-  const actualMongoose = jest.requireActual('mongoose');
-  return {
-    ...actualMongoose,
-    connect: jest.fn(), // mock connect method
-    connection: {
-      readyState: 0, // simulate disconnected state by default
-      on: jest.fn(),
-      once: jest.fn(),
-    },
-    Types: actualMongoose.Types, // keep actual Types for ObjectId, etc.
-  };
+let mongod;
+
+beforeAll(async () => {
+  mongod = await MongoMemoryServer.create();
+  process.env.MONGODB_URI = mongod.getUri();
 });
 
-describe('connectDB', () => {
-  beforeEach(() => {
-    mongoose.connection.readyState = 0; // reset connection state before each test
-    jest.clearAllMocks(); // clear call counts on mocks
+afterAll(async () => {
+  await mongoose.disconnect();
+  await mongod.stop();
+});
+
+afterEach(async () => {
+  await mongoose.disconnect();
+});
+
+describe("connectDB (integration)", () => {
+  it("returns early if mongoose is already connected", async () => {
+    await mongoose.connect(process.env.MONGODB_URI);
+    expect(mongoose.connection.readyState).toBe(1); // connected
+
+    const result = await connectDB();
+    expect(result).toBeUndefined(); // no new connection attempt
   });
 
-  afterEach(() => {
-    jest.restoreAllMocks(); // restore any spied methods (console, process, etc.)
-  });
+  it("connects if not already connected", async () => {
+    expect(mongoose.connection.readyState).toBe(0); // disconnected
 
-  it('returns early if mongoose is already connected', async () => {
-    mongoose.connection.readyState = 1; // simulate already connected
-
+    const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
     await connectDB();
 
-    // connect should NOT be called because we are already connected
-    expect(mongoose.connect).not.toHaveBeenCalled();
-  });
-
-  it('connects if not already connected', async () => {
-    mongoose.connect.mockResolvedValueOnce(); // mock successful connection
-    const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {}); // spy on console.log
-
-    await connectDB();
-
-    // make sure mongoose.connect was called with correct args
-    expect(mongoose.connect).toHaveBeenCalledWith(
-      expect.stringContaining('mongodb://'),
-      expect.objectContaining({
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      })
+    expect(mongoose.connection.readyState).toBe(1);
+    expect(consoleSpy).toHaveBeenCalledWith(
+      "✅ MongoDB connected to",
+      expect.any(String),
     );
-
-    // check that success message was logged
-    expect(consoleSpy).toHaveBeenCalledWith('✅ MongoDB connected');
+    consoleSpy.mockRestore();
   });
 
-  it('logs and exits on connection error', async () => {
-    const error = new Error('Connection failed');
-    mongoose.connect.mockRejectedValueOnce(error); // mock connection failure
+  it("throws error if no MongoDB URI provided", async () => {
+    delete process.env.MONGODB_URI;
+    delete process.env.ATLAS_MONGODB_URI;
 
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-    const exitSpy = jest.spyOn(process, 'exit').mockImplementation(() => {});
+    await expect(connectDB()).rejects.toThrow(
+      "No MongoDB URI provided to connectDB()",
+    );
+  });
+
+  it("logs and exits on connection error", async () => {
+    process.env.MONGODB_URI = "invalid://localhost:27017/fail";
+    const errorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+    const exitSpy = jest.spyOn(process, "exit").mockImplementation(() => {});
 
     await connectDB();
 
-    // check error was logged
-    expect(consoleSpy).toHaveBeenCalledWith('❌ MongoDB connection error:', error);
-    // check process.exit was called with 1 (failure)
+    expect(errorSpy).toHaveBeenCalled();
     expect(exitSpy).toHaveBeenCalledWith(1);
+
+    errorSpy.mockRestore();
+    exitSpy.mockRestore();
   });
 });

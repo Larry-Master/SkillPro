@@ -1,6 +1,6 @@
-import Head from 'next/head';
-import Link from 'next/link';
-import '@/styles/global.css';
+import Head from "next/head";
+import Link from "next/link";
+import "@/styles/global.css";
 
 export default function About() {
   return (
@@ -14,10 +14,12 @@ export default function About() {
       <main>
         <section>
           <p>
-            SkillPro is an intuitive learning platform designed to help users stay focused on their enrolled courses.
+            SkillPro is an intuitive learning platform designed to help users
+            stay focused on their enrolled courses.
           </p>
           <p>
-            We aim to make learning structured, accessible, and tailored to each user’s needs.
+            We aim to make learning structured, accessible, and tailored to each
+            user’s needs.
           </p>
         </section>
       </main>
