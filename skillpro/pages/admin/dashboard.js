@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
-import CreateCourse from "@/pages/admin/createCourse";
-import styles from "@/pages/admin/AdminDashboard.module.css";
+import CreateCourse from "./createCourse";
+import styles from "./AdminDashboard.module.css";
 
 import { Users, BookOpen, PlusCircle, Loader2, Trash2 } from "lucide-react";
 
