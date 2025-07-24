@@ -1,43 +1,46 @@
 # SkillPro – Learning Platform for Students
 
-**SkillPro** is a full-stack web application built with **Next.js**, designed to help students engage with learning content, manage course enrollment, and interact with professors. It uses **MongoDB** for data storage and supports robust testing and continuous integration workflows.
+[![Build Status](https://github.com/larry-master/skillpro/actions/workflows/test.yml/badge.svg)](https://github.com/larry-master/skillpro/actions/workflows/test.yml)
+[![Coverage Status](https://coveralls.io/repos/github/larry-master/skillpro/badge.svg?branch=main)](https://coveralls.io/github/larry-master/skillpro?branch=main)
 
-Live Version : https://skill-pro-tau.vercel.app
+**SkillPro** is a full-stack web application built with **Next.js**, designed to support student learning, course enrollment, and professor interaction. It uses **MongoDB Atlas** for cloud data storage and deploys via **Vercel** with CI/CD via **GitHub Actions**.
 
-To start the application using Docker use : docker-compose up --build
+**Live Application:** [https://skill-pro-tau.vercel.app](https://skill-pro-tau.vercel.app)
 
 ---
 
 ## Features
 
-### Core Platform Capabilities
-
+### Core Capabilities ⚙️
 - Students can browse and enroll in courses
 - Professors can create and manage courses
-- Courses include capacity limits and enrolled student tracking
-- Backend validation and database population using Mongoose models
+- Capacity limits and enrollment tracking per course
+- Backend data validation with **Mongoose**
 
-### Testing
-
-- Unit tests for Mongoose models and services
-- Middleware tested with Jest and spies
-- End-to-end tests of the REST API
-- `.bat` scripts for curl-based manual API testing
+### Testing & CI 🔍
+- Unit tests for models and services
+- Middleware tests using **Jest**
+- End-to-end API tests
 - Snapshot testing support
-- GitHub Actions integration for automated testing
+- Manual API testing scripts
+- GitHub Actions for automated CI/CD
 
-### Infrastructure
-
-- Docker support with MongoDB running on port `27018`
-- GitHub Actions for CI/CD test workflows
+### Infrastructure 🏗️
+- MongoDB Atlas cloud database
+- Vercel automatic deployments
+- Optional Docker support for local development
 
 ---
 
 ## Getting Started
 
-### Requirements
+### Prerequisites
+- [Node.js](https://nodejs.org/)
+- Docker (optional)
+- GitHub account (for deployment)
 
-- Node.js
-- Docker and Docker Compose
+### Clone the Repository
 
----
+```bash
+$ git clone https://github.com/Larry-Master/SkillPro.git
+$ cd skillpro
