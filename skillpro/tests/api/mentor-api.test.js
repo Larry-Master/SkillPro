@@ -1,12 +1,11 @@
-// tests/api/mentor-api.test.js
-const mongoose = require('mongoose');
-const { MongoMemoryServer } = require('mongodb-memory-server');
-const http = require('http');
-const supertest = require('supertest');
+import mongoose from 'mongoose';
+import { MongoMemoryServer } from 'mongodb-memory-server';
+import http from 'http';
+import supertest from 'supertest';
 
-const sessionsHandler = require('../../pages/api/mentors/[id]/sessions');
- const reviewsHandler  = require('../../pages/api/mentors/[id]/reviews');
- const Mentor         = require('../../models/Mentor');
+import sessionsHandler from '@/pages/api/mentors/[id]/sessions';
+import reviewsHandler from '@/pages/api/mentors/[id]/reviews';
+import Mentor from '@/models/Mentor';
 
 // bump timeout for all tests & hooks
 jest.setTimeout(30000);

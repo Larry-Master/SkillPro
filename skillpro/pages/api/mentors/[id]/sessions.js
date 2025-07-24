@@ -1,8 +1,7 @@
-// pages/api/mentors/[id]/sessions.js
-const { connectDB } = require('../../../../lib/db');
-const Mentor = require('../../../../models/Mentor');
+import connectDB from '@/lib/db';
+import Mentor from '@/models/Mentor';
 
-async function handler(req, res) {
+export default async function handler(req, res) {
   await connectDB();
   const { id } = req.query;
 
