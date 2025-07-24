@@ -14,33 +14,85 @@
 ### Core Capabilities ⚙️
 - Students can browse and enroll in courses
 - Professors can create and manage courses
+- Mentors can provide one-on-one sessions
+- Reviews and ratings system
+- Assignment submission and assessment
 - Capacity limits and enrollment tracking per course
-- Backend data validation with **Mongoose**
+- Certificate generation for completed courses
 
-### Testing & CI 🔍
+### Testing & Quality Assurance 🔍
+- 100% test coverage across all components
 - Unit tests for models and services
-- Middleware tests using **Jest**
-- End-to-end API tests
-- Snapshot testing support
-- Manual API testing scripts
-- GitHub Actions for automated CI/CD
+- Integration tests for API endpoints
+- End-to-end API testing
+- Jest snapshot testing
+- Automated test scripts
+- GitHub Actions for CI/CD
 
-### Infrastructure 🏗️
-- MongoDB Atlas cloud database
-- Vercel automatic deployments
-- Optional Docker support for local development
+### Technical Stack 🛠️
+- **Frontend**: Next.js, React
+- **Backend**: Node.js, Next.js API Routes
+- **Database**: MongoDB with Mongoose ODM
+- **Testing**: Jest, Supertest
+- **CI/CD**: GitHub Actions
+- **Deployment**: Vercel
+- **Container**: Docker support
 
 ---
 
 ## Getting Started
 
 ### Prerequisites
-- [Node.js](https://nodejs.org/)
+- Node.js v18 or higher
+- MongoDB (local or Atlas URI)
+- Git
+- npm or yarn
 - Docker (optional)
-- GitHub account (for deployment)
 
-### Clone the Repository
+### Installation
 
-```bash
-$ git clone https://github.com/Larry-Master/SkillPro.git
-$ cd skillpro
+1. Clone the repository:
+\`\`\`bash
+git clone https://github.com/Larry-Master/SkillPro.git
+cd skillpro
+\`\`\`
+
+Install dependencies:
+\`\`\`bash
+npm install
+\`\`\`
+
+### Running Tests
+
+Run all tests with coverage:
+\`\`\`bash
+npm test
+\`\`\`
+
+### Docker Support
+
+Build and run with Docker:
+\`\`\`bash
+docker-compose up --build
+\`\`\`
+
+---
+## Testing Strategy
+
+### Unit Tests
+- Model validation and methods
+- Utility functions
+- Component rendering
+
+### Integration Tests
+- API endpoints with 100% coverage
+- Database operations
+- Authentication flows
+
+### End-to-End Tests
+- User workflows
+- Form submissions
+- API integrations
+
+
+
