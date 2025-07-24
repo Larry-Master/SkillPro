@@ -1,7 +1,5 @@
 import Head from "next/head";
 import Link from "next/link";
-import "@/styles/global.css";
-
 export default function About() {
   return (
     <>
