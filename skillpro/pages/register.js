@@ -1,5 +1,4 @@
 import Head from "next/head";
-import "../styles/globals.css";
 
 export default function RegisterForm({ title = "Register" }) {
   return (

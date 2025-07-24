@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Link from "next/link";
-import "../styles/globals.css";
 
 export default function Dashboard() {
   return (
