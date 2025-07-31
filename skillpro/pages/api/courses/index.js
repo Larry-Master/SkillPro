@@ -4,16 +4,14 @@ const Student = require("@/models/Student");
 const Professor = require("@/models/Professor");
 const mongoose = require("mongoose");
 
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method === "GET") {
     try {
       await connectDB();
       const courses = await Course.find().populate("professor enrolledStudents");
-      // Ensure we always return an array
-      return res.status(200).json(Array.isArray(courses) ? courses : []);
+      return res.status(200).json(courses);
     } catch (dbError) {
       console.error("Database error:", dbError.message);
-      // Return empty array on error
       return res.status(200).json([]);
     }
   }
@@ -38,4 +36,4 @@ module.exports = async function handler(req, res) {
   }
 
   return res.status(405).json({ message: "Method Not Allowed" });
-};
+}
