@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
+import { BookOpen, User, Clock, GraduationCap, BookX } from "lucide-react";
 
 export default function EnrollPage() {
   const [courses, setCourses] = useState([]);
@@ -28,11 +29,26 @@ export default function EnrollPage() {
     return (
       <>
         <Head>
-          <title>Course Enrollment</title>
+          <title>Course Enrollment – SkillPro</title>
+          <meta charSet="UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <meta name="description" content="Enroll in courses to start your learning journey" />
         </Head>
+
+        <div className="page-header">
+          <h1 className="page-title">
+            <GraduationCap size={32} />
+            Course Enrollment
+          </h1>
+          <p className="page-subtitle">Choose a course to begin your learning journey</p>
+        </div>
+
         <main>
-          <h1>Welcome to the Enrollment Page!</h1>
-          <p>Loading courses...</p>
+          <div className="empty-state">
+            <div className="loading"></div>
+            <h3>Loading courses...</h3>
+            <p>Please wait while we fetch available courses</p>
+          </div>
         </main>
       </>
     );
@@ -41,36 +57,81 @@ export default function EnrollPage() {
   return (
     <>
       <Head>
-        <title>Course Enrollment</title>
+        <title>Course Enrollment – SkillPro</title>
+        <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="Enroll in courses to start your learning journey" />
       </Head>
+
+      <div className="page-header">
+        <h1 className="page-title">
+          <GraduationCap size={32} />
+          Course Enrollment
+        </h1>
+        <p className="page-subtitle">Choose a course to begin your learning journey</p>
+      </div>
+
       <main>
-        <h1>Welcome to the Enrollment Page!</h1>
-
-        <p>Choose which course to enroll:</p>
-
         {courses.length > 0 ? (
-          <ul>
+          <div className="courses-grid">
             {courses.map((course) => (
-              <li key={course._id}>
-                {course.title}{" "}
-                <button
-                  aria-label={`Enroll in ${course.title}`}
-                  onClick={() => enroll(course.title)}
-                >
-                  Enroll
-                </button>
-              </li>
+              <div key={course._id} className="course-card-modern">
+                <div className="course-header">
+                  <h3 className="course-title-modern" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <BookOpen size={20} />
+                    {course.title}
+                  </h3>
+                </div>
+                
+                {course.description && (
+                  <p className="course-description">{course.description}</p>
+                )}
+                
+                {course.instructor && (
+                  <p className="course-instructor" style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                    <User size={14} />
+                    Instructor: {course.instructor}
+                  </p>
+                )}
+                
+                <div className="course-footer">
+                  <div className="course-info">
+                    {course.level && (
+                      <span className="course-level">{course.level}</span>
+                    )}
+                    {course.duration && (
+                      <span className="course-duration">
+                        <Clock size={14} />
+                        {course.duration}
+                      </span>
+                    )}
+                  </div>
+                  <button
+                    className="enroll-btn"
+                    aria-label={`Enroll in ${course.title}`}
+                    onClick={() => enroll(course.title)}
+                  >
+                    Enroll Now
+                  </button>
+                </div>
+              </div>
             ))}
-          </ul>
+          </div>
         ) : (
-          <p>No courses available at the moment.</p>
+          <div className="empty-state">
+            <BookX size={48} />
+            <h3>No courses available</h3>
+            <p>Check back later for new courses!</p>
+          </div>
         )}
 
-        <p className="signature">
-          Signed,
-          <br />
-          HTW Berlin 🦄
-        </p>
+        <div className="page-footer">
+          <p className="signature">
+            Signed,
+            <br />
+            HTW Berlin 🦄
+          </p>
+        </div>
       </main>
     </>
   );
