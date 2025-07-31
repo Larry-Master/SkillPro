@@ -1,8 +1,41 @@
 import Head from "next/head";
+import { useEffect, useState } from "react";
 
-export default function EnrollPage({ courses = [] }) {
+export default function EnrollPage() {
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchCourses() {
+      try {
+        const res = await fetch("/api/courses");
+        const data = await res.json();
+        setCourses(data);
+      } catch (err) {
+        console.error("Error loading courses:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchCourses();
+  }, []);
+
   function enroll(courseTitle) {
     alert(`You have enrolled in ${courseTitle}!`);
+  }
+
+  if (loading) {
+    return (
+      <>
+        <Head>
+          <title>Course Enrollment</title>
+        </Head>
+        <main>
+          <h1>Welcome to the Enrollment Page!</h1>
+          <p>Loading courses...</p>
+        </main>
+      </>
+    );
   }
 
   return (
@@ -41,32 +74,4 @@ export default function EnrollPage({ courses = [] }) {
       </main>
     </>
   );
-}
-
-export async function getServerSideProps(context) {
-  try {
-    const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
-    const host = context.req.headers.host; // localhost:3000 or deployed domain
-    const baseUrl = `${protocol}://${host}`;
-
-    const res = await fetch(`${baseUrl}/api/courses`);
-    
-    if (!res.ok) {
-      console.error(`API returned ${res.status}`);
-      return {
-        props: { courses: [] },
-      };
-    }
-    
-    const courses = await res.json();
-
-    return {
-      props: { courses: courses || [] },
-    };
-  } catch (error) {
-    console.error("Error in getServerSideProps:", error);
-    return {
-      props: { courses: [] },
-    };
-  }
 }
