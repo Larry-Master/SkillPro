@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import CreateCourse from "@/pages/admin/createCourse";
-import StudentList from "@/pages/admin/StudentList";
-import CourseList from "@/pages/admin/CourseList";
-import EnrollForm from "@/pages/admin/EnrollForm";
 import styles from "@/pages/admin/AdminDashboard.module.css";
 
 import { Users, BookOpen, PlusCircle, Loader2, Trash2 } from "lucide-react";
@@ -24,10 +21,9 @@ export default function AdminDashboard() {
       try {
         const res = await fetch("/api/students");
         const data = await res.json();
-        setStudents(Array.isArray(data) ? data : []);
+        setStudents(data);
       } catch (err) {
         console.error("Error loading students:", err);
-        setStudents([]);
       } finally {
         setStudentsLoading(false);
       }
@@ -40,10 +36,9 @@ export default function AdminDashboard() {
       try {
         const res = await fetch("/api/courses");
         const data = await res.json();
-        setCourses(Array.isArray(data) ? data : []);
+        setCourses(data);
       } catch (err) {
         console.error("Error loading courses:", err);
-        setCourses([]);
       } finally {
         setCoursesLoading(false);
       }
@@ -101,46 +96,122 @@ export default function AdminDashboard() {
     <>
       <Head>
         <title>Admin Dashboard</title>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
       </Head>
       <main className={styles.container}>
         <h1 className={styles.title}>
-          <Users size={28} style={{ marginRight: "12px" }} />
+          <Users size={24} style={{ marginRight: "8px" }} />
           Admin Dashboard
         </h1>
+
         <div className={styles.sectionsWrapper}>
           {/* Students Section */}
-          <StudentList 
-            students={students} 
-            loading={studentsLoading} 
-            onDelete={handleDelete}
-          />
+          <section className={styles.section}>
+            <h2>
+              <Users size={18} /> Students
+            </h2>
+            {studentsLoading ? (
+              <p>
+                <Loader2 /> Loading students...
+              </p>
+            ) : (
+              <>
+                <p>{students.length} total</p>
+                <ul className={styles.scrollableList}>
+                  {students.map((s) => (
+                    <li key={s._id} className={styles.listItem}>
+                      {s.name}
+                      <button
+                        onClick={() => handleDelete(s._id, "Student")}
+                        className={styles.button}
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </section>
 
           {/* Courses Section */}
-          <CourseList 
-            courses={courses} 
-            loading={coursesLoading} 
-            onDelete={handleDelete}
-          />
+          <section className={styles.section}>
+            <h2>
+              <BookOpen size={18} /> Courses
+            </h2>
+            {coursesLoading ? (
+              <p>
+                <Loader2 /> Loading courses...
+              </p>
+            ) : (
+              <>
+                <p>{courses.length} total</p>
+                <ul className={styles.scrollableList}>
+                  {courses.map((c) => (
+                    <li key={c._id} className={styles.listItem}>
+                      {c.title}
+                      <button
+                        onClick={() => handleDelete(c._id, "Course")}
+                        className={styles.button}
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </section>
 
           {/* CreateCourse component */}
           <section className={styles.section}>
-            <CreateCourse onCourseCreated={newCourse => setCourses(prev => [newCourse, ...prev])} />
+            <CreateCourse
+              onCourseCreated={(newCourse) =>
+                setCourses((prev) => [newCourse, ...prev])
+              }
+            />
           </section>
 
           {/* Enroll Section */}
-          <EnrollForm
-            students={students}
-            courses={courses}
-            studentsLoading={studentsLoading}
-            coursesLoading={coursesLoading}
-            selectedStudent={selectedStudent}
-            setSelectedStudent={setSelectedStudent}
-            selectedCourse={selectedCourse}
-            setSelectedCourse={setSelectedCourse}
-            enrollLoading={enrollLoading}
-            handleEnroll={handleEnroll}
-          />
+          <section className={styles.section}>
+            <h2>
+              <PlusCircle size={18} /> Enroll
+            </h2>
+            <select
+              className={styles.select}
+              value={selectedStudent}
+              onChange={(e) => setSelectedStudent(e.target.value)}
+              disabled={studentsLoading}
+            >
+              <option value="">Select Student</option>
+              {students.map((s) => (
+                <option key={s._id} value={s._id}>
+                  {s.name}
+                </option>
+              ))}
+            </select>
+
+            <select
+              className={styles.select}
+              value={selectedCourse}
+              onChange={(e) => setSelectedCourse(e.target.value)}
+              disabled={coursesLoading}
+            >
+              <option value="">Select Course</option>
+              {courses.map((c) => (
+                <option key={c._id} value={c._id}>
+                  {c.title}
+                </option>
+              ))}
+            </select>
+
+            <button
+              onClick={handleEnroll}
+              disabled={enrollLoading || studentsLoading || coursesLoading}
+              className={styles.enrollButton}
+            >
+              {enrollLoading ? "Enrolling..." : "Enroll"}
+            </button>
+          </section>
         </div>
       </main>
     </>
