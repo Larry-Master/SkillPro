@@ -1,7 +1,7 @@
 import { Trash2, BookOpen, Loader2 } from "lucide-react";
 import styles from "./AdminDashboard.module.css";
 
-export default function CourseList({ courses, loading, onDelete }) {
+export default function CourseList({ courses = [], loading, onDelete }) {
   return (
     <section className={styles.section}>
       <h2 style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 700, fontSize: '1.2rem', marginBottom: 12 }}>
