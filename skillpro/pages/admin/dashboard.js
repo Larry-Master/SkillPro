@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import CreateCourse from "@/pages/admin/createCourse";
+import StudentList from "@/pages/admin/StudentList";
+import CourseList from "@/pages/admin/CourseList";
+import EnrollForm from "@/pages/admin/EnrollForm";
 import styles from "@/pages/admin/AdminDashboard.module.css";
 
 import { Users, BookOpen, PlusCircle, Loader2, Trash2 } from "lucide-react";
@@ -105,64 +108,10 @@ export default function AdminDashboard() {
         </h1>
         <div className={styles.sectionsWrapper}>
           {/* Students Section */}
-          <section className={styles.section}>
-            <h2 style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 700, fontSize: '1.2rem', marginBottom: 12 }}>
-              <Users size={20} /> Students
-            </h2>
-            {studentsLoading ? (
-              <p style={{ color: '#4f8cff', fontWeight: 600 }}>
-                <Loader2 className="animate-spin" /> Loading students...
-              </p>
-            ) : (
-              <>
-                <p style={{ color: '#6b7280', fontSize: '0.98rem', marginBottom: 8 }}>{students.length} total</p>
-                <ul className={styles.scrollableList}>
-                  {students.map((s) => (
-                    <li key={s._id} className={styles.listItem}>
-                      <span style={{ fontWeight: 600 }}>{s.name}</span>
-                      <button
-                        onClick={() => handleDelete(s._id, "Student")}
-                        className={styles.button}
-                        title="Delete Student"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )}
-          </section>
+          <StudentList students={students} loading={studentsLoading} onDelete={handleDelete} />
 
           {/* Courses Section */}
-          <section className={styles.section}>
-            <h2 style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 700, fontSize: '1.2rem', marginBottom: 12 }}>
-              <BookOpen size={20} /> Courses
-            </h2>
-            {coursesLoading ? (
-              <p style={{ color: '#4f8cff', fontWeight: 600 }}>
-                <Loader2 className="animate-spin" /> Loading courses...
-              </p>
-            ) : (
-              <>
-                <p style={{ color: '#6b7280', fontSize: '0.98rem', marginBottom: 8 }}>{courses.length} total</p>
-                <ul className={styles.scrollableList}>
-                  {courses.map((c) => (
-                    <li key={c._id} className={styles.listItem}>
-                      <span style={{ fontWeight: 600 }}>{c.title}</span>
-                      <button
-                        onClick={() => handleDelete(c._id, "Course")}
-                        className={styles.button}
-                        title="Delete Course"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )}
-          </section>
+          <CourseList courses={courses} loading={coursesLoading} onDelete={handleDelete} />
 
           {/* CreateCourse component */}
           <section className={styles.section}>
@@ -170,46 +119,18 @@ export default function AdminDashboard() {
           </section>
 
           {/* Enroll Section */}
-          <section className={styles.section}>
-            <h2 style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 700, fontSize: '1.2rem', marginBottom: 12 }}>
-              <PlusCircle size={20} /> Enroll
-            </h2>
-            <select
-              className={styles.select}
-              value={selectedStudent}
-              onChange={(e) => setSelectedStudent(e.target.value)}
-              disabled={studentsLoading}
-            >
-              <option value="">Select Student</option>
-              {students.map((s) => (
-                <option key={s._id} value={s._id}>
-                  {s.name}
-                </option>
-              ))}
-            </select>
-
-            <select
-              className={styles.select}
-              value={selectedCourse}
-              onChange={(e) => setSelectedCourse(e.target.value)}
-              disabled={coursesLoading}
-            >
-              <option value="">Select Course</option>
-              {courses.map((c) => (
-                <option key={c._id} value={c._id}>
-                  {c.title}
-                </option>
-              ))}
-            </select>
-
-            <button
-              onClick={handleEnroll}
-              disabled={enrollLoading || studentsLoading || coursesLoading}
-              className={styles.enrollButton}
-            >
-              {enrollLoading ? "Enrolling..." : "Enroll"}
-            </button>
-          </section>
+          <EnrollForm
+            students={students}
+            courses={courses}
+            studentsLoading={studentsLoading}
+            coursesLoading={coursesLoading}
+            selectedStudent={selectedStudent}
+            setSelectedStudent={setSelectedStudent}
+            selectedCourse={selectedCourse}
+            setSelectedCourse={setSelectedCourse}
+            enrollLoading={enrollLoading}
+            handleEnroll={handleEnroll}
+          />
         </div>
       </main>
     </>
