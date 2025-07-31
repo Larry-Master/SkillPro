@@ -1,40 +1,72 @@
 import Head from "next/head";
+import { BookOpen, Users, Clock } from "lucide-react";
 
-export default function EnrollPage({ courses }) {
+export default function EnrollPage({ courses = [] }) {
   function enroll(courseTitle) {
-    alert(`You have enrolled in ${courseTitle}!`);
+    alert(`You have successfully enrolled in ${courseTitle}!`);
   }
 
   return (
     <>
       <Head>
-        <title>Course Enrollment</title>
+        <title>Course Enrollment - SkillPro</title>
+        <meta name="description" content="Browse and enroll in available courses" />
       </Head>
-      <main>
-        <h1>Welcome to the Enrollment Page!</h1>
+      
+      <div className="page-header">
+        <h1 className="page-title">
+          <BookOpen size={32} />
+          Available Courses
+        </h1>
+        <p className="page-subtitle">Discover and enroll in courses that match your learning goals</p>
+      </div>
 
-        <p>Choose which course to enroll:</p>
+      <div className="courses-grid">
+        {courses.length === 0 ? (
+          <div className="empty-state fade-in">
+            <BookOpen size={64} />
+            <h3>No courses available</h3>
+            <p>Check back later for new courses</p>
+          </div>
+        ) : (
+          courses.map((course, index) => (
+            <div key={course._id} className={`course-card-modern hover-lift stagger-item`} style={{animationDelay: `${index * 0.1}s`}}>
+              <div className="course-header">
+                <h3 className="course-title-modern">{course.title}</h3>
+                <span className="course-meta">
+                  <Users size={16} />
+                  {course.capacity || 'Unlimited'} spots
+                </span>
+              </div>
+              
+              {course.description && (
+                <p className="course-description">{course.description}</p>
+              )}
+              
+              <div className="course-footer">
+                <div className="course-info">
+                  <span className="course-level">Beginner</span>
+                  <span className="course-duration">
+                    <Clock size={14} />
+                    4-6 weeks
+                  </span>
+                </div>
+                <button
+                  className="enroll-btn focus-ring"
+                  aria-label={`Enroll in ${course.title}`}
+                  onClick={() => enroll(course.title)}
+                >
+                  Enroll Now
+                </button>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
 
-        <ul>
-          {courses.map((course) => (
-            <li key={course._id}>
-              {course.title}{" "}
-              <button
-                aria-label={`Enroll in ${course.title}`}
-                onClick={() => enroll(course.title)}
-              >
-                Enroll
-              </button>
-            </li>
-          ))}
-        </ul>
-
-        <p className="signature">
-          Signed,
-          <br />
-          HTW Berlin 🦄
-        </p>
-      </main>
+      <div className="page-footer-note">
+        <p>Need help choosing a course? <a href="/about">Contact our advisors</a></p>
+      </div>
     </>
   );
 }

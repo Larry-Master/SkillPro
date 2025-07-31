@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { LogIn, User, Lock } from "lucide-react";
 
 export default function LoginPage() {
   const title = "Login";
@@ -6,37 +7,56 @@ export default function LoginPage() {
   return (
     <>
       <Head>
-        <title>{title}</title>
+        <title>{title} - SkillPro</title>
+        <meta name="description" content="Login to your SkillPro account" />
       </Head>
+      
       <div className="login-container">
-        <h1>{title}</h1>
-        <p className="subtext">Welcome back! Please login to your account!</p>
+        <div className="login-header">
+          <LogIn size={32} />
+          <h1>{title}</h1>
+          <p className="subtext">Welcome back! Please login to your account</p>
+        </div>
 
-        <form method="POST" action="/login">
-          <label htmlFor="email">Username / Email</label>
-          <input
-            type="text"
-            id="email"
-            name="email"
-            placeholder="Enter your email or username"
-            required
-          />
+        <form method="POST" action="/login" className="login-form">
+          <div className="form-group">
+            <label htmlFor="email" className="form-label">
+              <User size={16} />
+              Username / Email
+            </label>
+            <input
+              type="text"
+              id="email"
+              name="email"
+              className="form-input"
+              placeholder="Enter your email or username"
+              required
+            />
+          </div>
 
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Enter your password"
-            required
-          />
+          <div className="form-group">
+            <label htmlFor="password" className="form-label">
+              <Lock size={16} />
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              className="form-input"
+              placeholder="Enter your password"
+              required
+            />
+          </div>
 
-          <button type="submit">Login</button>
+          <button type="submit" className="btn btn-primary btn-lg">
+            Login to SkillPro
+          </button>
 
-          <div className="extra-links">
-            <a href="#">Forgot Password?</a>
-            <span> | </span>
-            <a href="/register">New User? Signup</a>
+          <div className="form-footer">
+            <a href="#" className="link-muted">Forgot Password?</a>
+            <span className="separator">•</span>
+            <a href="/register" className="link-primary">New User? Sign Up</a>
           </div>
         </form>
       </div>

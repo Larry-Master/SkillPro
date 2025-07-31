@@ -1,0 +1,128 @@
+/* Header Styles */
+.main-header {
+  background: var(--primary);
+  color: white;
+  box-shadow: var(--shadow-md);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-md) var(--spacing-lg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: white !important;
+  text-decoration: none !important;
+  letter-spacing: -1px;
+}
+
+.main-nav {
+  display: flex;
+  gap: var(--spacing-lg);
+  align-items: center;
+}
+
+.main-nav a {
+  color: white !important;
+  font-weight: 600;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.main-nav a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+/* Page Container */
+.page-container {
+  min-height: calc(100vh - 200px);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-lg);
+}
+
+/* Page Headers */
+.page-header {
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+  padding: var(--spacing-xl) 0;
+}
+
+.page-title {
+  font-size: var(--font-size-3xl);
+  font-weight: 900;
+  color: var(--primary);
+  margin-bottom: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+}
+
+.page-subtitle {
+  font-size: var(--font-size-lg);
+  color: var(--text-light);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Footer */
+.main-footer {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  color: white;
+  text-align: center;
+  padding: var(--spacing-xl) var(--spacing-lg);
+  margin-top: var(--spacing-2xl);
+}
+
+.main-footer p {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  opacity: 0.9;
+}
+
+/* Page Footer Notes */
+.page-footer-note {
+  text-align: center;
+  margin-top: var(--spacing-2xl);
+  padding: var(--spacing-lg);
+  background: var(--background-glass);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    gap: var(--spacing-md);
+    padding: var(--spacing-sm);
+  }
+  
+  .main-nav {
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .page-container {
+    padding: var(--spacing-sm);
+  }
+  
+  .page-title {
+    font-size: var(--font-size-2xl);
+    flex-direction: column;
+  }
+}
