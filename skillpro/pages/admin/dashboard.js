@@ -11,6 +11,8 @@ import { Users, BookOpen, PlusCircle, Loader2, Trash2 } from "lucide-react";
 export default function AdminDashboard() {
   const [students, setStudents] = useState([]);
   const [courses, setCourses] = useState([]);
+  const [studentsError, setStudentsError] = useState("");
+  const [coursesError, setCoursesError] = useState("");
 
   const [studentsLoading, setStudentsLoading] = useState(true);
   const [coursesLoading, setCoursesLoading] = useState(true);
@@ -19,33 +21,47 @@ export default function AdminDashboard() {
   const [selectedCourse, setSelectedCourse] = useState("");
   const [enrollLoading, setEnrollLoading] = useState(false);
 
-  useEffect(() => {
-    async function fetchStudents() {
-      try {
-        const res = await fetch("/api/students");
-        const data = await res.json();
-        setStudents(data);
-      } catch (err) {
-        console.error("Error loading students:", err);
-      } finally {
-        setStudentsLoading(false);
+  const fetchStudents = async () => {
+    setStudentsLoading(true);
+    try {
+      const res = await fetch("/api/students");
+      if (!res.ok) {
+        throw new Error(`Failed to fetch students: ${res.status} ${res.statusText}`);
       }
+      const data = await res.json();
+      setStudents(data);
+      setStudentsError("");
+    } catch (err) {
+      console.error("Error loading students:", err);
+      setStudentsError(err.message || "Failed to load students");
+    } finally {
+      setStudentsLoading(false);
     }
+  };
+
+  const fetchCourses = async () => {
+    setCoursesLoading(true);
+    try {
+      const res = await fetch("/api/courses");
+      if (!res.ok) {
+        throw new Error(`Failed to fetch courses: ${res.status} ${res.statusText}`);
+      }
+      const data = await res.json();
+      setCourses(data);
+      setCoursesError("");
+    } catch (err) {
+      console.error("Error loading courses:", err);
+      setCoursesError(err.message || "Failed to load courses");
+    } finally {
+      setCoursesLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchStudents();
   }, []);
 
   useEffect(() => {
-    async function fetchCourses() {
-      try {
-        const res = await fetch("/api/courses");
-        const data = await res.json();
-        setCourses(data);
-      } catch (err) {
-        console.error("Error loading courses:", err);
-      } finally {
-        setCoursesLoading(false);
-      }
-    }
     fetchCourses();
   }, []);
 
@@ -108,10 +124,22 @@ export default function AdminDashboard() {
         </h1>
         <div className={styles.sectionsWrapper}>
           {/* Students Section */}
-          <StudentList students={students} loading={studentsLoading} onDelete={handleDelete} />
+          <StudentList 
+            students={students} 
+            loading={studentsLoading} 
+            error={studentsError} 
+            onDelete={handleDelete}
+            onRefresh={fetchStudents}
+          />
 
           {/* Courses Section */}
-          <CourseList courses={courses} loading={coursesLoading} onDelete={handleDelete} />
+          <CourseList 
+            courses={courses} 
+            loading={coursesLoading} 
+            error={coursesError} 
+            onDelete={handleDelete}
+            onRefresh={fetchCourses}
+          />
 
           {/* CreateCourse component */}
           <section className={styles.section}>
@@ -124,6 +152,8 @@ export default function AdminDashboard() {
             courses={courses}
             studentsLoading={studentsLoading}
             coursesLoading={coursesLoading}
+            studentsError={studentsError}
+            coursesError={coursesError}
             selectedStudent={selectedStudent}
             setSelectedStudent={setSelectedStudent}
             selectedCourse={selectedCourse}

@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { BookOpen, Users, Clock } from "lucide-react";
 
-export default function EnrollPage({ courses = [] }) {
+export default function EnrollPage({ courses = [], error }) {
   function enroll(courseTitle) {
     alert(`You have successfully enrolled in ${courseTitle}!`);
   }
@@ -21,12 +21,32 @@ export default function EnrollPage({ courses = [] }) {
         <p className="page-subtitle">Discover and enroll in courses that match your learning goals</p>
       </div>
 
+      {error && (
+        <div className="error-message" style={{ 
+          backgroundColor: '#fef2f2', 
+          border: '1px solid #fecaca', 
+          color: '#dc2626', 
+          padding: '1rem', 
+          borderRadius: '0.5rem', 
+          marginBottom: '1.5rem',
+          textAlign: 'center'
+        }}>
+          <p>{error}</p>
+        </div>
+      )}
+
       <div className="courses-grid">
-        {courses.length === 0 ? (
+        {courses.length === 0 && !error ? (
           <div className="empty-state fade-in">
             <BookOpen size={64} />
             <h3>No courses available</h3>
-            <p>Check back later for new courses</p>
+            <p>Check back later for new courses or contact an administrator</p>
+          </div>
+        ) : courses.length === 0 && error ? (
+          <div className="empty-state fade-in">
+            <BookOpen size={64} />
+            <h3>Unable to load courses</h3>
+            <p>Please refresh the page or try again later</p>
           </div>
         ) : (
           courses.map((course, index) => (
@@ -95,7 +115,10 @@ export async function getServerSideProps(context) {
     if (!res.ok) {
       console.error(`Failed to fetch courses: ${res.status} ${res.statusText}`);
       return {
-        props: { courses: [] },
+        props: { 
+          courses: [],
+          error: `Failed to load courses: ${res.status} ${res.statusText}`
+        },
       };
     }
     
@@ -107,7 +130,10 @@ export async function getServerSideProps(context) {
   } catch (error) {
     console.error("Error fetching courses:", error);
     return {
-      props: { courses: [] },
+      props: { 
+        courses: [],
+        error: "Unable to connect to the database. Please try again later."
+      },
     };
   }
 }
