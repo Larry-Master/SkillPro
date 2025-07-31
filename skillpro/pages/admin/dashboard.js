@@ -25,15 +25,27 @@ export default function AdminDashboard() {
     setStudentsLoading(true);
     try {
       const res = await fetch("/api/students");
-      if (!res.ok) {
-        throw new Error(`Failed to fetch students: ${res.status} ${res.statusText}`);
+      
+      // Check if response is ok
+      if (res.ok) {
+        const data = await res.json();
+        setStudents(data || []);
+        setStudentsError("");
+      } else {
+        // Try to get error message from response
+        let errorMessage = `HTTP ${res.status}`;
+        try {
+          const errorData = await res.json();
+          errorMessage = errorData.error || errorData.message || errorMessage;
+        } catch (e) {
+          // If we can't parse JSON, just use status
+        }
+        throw new Error(errorMessage);
       }
-      const data = await res.json();
-      setStudents(data);
-      setStudentsError("");
     } catch (err) {
       console.error("Error loading students:", err);
       setStudentsError(err.message || "Failed to load students");
+      setStudents([]); // Ensure we have an empty array
     } finally {
       setStudentsLoading(false);
     }
@@ -43,15 +55,27 @@ export default function AdminDashboard() {
     setCoursesLoading(true);
     try {
       const res = await fetch("/api/courses");
-      if (!res.ok) {
-        throw new Error(`Failed to fetch courses: ${res.status} ${res.statusText}`);
+      
+      // Check if response is ok
+      if (res.ok) {
+        const data = await res.json();
+        setCourses(data || []);
+        setCoursesError("");
+      } else {
+        // Try to get error message from response
+        let errorMessage = `HTTP ${res.status}`;
+        try {
+          const errorData = await res.json();
+          errorMessage = errorData.error || errorData.message || errorMessage;
+        } catch (e) {
+          // If we can't parse JSON, just use status
+        }
+        throw new Error(errorMessage);
       }
-      const data = await res.json();
-      setCourses(data);
-      setCoursesError("");
     } catch (err) {
       console.error("Error loading courses:", err);
       setCoursesError(err.message || "Failed to load courses");
+      setCourses([]); // Ensure we have an empty array
     } finally {
       setCoursesLoading(false);
     }

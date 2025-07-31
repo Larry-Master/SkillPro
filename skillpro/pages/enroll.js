@@ -112,27 +112,36 @@ export async function getServerSideProps(context) {
 
     const res = await fetch(`${baseUrl}/api/courses`);
     
-    if (!res.ok) {
+    // Handle response more gracefully
+    if (res.ok) {
+      const courses = await res.json();
+      return {
+        props: { courses: courses || [] },
+      };
+    } else {
       console.error(`Failed to fetch courses: ${res.status} ${res.statusText}`);
+      // Try to get error details
+      let errorMessage = `HTTP ${res.status}`;
+      try {
+        const errorData = await res.json();
+        errorMessage = errorData.error || errorData.message || errorMessage;
+      } catch (e) {
+        // If we can't parse error, just use status
+      }
+      
       return {
         props: { 
           courses: [],
-          error: `Failed to load courses: ${res.status} ${res.statusText}`
+          error: `Failed to load courses: ${errorMessage}`
         },
       };
     }
-    
-    const courses = await res.json();
-
-    return {
-      props: { courses: courses || [] },
-    };
   } catch (error) {
     console.error("Error fetching courses:", error);
     return {
       props: { 
         courses: [],
-        error: "Unable to connect to the database. Please try again later."
+        error: "Unable to connect to the server. Please try again later."
       },
     };
   }

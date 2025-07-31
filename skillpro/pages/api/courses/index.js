@@ -10,7 +10,8 @@ module.exports = async function handler(req, res) {
       try {
         await connectDB();
         const courses = await Course.find().populate("professor enrolledStudents");
-        return res.status(200).json(courses);
+        // Always return an array, even if empty
+        return res.status(200).json(courses || []);
       } catch (dbError) {
         console.error("Database error:", dbError.message);
         return res.status(500).json({ error: "Failed to fetch courses from database" });
@@ -19,6 +20,7 @@ module.exports = async function handler(req, res) {
 
   if (req.method === "POST") {
     try {
+      await connectDB();
       const { _id, title, description, professor, capacity } = req.body;
 
       const courseData = { title, description, capacity };
