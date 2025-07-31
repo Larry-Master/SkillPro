@@ -14,7 +14,8 @@ module.exports = async function handler(req, res) {
         return res.status(200).json(courses || []);
       } catch (dbError) {
         console.error("Database error:", dbError.message);
-        return res.status(500).json({ error: "Failed to fetch courses from database" });
+        // Return empty array instead of error object to prevent frontend crashes
+        return res.status(200).json([]);
       }
     }
 
