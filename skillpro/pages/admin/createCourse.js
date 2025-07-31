@@ -3,9 +3,7 @@ import styles from "@/pages/admin/CreateCourse.module.css";
 import { PlusCircle } from "lucide-react";
 
 export default function CreateCourse({
-  onCourseCreated,
-  courses = [],
-  students = [],
+  onCourseCreated
 }) {
   const [professors, setProfessors] = useState([]);
   const [title, setTitle] = useState("");
@@ -59,8 +57,8 @@ export default function CreateCourse({
   }
 
   return (
-    <div className="section">
-      <h2 className="sectionTitle">
+    <div className={styles.section}>
+      <h2 style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 700, fontSize: '1.2rem', marginBottom: 12 }}>
         <PlusCircle size={18} /> Create New Course
       </h2>
 
