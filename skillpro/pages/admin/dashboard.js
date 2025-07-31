@@ -96,33 +96,34 @@ export default function AdminDashboard() {
     <>
       <Head>
         <title>Admin Dashboard</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
       </Head>
       <main className={styles.container}>
         <h1 className={styles.title}>
-          <Users size={24} style={{ marginRight: "8px" }} />
+          <Users size={28} style={{ marginRight: "12px" }} />
           Admin Dashboard
         </h1>
-
         <div className={styles.sectionsWrapper}>
           {/* Students Section */}
           <section className={styles.section}>
-            <h2>
-              <Users size={18} /> Students
+            <h2 style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 700, fontSize: '1.2rem', marginBottom: 12 }}>
+              <Users size={20} /> Students
             </h2>
             {studentsLoading ? (
-              <p>
-                <Loader2 /> Loading students...
+              <p style={{ color: '#4f8cff', fontWeight: 600 }}>
+                <Loader2 className="animate-spin" /> Loading students...
               </p>
             ) : (
               <>
-                <p>{students.length} total</p>
+                <p style={{ color: '#6b7280', fontSize: '0.98rem', marginBottom: 8 }}>{students.length} total</p>
                 <ul className={styles.scrollableList}>
                   {students.map((s) => (
                     <li key={s._id} className={styles.listItem}>
-                      {s.name}
+                      <span style={{ fontWeight: 600 }}>{s.name}</span>
                       <button
                         onClick={() => handleDelete(s._id, "Student")}
                         className={styles.button}
+                        title="Delete Student"
                       >
                         <Trash2 size={16} />
                       </button>
@@ -135,23 +136,24 @@ export default function AdminDashboard() {
 
           {/* Courses Section */}
           <section className={styles.section}>
-            <h2>
-              <BookOpen size={18} /> Courses
+            <h2 style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 700, fontSize: '1.2rem', marginBottom: 12 }}>
+              <BookOpen size={20} /> Courses
             </h2>
             {coursesLoading ? (
-              <p>
-                <Loader2 /> Loading courses...
+              <p style={{ color: '#4f8cff', fontWeight: 600 }}>
+                <Loader2 className="animate-spin" /> Loading courses...
               </p>
             ) : (
               <>
-                <p>{courses.length} total</p>
+                <p style={{ color: '#6b7280', fontSize: '0.98rem', marginBottom: 8 }}>{courses.length} total</p>
                 <ul className={styles.scrollableList}>
                   {courses.map((c) => (
                     <li key={c._id} className={styles.listItem}>
-                      {c.title}
+                      <span style={{ fontWeight: 600 }}>{c.title}</span>
                       <button
                         onClick={() => handleDelete(c._id, "Course")}
                         className={styles.button}
+                        title="Delete Course"
                       >
                         <Trash2 size={16} />
                       </button>
@@ -164,6 +166,9 @@ export default function AdminDashboard() {
 
           {/* CreateCourse component */}
           <section className={styles.section}>
+            <h2 style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 700, fontSize: '1.2rem', marginBottom: 12 }}>
+              <PlusCircle size={20} /> Create Course
+            </h2>
             <CreateCourse
               onCourseCreated={(newCourse) =>
                 setCourses((prev) => [newCourse, ...prev])
@@ -173,8 +178,8 @@ export default function AdminDashboard() {
 
           {/* Enroll Section */}
           <section className={styles.section}>
-            <h2>
-              <PlusCircle size={18} /> Enroll
+            <h2 style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 700, fontSize: '1.2rem', marginBottom: 12 }}>
+              <PlusCircle size={20} /> Enroll
             </h2>
             <select
               className={styles.select}
