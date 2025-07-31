@@ -93,6 +93,19 @@
   line-height: 1.5;
 }
 
+.course-instructor {
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--spacing-sm);
+  font-style: italic;
+}
+
+.course-enrolled {
+  color: var(--success);
+  font-weight: 500;
+  font-size: var(--font-size-sm);
+}
+
 .course-footer {
   display: flex;
   justify-content: space-between;

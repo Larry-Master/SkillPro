@@ -43,13 +43,26 @@ export default function EnrollPage({ courses = [] }) {
                 <p className="course-description">{course.description}</p>
               )}
               
+              {course.professor && (
+                <p className="course-instructor">
+                  👨‍🏫 Instructor: {course.professor.name || course.professor}
+                </p>
+              )}
+              
               <div className="course-footer">
                 <div className="course-info">
-                  <span className="course-level">Beginner</span>
+                  <span className="course-level">
+                    {course.level || 'Beginner'}
+                  </span>
                   <span className="course-duration">
                     <Clock size={14} />
-                    4-6 weeks
+                    {course.duration || '4-6 weeks'}
                   </span>
+                  {course.enrolledStudents && (
+                    <span className="course-enrolled">
+                      👥 {course.enrolledStudents.length} enrolled
+                    </span>
+                  )}
                 </div>
                 <button
                   className="enroll-btn focus-ring"
