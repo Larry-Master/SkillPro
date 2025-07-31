@@ -11,8 +11,6 @@ import { Users, BookOpen, PlusCircle, Loader2, Trash2 } from "lucide-react";
 export default function AdminDashboard() {
   const [students, setStudents] = useState([]);
   const [courses, setCourses] = useState([]);
-  const [studentsError, setStudentsError] = useState("");
-  const [coursesError, setCoursesError] = useState("");
 
   const [studentsLoading, setStudentsLoading] = useState(true);
   const [coursesLoading, setCoursesLoading] = useState(true);
@@ -21,71 +19,35 @@ export default function AdminDashboard() {
   const [selectedCourse, setSelectedCourse] = useState("");
   const [enrollLoading, setEnrollLoading] = useState(false);
 
-  const fetchStudents = async () => {
-    setStudentsLoading(true);
-    try {
-      const res = await fetch("/api/students");
-      
-      // Check if response is ok
-      if (res.ok) {
+  useEffect(() => {
+    async function fetchStudents() {
+      try {
+        const res = await fetch("/api/students");
         const data = await res.json();
         setStudents(data || []);
-        setStudentsError("");
-      } else {
-        // Try to get error message from response
-        let errorMessage = `HTTP ${res.status}`;
-        try {
-          const errorData = await res.json();
-          errorMessage = errorData.error || errorData.message || errorMessage;
-        } catch (e) {
-          // If we can't parse JSON, just use status
-        }
-        throw new Error(errorMessage);
+      } catch (err) {
+        console.error("Error loading students:", err);
+        setStudents([]);
+      } finally {
+        setStudentsLoading(false);
       }
-    } catch (err) {
-      console.error("Error loading students:", err);
-      setStudentsError(err.message || "Failed to load students");
-      setStudents([]); // Ensure we have an empty array
-    } finally {
-      setStudentsLoading(false);
     }
-  };
-
-  const fetchCourses = async () => {
-    setCoursesLoading(true);
-    try {
-      const res = await fetch("/api/courses");
-      
-      // Check if response is ok
-      if (res.ok) {
-        const data = await res.json();
-        setCourses(data || []);
-        setCoursesError("");
-      } else {
-        // Try to get error message from response
-        let errorMessage = `HTTP ${res.status}`;
-        try {
-          const errorData = await res.json();
-          errorMessage = errorData.error || errorData.message || errorMessage;
-        } catch (e) {
-          // If we can't parse JSON, just use status
-        }
-        throw new Error(errorMessage);
-      }
-    } catch (err) {
-      console.error("Error loading courses:", err);
-      setCoursesError(err.message || "Failed to load courses");
-      setCourses([]); // Ensure we have an empty array
-    } finally {
-      setCoursesLoading(false);
-    }
-  };
-
-  useEffect(() => {
     fetchStudents();
   }, []);
 
   useEffect(() => {
+    async function fetchCourses() {
+      try {
+        const res = await fetch("/api/courses");
+        const data = await res.json();
+        setCourses(data || []);
+      } catch (err) {
+        console.error("Error loading courses:", err);
+        setCourses([]);
+      } finally {
+        setCoursesLoading(false);
+      }
+    }
     fetchCourses();
   }, []);
 
@@ -151,18 +113,14 @@ export default function AdminDashboard() {
           <StudentList 
             students={students} 
             loading={studentsLoading} 
-            error={studentsError} 
             onDelete={handleDelete}
-            onRefresh={fetchStudents}
           />
 
           {/* Courses Section */}
           <CourseList 
             courses={courses} 
             loading={coursesLoading} 
-            error={coursesError} 
             onDelete={handleDelete}
-            onRefresh={fetchCourses}
           />
 
           {/* CreateCourse component */}
@@ -176,8 +134,6 @@ export default function AdminDashboard() {
             courses={courses}
             studentsLoading={studentsLoading}
             coursesLoading={coursesLoading}
-            studentsError={studentsError}
-            coursesError={coursesError}
             selectedStudent={selectedStudent}
             setSelectedStudent={setSelectedStudent}
             selectedCourse={selectedCourse}

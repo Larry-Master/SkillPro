@@ -1,9 +1,9 @@
 import Head from "next/head";
 import { BookOpen, Users, Clock } from "lucide-react";
 
-export default function EnrollPage({ courses = [], error }) {
+export default function EnrollPage({ courses = [] }) {
   function enroll(courseTitle) {
-    alert(`You have successfully enrolled in ${courseTitle}!`);
+    alert(`You have enrolled in ${courseTitle}!`);
   }
 
   return (
@@ -21,32 +21,12 @@ export default function EnrollPage({ courses = [], error }) {
         <p className="page-subtitle">Discover and enroll in courses that match your learning goals</p>
       </div>
 
-      {error && (
-        <div className="error-message" style={{ 
-          backgroundColor: '#fef2f2', 
-          border: '1px solid #fecaca', 
-          color: '#dc2626', 
-          padding: '1rem', 
-          borderRadius: '0.5rem', 
-          marginBottom: '1.5rem',
-          textAlign: 'center'
-        }}>
-          <p>{error}</p>
-        </div>
-      )}
-
       <div className="courses-grid">
-        {courses.length === 0 && !error ? (
+        {courses.length === 0 ? (
           <div className="empty-state fade-in">
             <BookOpen size={64} />
             <h3>No courses available</h3>
-            <p>Check back later for new courses or contact an administrator</p>
-          </div>
-        ) : courses.length === 0 && error ? (
-          <div className="empty-state fade-in">
-            <BookOpen size={64} />
-            <h3>Unable to load courses</h3>
-            <p>Please refresh the page or try again later</p>
+            <p>Check back later for new courses</p>
           </div>
         ) : (
           courses.map((course, index) => (
@@ -105,44 +85,14 @@ export default function EnrollPage({ courses = [], error }) {
 }
 
 export async function getServerSideProps(context) {
-  try {
-    const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
-    const host = context.req.headers.host; // localhost:3000 or deployed domain
-    const baseUrl = `${protocol}://${host}`;
+  const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
+  const host = context.req.headers.host; // localhost:3000 or deployed domain
+  const baseUrl = `${protocol}://${host}`;
 
-    const res = await fetch(`${baseUrl}/api/courses`);
-    
-    // Handle response more gracefully
-    if (res.ok) {
-      const courses = await res.json();
-      return {
-        props: { courses: courses || [] },
-      };
-    } else {
-      console.error(`Failed to fetch courses: ${res.status} ${res.statusText}`);
-      // Try to get error details
-      let errorMessage = `HTTP ${res.status}`;
-      try {
-        const errorData = await res.json();
-        errorMessage = errorData.error || errorData.message || errorMessage;
-      } catch (e) {
-        // If we can't parse error, just use status
-      }
-      
-      return {
-        props: { 
-          courses: [],
-          error: `Failed to load courses: ${errorMessage}`
-        },
-      };
-    }
-  } catch (error) {
-    console.error("Error fetching courses:", error);
-    return {
-      props: { 
-        courses: [],
-        error: "Unable to connect to the server. Please try again later."
-      },
-    };
-  }
+  const res = await fetch(`${baseUrl}/api/courses`);
+  const courses = await res.json();
+
+  return {
+    props: { courses: courses || [] },
+  };
 }
