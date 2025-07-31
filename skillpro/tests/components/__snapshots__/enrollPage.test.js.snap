@@ -2,38 +2,241 @@
 
 exports[`EnrollPage component renders correctly and matches snapshot 1`] = `
 <DocumentFragment>
-  <main>
-    <h1>
-      Welcome to the Enrollment Page!
+  <div
+    class="page-header"
+  >
+    <h1
+      class="page-title"
+    >
+      <svg
+        aria-hidden="true"
+        class="lucide lucide-book-open"
+        fill="none"
+        height="32"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="32"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M12 7v14"
+        />
+        <path
+          d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"
+        />
+      </svg>
+      Available Courses
     </h1>
-    <p>
-      Choose which course to enroll:
+    <p
+      class="page-subtitle"
+    >
+      Discover and enroll in courses that match your learning goals
     </p>
-    <ul>
-      <li>
-        Math 101 
+  </div>
+  <div
+    class="courses-grid"
+  >
+    <div
+      class="course-card-modern hover-lift stagger-item"
+      style="animation-delay: 0s;"
+    >
+      <div
+        class="course-header"
+      >
+        <h3
+          class="course-title-modern"
+        >
+          Math 101
+        </h3>
+        <span
+          class="course-meta"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-users"
+            fill="none"
+            height="16"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="16"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
+            />
+            <path
+              d="M16 3.128a4 4 0 0 1 0 7.744"
+            />
+            <path
+              d="M22 21v-2a4 4 0 0 0-3-3.87"
+            />
+            <circle
+              cx="9"
+              cy="7"
+              r="4"
+            />
+          </svg>
+          Unlimited spots
+        </span>
+      </div>
+      <div
+        class="course-footer"
+      >
+        <div
+          class="course-info"
+        >
+          <span
+            class="course-level"
+          >
+            Beginner
+          </span>
+          <span
+            class="course-duration"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-clock"
+              fill="none"
+              height="14"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="14"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 6v6l4 2"
+              />
+              <circle
+                cx="12"
+                cy="12"
+                r="10"
+              />
+            </svg>
+            4-6 weeks
+          </span>
+        </div>
         <button
           aria-label="Enroll in Math 101"
+          class="enroll-btn focus-ring"
         >
-          Enroll
+          Enroll Now
         </button>
-      </li>
-      <li>
-        History 202 
+      </div>
+    </div>
+    <div
+      class="course-card-modern hover-lift stagger-item"
+      style="animation-delay: 0.1s;"
+    >
+      <div
+        class="course-header"
+      >
+        <h3
+          class="course-title-modern"
+        >
+          History 202
+        </h3>
+        <span
+          class="course-meta"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-users"
+            fill="none"
+            height="16"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="16"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
+            />
+            <path
+              d="M16 3.128a4 4 0 0 1 0 7.744"
+            />
+            <path
+              d="M22 21v-2a4 4 0 0 0-3-3.87"
+            />
+            <circle
+              cx="9"
+              cy="7"
+              r="4"
+            />
+          </svg>
+          Unlimited spots
+        </span>
+      </div>
+      <div
+        class="course-footer"
+      >
+        <div
+          class="course-info"
+        >
+          <span
+            class="course-level"
+          >
+            Beginner
+          </span>
+          <span
+            class="course-duration"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-clock"
+              fill="none"
+              height="14"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="14"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 6v6l4 2"
+              />
+              <circle
+                cx="12"
+                cy="12"
+                r="10"
+              />
+            </svg>
+            4-6 weeks
+          </span>
+        </div>
         <button
           aria-label="Enroll in History 202"
+          class="enroll-btn focus-ring"
         >
-          Enroll
+          Enroll Now
         </button>
-      </li>
-    </ul>
-    <p
-      class="signature"
-    >
-      Signed,
-      <br />
-      HTW Berlin 🦄
+      </div>
+    </div>
+  </div>
+  <div
+    class="page-footer-note"
+  >
+    <p>
+      Need help choosing a course? 
+      <a
+        href="/about"
+      >
+        Contact our advisors
+      </a>
     </p>
-  </main>
+  </div>
 </DocumentFragment>
 `;

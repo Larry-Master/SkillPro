@@ -1,15 +1,17 @@
-import connectDB from "@/lib/db";
-import Course from "@/models/Course";
-import Student from "@/models/Student";
-import Professor from "@/models/Professor";
+const connectDB = require("@/lib/db");
+const Course = require("@/models/Course");
+const Student = require("@/models/Student");
+const Professor = require("@/models/Professor");
+const mongoose = require("mongoose");
 
-export default async function handler(req, res) {
-  await connectDB();
+module.exports = async function handler(req, res) {
+  try {
+    await connectDB();
 
-  if (req.method === "GET") {
-    const courses = await Course.find().populate("professor enrolledStudents");
-    return res.status(200).json(courses);
-  }
+    if (req.method === "GET") {
+      const courses = await Course.find().populate("professor enrolledStudents");
+      return res.status(200).json(courses);
+    }
 
   if (req.method === "POST") {
     try {
@@ -31,4 +33,8 @@ export default async function handler(req, res) {
   }
 
   return res.status(405).json({ message: "Method Not Allowed" });
-}
+  } catch (error) {
+    console.error("API error:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};

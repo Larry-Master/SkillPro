@@ -72,14 +72,29 @@ export default function EnrollPage({ courses = [] }) {
 }
 
 export async function getServerSideProps(context) {
-  const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
-  const host = context.req.headers.host; // localhost:3000 or deployed domain
-  const baseUrl = `${protocol}://${host}`;
+  try {
+    const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
+    const host = context.req.headers.host; // localhost:3000 or deployed domain
+    const baseUrl = `${protocol}://${host}`;
 
-  const res = await fetch(`${baseUrl}/api/courses`);
-  const courses = await res.json();
+    const res = await fetch(`${baseUrl}/api/courses`);
+    
+    if (!res.ok) {
+      console.error(`Failed to fetch courses: ${res.status} ${res.statusText}`);
+      return {
+        props: { courses: [] },
+      };
+    }
+    
+    const courses = await res.json();
 
-  return {
-    props: { courses },
-  };
+    return {
+      props: { courses: courses || [] },
+    };
+  } catch (error) {
+    console.error("Error fetching courses:", error);
+    return {
+      props: { courses: [] },
+    };
+  }
 }
