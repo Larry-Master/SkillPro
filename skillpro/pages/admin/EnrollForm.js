@@ -2,8 +2,8 @@ import { PlusCircle } from "lucide-react";
 import styles from "./AdminDashboard.module.css";
 
 export default function EnrollForm({
-  students,
-  courses,
+  students = [],
+  courses = [],
   studentsLoading,
   coursesLoading,
   selectedStudent,
