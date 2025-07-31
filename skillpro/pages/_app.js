@@ -1,24 +1,29 @@
 import "@/styles/globals.css";
+import Link from "next/link";
 
 export default function MyApp({ Component, pageProps }) {
   return (
     <>
-      <header>
-        <h1>SkillPro - Your personal Learning Platform</h1>
-        <nav>
-          <a href="/">Home</a>
-          <a href="/about">About</a>
-          <a href="/dashboard">Dashboard</a>
-          <a href="/login">Login</a>
-          <a href="/register">Register</a>
-          <a href="/enroll">View Courses</a>
-          <a href="/admin/dashboard">Admin Dashboard</a>
-        </nav>
+      <header className="main-header">
+        <div className="header-content">
+          <Link href="/" className="logo">SkillPro</Link>
+          <nav className="main-nav">
+            <Link href="/">Home</Link>
+            <Link href="/about">About</Link>
+            <Link href="/dashboard">Dashboard</Link>
+            <Link href="/enroll">Courses</Link>
+            <Link href="/login">Login</Link>
+            <Link href="/register">Register</Link>
+            <Link href="/admin/dashboard">Admin</Link>
+          </nav>
+        </div>
       </header>
-
-      <main>
+      <div className="page-container">
         <Component {...pageProps} />
-      </main>
+      </div>
+      <footer className="main-footer">
+        <p>&copy; 2025 SkillPro. Learn. Grow. Succeed.</p>
+      </footer>
     </>
   );
 }
