@@ -166,14 +166,7 @@ export default function AdminDashboard() {
 
           {/* CreateCourse component */}
           <section className={styles.section}>
-            <h2 style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 700, fontSize: '1.2rem', marginBottom: 12 }}>
-              <PlusCircle size={20} /> Create Course
-            </h2>
-            <CreateCourse
-              onCourseCreated={(newCourse) =>
-                setCourses((prev) => [newCourse, ...prev])
-              }
-            />
+            <CreateCourse onCourseCreated={newCourse => setCourses(prev => [newCourse, ...prev])} />
           </section>
 
           {/* Enroll Section */}
