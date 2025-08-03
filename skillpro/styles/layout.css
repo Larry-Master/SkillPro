@@ -363,7 +363,8 @@ main button:hover {
   }
 }
 
-/* Page Header Styles */
+/* Page Header Styles - DEPRECATED: Use Page.module.css instead */
+/* Keeping for backward compatibility with non-modular components */
 .page-header {
   text-align: center;
   margin-bottom: var(--space-10);

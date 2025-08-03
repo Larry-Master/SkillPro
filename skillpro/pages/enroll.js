@@ -1,6 +1,8 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { BookOpen, Users, Clock, Star, ArrowRight, Loader2 } from "lucide-react";
+import courseStyles from "@/styles/Course.module.css";
+import pageStyles from "@/styles/Page.module.css";
 
 export default function EnrollPage() {
   const [courses, setCourses] = useState([]);
@@ -34,15 +36,15 @@ export default function EnrollPage() {
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <meta name="description" content="Browse and enroll in available courses" />
         </Head>
-        <div className="page-header">
-          <h1 className="page-title">
+        <div className={pageStyles.pageHeader}>
+          <h1 className={pageStyles.pageTitle}>
             <BookOpen size={32} />
             Course Enrollment
           </h1>
-          <p className="page-subtitle">Discover your next learning adventure</p>
+          <p className={pageStyles.pageSubtitle}>Discover your next learning adventure</p>
         </div>
-        <div className="loading-container">
-          <Loader2 size={32} className="loading-spinner" />
+        <div className={pageStyles.loadingContainer}>
+          <Loader2 size={32} className={pageStyles.loadingSpinner} />
           <p>Loading available courses...</p>
         </div>
       </>
@@ -58,36 +60,36 @@ export default function EnrollPage() {
         <meta name="description" content="Browse and enroll in available courses" />
       </Head>
       
-      <div className="page-header">
-        <h1 className="page-title">
+      <div className={pageStyles.pageHeader}>
+        <h1 className={pageStyles.pageTitle}>
           <BookOpen size={32} />
           Course Enrollment
         </h1>
-        <p className="page-subtitle">Discover your next learning adventure</p>
+        <p className={pageStyles.pageSubtitle}>Discover your next learning adventure</p>
       </div>
 
       {courses.length > 0 ? (
-        <div className="courses-grid">
+        <div className={courseStyles.coursesGrid}>
           {courses.map((course) => (
-            <div key={course._id} className="course-card-modern">
-              <div className="course-header">
-                <h3 className="course-title-modern">{course.title}</h3>
-                <span className="course-level">Beginner</span>
+            <div key={course._id} className={courseStyles.courseCardModern}>
+              <div className={courseStyles.courseHeader}>
+                <h3 className={courseStyles.courseTitleModern}>{course.title}</h3>
+                <span className={courseStyles.courseLevel}>Beginner</span>
               </div>
-              <p className="course-description">
+              <p className={courseStyles.courseDescription}>
                 {course.description || "Expand your skills with this comprehensive course"}
               </p>
-              <div className="course-footer">
-                <div className="course-info">
-                  <span className="course-duration">
+              <div className={courseStyles.courseFooter}>
+                <div className={courseStyles.courseInfo}>
+                  <span className={courseStyles.courseDuration}>
                     <Clock size={14} />
                     6 weeks
                   </span>
-                  <span className="course-students">
+                  <span className={courseStyles.courseStudents}>
                     <Users size={14} />
                     {course.enrolledStudents?.length || 0} enrolled
                   </span>
-                  <span className="course-rating">
+                  <span className={courseStyles.courseRating}>
                     <Star size={14} />
                     4.8
                   </span>
@@ -105,7 +107,7 @@ export default function EnrollPage() {
           ))}
         </div>
       ) : (
-        <div className="empty-state">
+        <div className={pageStyles.emptyState}>
           <BookOpen size={48} />
           <h3>No courses available</h3>
           <p>Check back soon for new learning opportunities!</p>

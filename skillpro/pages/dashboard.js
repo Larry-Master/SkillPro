@@ -1,6 +1,9 @@
 import Head from "next/head";
 import Link from "next/link";
 import { BookOpen, TrendingUp, Award, ArrowRight, User, Clock } from "lucide-react";
+import styles from "@/styles/Dashboard.module.css";
+import courseStyles from "@/styles/Course.module.css";
+import pageStyles from "@/styles/Page.module.css";
 
 export default function Dashboard() {
   return (
@@ -12,53 +15,53 @@ export default function Dashboard() {
         <meta name="description" content="Your personal learning dashboard" />
       </Head>
 
-      <div className="page-header">
-        <h1 className="page-title">
+      <div className={pageStyles.pageHeader}>
+        <h1 className={pageStyles.pageTitle}>
           <User size={32} />
           My Dashboard
         </h1>
-        <p className="page-subtitle">Track your learning progress and continue your journey</p>
+        <p className={pageStyles.pageSubtitle}>Track your learning progress and continue your journey</p>
       </div>
 
-      <div className="stats-grid">
-        <div className="stat-card">
-          <div className="stat-number">3</div>
-          <div className="stat-label">Active Courses</div>
+      <div className={styles.statsGrid}>
+        <div className={styles.statCard}>
+          <div className={styles.statNumber}>3</div>
+          <div className={styles.statLabel}>Active Courses</div>
         </div>
-        <div className="stat-card">
-          <div className="stat-number">68%</div>
-          <div className="stat-label">Avg. Progress</div>
+        <div className={styles.statCard}>
+          <div className={styles.statNumber}>68%</div>
+          <div className={styles.statLabel}>Avg. Progress</div>
         </div>
-        <div className="stat-card">
-          <div className="stat-number">24</div>
-          <div className="stat-label">Hours Learned</div>
+        <div className={styles.statCard}>
+          <div className={styles.statNumber}>24</div>
+          <div className={styles.statLabel}>Hours Learned</div>
         </div>
-        <div className="stat-card">
-          <div className="stat-number">1</div>
-          <div className="stat-label">Completed</div>
+        <div className={styles.statCard}>
+          <div className={styles.statNumber}>1</div>
+          <div className={styles.statLabel}>Completed</div>
         </div>
       </div>
 
-      <div className="dashboard-section">
-        <h2>
+      <div className={styles.dashboardSection}>
+        <h2 className={styles.sectionTitle}>
           <BookOpen size={24} />
           My Courses
         </h2>
 
-        <div className="courses-grid">
-          <div className="course-card-modern">
-            <div className="course-header">
-              <h3 className="course-title-modern">📘 Intro to Web Development</h3>
-              <span className="course-level">Beginner</span>
+        <div className={courseStyles.coursesGrid}>
+          <div className={courseStyles.courseCardModern}>
+            <div className={courseStyles.courseHeader}>
+              <h3 className={courseStyles.courseTitleModern}>📘 Intro to Web Development</h3>
+              <span className={courseStyles.courseLevel}>Beginner</span>
             </div>
-            <p className="course-description">Continue from Module 3: CSS Basics</p>
-            <div className="course-footer">
-              <div className="course-info">
-                <span className="course-duration">
+            <p className={courseStyles.courseDescription}>Continue from Module 3: CSS Basics</p>
+            <div className={courseStyles.courseFooter}>
+              <div className={courseStyles.courseInfo}>
+                <span className={courseStyles.courseDuration}>
                   <Clock size={14} />
                   6 weeks
                 </span>
-                <span className="course-meta">
+                <span className={styles.courseMeta}>
                   <TrendingUp size={14} />
                   40% complete
                 </span>
@@ -68,24 +71,24 @@ export default function Dashboard() {
                 <ArrowRight size={16} />
               </Link>
             </div>
-            <div className="progress-bar">
+            <div className={styles.progressBar}>
               <span style={{ width: "40%" }}></span>
             </div>
           </div>
 
-          <div className="course-card-modern">
-            <div className="course-header">
-              <h3 className="course-title-modern">📙 JavaScript Essentials</h3>
-              <span className="course-level">Intermediate</span>
+          <div className={courseStyles.courseCardModern}>
+            <div className={courseStyles.courseHeader}>
+              <h3 className={courseStyles.courseTitleModern}>📙 JavaScript Essentials</h3>
+              <span className={courseStyles.courseLevel}>Intermediate</span>
             </div>
-            <p className="course-description">Next lesson: Functions and Scope</p>
-            <div className="course-footer">
-              <div className="course-info">
-                <span className="course-duration">
+            <p className={courseStyles.courseDescription}>Next lesson: Functions and Scope</p>
+            <div className={courseStyles.courseFooter}>
+              <div className={courseStyles.courseInfo}>
+                <span className={courseStyles.courseDuration}>
                   <Clock size={14} />
                   8 weeks
                 </span>
-                <span className="course-meta">
+                <span className={styles.courseMeta}>
                   <TrendingUp size={14} />
                   65% complete
                 </span>
@@ -95,24 +98,24 @@ export default function Dashboard() {
                 <ArrowRight size={16} />
               </Link>
             </div>
-            <div className="progress-bar">
+            <div className={styles.progressBar}>
               <span style={{ width: "65%" }}></span>
             </div>
           </div>
 
-          <div className="course-card-modern">
-            <div className="course-header">
-              <h3 className="course-title-modern">🎨 UI/UX Fundamentals</h3>
-              <span className="course-level">Advanced</span>
+          <div className={`${courseStyles.courseCardModern} ${courseStyles.completed}`}>
+            <div className={courseStyles.courseHeader}>
+              <h3 className={courseStyles.courseTitleModern}>🎨 UI/UX Fundamentals</h3>
+              <span className={courseStyles.courseLevel}>Advanced</span>
             </div>
-            <p className="course-description">Recently Completed: User Research Techniques</p>
-            <div className="course-footer">
-              <div className="course-info">
-                <span className="course-duration">
+            <p className={courseStyles.courseDescription}>Recently Completed: User Research Techniques</p>
+            <div className={courseStyles.courseFooter}>
+              <div className={courseStyles.courseInfo}>
+                <span className={courseStyles.courseDuration}>
                   <Clock size={14} />
                   10 weeks
                 </span>
-                <span className="course-meta">
+                <span className={styles.courseMeta}>
                   <Award size={14} />
                   Completed!
                 </span>
@@ -122,13 +125,13 @@ export default function Dashboard() {
                 <Award size={16} />
               </Link>
             </div>
-            <div className="progress-bar">
+            <div className={styles.progressBar}>
               <span style={{ width: "100%" }}></span>
             </div>
           </div>
         </div>
 
-        <div className="page-footer-note">
+        <div className={styles.pageFooterNote}>
           <p>
             <Link href="/enroll" className="btn btn-primary">
               <BookOpen size={18} />
