@@ -1,5 +1,5 @@
 import { Trash2, BookOpen, Loader2 } from "lucide-react";
-import styles from "./AdminDashboard.module.css";
+import styles from "@/styles/AdminDashboard.module.css";
 
 export default function CourseList({ courses = [], loading, onDelete }) {
   return (

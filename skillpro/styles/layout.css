@@ -193,6 +193,28 @@ main button:hover {
   box-shadow: var(--shadow-xl);
 }
 
+.hero-graphic {
+  position: absolute;
+  top: 50%;
+  right: var(--space-8);
+  transform: translateY(-50%);
+  opacity: 0.1;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero-graphic img {
+  width: 300px;
+  height: 300px;
+  object-fit: contain;
+}
+
+@media (max-width: 1024px) {
+  .hero-graphic {
+    display: none;
+  }
+}
+
 /* Login/Register Forms */
 .login-container {
   max-width: 500px;

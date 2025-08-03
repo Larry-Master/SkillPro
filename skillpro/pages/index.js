@@ -72,10 +72,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
-      <footer className="home-footer">
-        <p>&copy; 2025 SkillPro. Learn. Grow. Succeed.</p>
-      </footer>
     </>
   );
 }

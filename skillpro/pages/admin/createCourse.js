@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import styles from "@/pages/admin/CreateCourse.module.css";
+import styles from "@/styles/CreateCourse.module.css";
 import { PlusCircle } from "lucide-react";
 
 export default function CreateCourse({

@@ -21,6 +21,9 @@ export default function MyApp({ Component, pageProps }) {
       <div className="page-container">
         <Component {...pageProps} />
       </div>
+      <footer className="main-footer">
+        <p>&copy; 2025 SkillPro. Learn. Grow. Succeed.</p>
+      </footer>
     </>
   );
 }
