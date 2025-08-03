@@ -52,7 +52,7 @@
 /* Page Layout */
 .page-container {
   min-height: calc(100vh - 8rem);
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
   padding: var(--space-8) var(--space-4);
 }
