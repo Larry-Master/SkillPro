@@ -28,6 +28,11 @@
   font-weight: 800;
   color: var(--primary);
   text-decoration: none;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  flex-shrink: 0;
 }
 
 .main-nav {
