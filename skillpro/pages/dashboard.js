@@ -63,7 +63,7 @@ export default function Dashboard() {
                   40% complete
                 </span>
               </div>
-              <Link href="#" className="btn btn-primary btn-sm">
+              <Link href="/courses/web-development" className="btn btn-primary btn-sm">
                 Continue
                 <ArrowRight size={16} />
               </Link>
@@ -90,7 +90,7 @@ export default function Dashboard() {
                   65% complete
                 </span>
               </div>
-              <Link href="#" className="btn btn-primary btn-sm">
+              <Link href="/courses/javascript-essentials" className="btn btn-primary btn-sm">
                 Continue
                 <ArrowRight size={16} />
               </Link>
@@ -117,7 +117,7 @@ export default function Dashboard() {
                   Completed!
                 </span>
               </div>
-              <Link href="#" className="btn btn-secondary btn-sm">
+              <Link href="/certificates/python-programming" className="btn btn-secondary btn-sm">
                 View Certificate
                 <Award size={16} />
               </Link>

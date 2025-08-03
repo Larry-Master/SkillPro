@@ -230,3 +230,76 @@
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
+
+/* Form States & Validation */
+.form-input.error {
+  border-color: var(--error);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.form-input.success {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.error-message {
+  color: var(--error);
+  font-size: 0.875rem;
+  margin-top: var(--space-1);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.success-message {
+  color: var(--accent);
+  font-size: 0.875rem;
+  margin-top: var(--space-1);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+/* Loading States */
+.btn.loading {
+  position: relative;
+  color: transparent;
+}
+
+.btn.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  color: var(--text-inverse);
+}
+
+/* Enhanced Card Variants */
+.card-glass {
+  background: var(--surface-glass);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.card-featured {
+  border: 2px solid var(--primary);
+  box-shadow: var(--shadow-lg);
+  position: relative;
+}
+
+.card-featured::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+}
