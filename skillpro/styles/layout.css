@@ -135,7 +135,6 @@ main button:hover {
   position: relative;
   overflow: hidden;
   width: 100vw;
-  margin-left: calc(-50vw + 50%);
   padding: var(--space-8);
   box-sizing: border-box;
 }
