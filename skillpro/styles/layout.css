@@ -146,6 +146,7 @@ main button:hover {
   z-index: 10;
   position: relative;
   text-align: left;
+  grid-column: 1;
 }
 
 .hero-title {
@@ -224,6 +225,7 @@ main button:hover {
   align-items: center;
   position: relative;
   z-index: 2;
+  grid-column: 2;
 }
 
 .hero-graphic img {
