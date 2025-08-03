@@ -137,9 +137,7 @@ main button:hover {
   color: var(--text-inverse);
   position: relative;
   overflow: hidden;
-  width: 100vw;
-  margin-left: -50vw;
-  left: 50%;
+  width: 100%;
   padding: var(--space-8);
   box-sizing: border-box;
 }
