@@ -125,7 +125,7 @@ main button:hover {
   color: var(--text-inverse);
   position: relative;
   overflow: hidden;
-  width: 100vh;
+  width: 100%;
   padding: var(--space-8);
   box-sizing: border-box;
 }
