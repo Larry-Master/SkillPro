@@ -24,11 +24,13 @@ jobs:
 
       - run: npm test
 
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+      - name: Coveralls
+        uses: coverallsapp/github-action@v2
         with:
-          files: ./skillpro/coverage/lcov.info
-          fail_ci_if_error: true
+          path-to-lcov: ./skillpro/coverage/lcov.info
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+
 
   build:
     needs: test
