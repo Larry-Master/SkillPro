@@ -137,7 +137,8 @@ main button:hover {
   color: var(--text-inverse);
   position: relative;
   overflow: hidden;
-  width: 100%;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
   padding: var(--space-8);
   box-sizing: border-box;
 }
@@ -248,8 +249,7 @@ main button:hover {
     text-align: center;
     gap: var(--space-6);
     width: 100vw;
-    margin-left: -50vw;
-    left: 50%;
+    margin-left: calc(-50vw + 50%);
     padding: var(--space-6);
   }
   
@@ -275,8 +275,7 @@ main button:hover {
   .home-hero {
     min-height: 60vh;
     width: 100vw;
-    margin-left: -50vw;
-    left: 50%;
+    margin-left: calc(-50vw + 50%);
     padding: var(--space-6);
   }
   
@@ -746,7 +745,9 @@ main button:hover {
   padding: var(--space-12) var(--space-4);
   background: var(--bg-primary);
   border-radius: var(--radius-xl);
-  margin: var(--space-8) calc(-1 * var(--space-4));
+  margin: var(--space-8) 0;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
 }
 
 .features-grid {
