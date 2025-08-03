@@ -1,4 +1,4 @@
-/* Modern SkillPro Design System */
+/* Core Design System - Tokens & Base Styles */
 
 /* Design Tokens */
 :root {
@@ -88,15 +88,6 @@ body {
 }
 
 /* Typography Scale */
-.text-xs { font-size: 0.75rem; line-height: 1rem; }
-.text-sm { font-size: 0.875rem; line-height: 1.25rem; }
-.text-base { font-size: 1rem; line-height: 1.5rem; }
-.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
-.text-xl { font-size: 1.25rem; line-height: 1.75rem; }
-.text-2xl { font-size: 1.5rem; line-height: 2rem; }
-.text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
-.text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
-
 h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   line-height: 1.2;
@@ -106,10 +97,9 @@ h1, h2, h3, h4, h5, h6 {
 h1 { font-size: 2.25rem; margin-bottom: var(--space-6); }
 h2 { font-size: 1.875rem; margin-bottom: var(--space-5); }
 h3 { font-size: 1.5rem; margin-bottom: var(--space-4); }
-
 p { margin-bottom: var(--space-4); }
 
-/* Layout Components */
+/* Layout Containers */
 .container {
   width: 100%;
   max-width: 1200px;
@@ -122,7 +112,7 @@ p { margin-bottom: var(--space-4); }
 .container-lg { max-width: 1024px; }
 .container-xl { max-width: 1280px; }
 
-/* Course-specific styles */
+/* Course-specific Base Styles */
 .courses-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -178,16 +168,6 @@ p { margin-bottom: var(--space-4); }
   line-height: 1.6;
 }
 
-.course-meta {
-  display: flex;
-  align-items: center;
-  gap: var(--space-4);
-  margin-bottom: var(--space-4);
-  font-size: 0.875rem;
-  color: var(--text-muted);
-}
-
-/* Enroll button specific styling */
 .enroll-btn {
   width: 100%;
   background: var(--primary);
@@ -208,11 +188,6 @@ p { margin-bottom: var(--space-4); }
   box-shadow: var(--shadow-lg);
 }
 
-.enroll-btn:active {
-  transform: translateY(0);
-}
-
-/* Signature styling */
 .signature {
   text-align: center;
   margin-top: var(--space-12);
@@ -222,41 +197,21 @@ p { margin-bottom: var(--space-4); }
   border-top: 1px solid var(--border-light);
 }
 
-/* Loading state */
-.loading-state {
-  text-align: center;
-  padding: var(--space-12);
-  color: var(--text-secondary);
-}
-
-/* Focus styles for accessibility */
+/* Accessibility & Selection */
 *:focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
 
-/* Selection styles */
 ::selection {
   background: var(--primary-light);
   color: var(--text-inverse);
 }
 
-/* Scroll behavior */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Print styles */
-@media print {
-  .header,
-  .footer,
-  .btn,
-  button {
-    display: none !important;
-  }
-  
-  body {
-    background: white !important;
-    color: black !important;
+/* Basic Responsive */
+@media (max-width: 768px) {
+  h1 { font-size: 2rem; }
+  .courses-grid {
+    grid-template-columns: 1fr;
   }
 }

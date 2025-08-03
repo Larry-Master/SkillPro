@@ -73,7 +73,3 @@
   transform: none;
   box-shadow: none;
 }
-
-.button:hover:not(:disabled) {
-  background-color: #1a252f;
-}
