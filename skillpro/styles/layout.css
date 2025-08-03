@@ -21,6 +21,8 @@
   width: 100%;
   margin: 0 auto;
   padding: 0 var(--space-4);
+  transform: translateZ(0);
+  position: relative;
 }
 
 .logo {
@@ -33,6 +35,9 @@
   align-items: center;
   height: 100%;
   flex-shrink: 0;
+  transform: translateZ(0);
+  will-change: auto;
+  position: relative;
 }
 
 .main-nav {
