@@ -23,7 +23,7 @@ export default function Home() {
           <p className="hero-desc">
             Track your enrolled courses, connect with mentors, and accelerate your learning journey with a beautiful, modern platform designed for success.
           </p>
-          <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+          <div className="hero-buttons">
             <Link href="/dashboard" className="hero-cta pulse">
               Get Started
               <ArrowRight size={20} style={{ marginLeft: "0.5rem" }} />
