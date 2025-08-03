@@ -13,7 +13,7 @@ export default function Home() {
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet" />
       </Head>
 
-      <main className="home-hero">
+      <div className="home-hero">
         <div className="hero-content fade-in">
           <h1 className="hero-title">
             <span className="gradient-text">SkillPro</span>
@@ -37,7 +37,7 @@ export default function Home() {
         <div className="hero-graphic float">
           <img src="/globe.svg" alt="Learning Globe" />
         </div>
-      </main>
+      </div>
 
       <div className="features-section">
         <div className="features-grid">
