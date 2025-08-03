@@ -8,9 +8,14 @@
   box-shadow: var(--shadow-sm);
   position: sticky;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 50;
   backdrop-filter: blur(12px);
   width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 .header-content {
@@ -21,6 +26,7 @@
   width: 100%;
   margin: 0 auto;
   padding: 0 var(--space-4);
+  box-sizing: border-box;
 }
 
 .logo {
