@@ -1,40 +1,211 @@
 /* Optimized Animation Utilities */
 
 /* Core Animations */
-@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes slideDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes slideLeft { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes slideRight { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes scaleIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
-@keyframes bounce { 0%, 20%, 53%, 80%, 100% { transform: translateY(0); } 40%, 43% { transform: translateY(-15px); } 70% { transform: translateY(-7px); } 90% { transform: translateY(-3px); } }
-@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-@keyframes shake { 0%, 100% { transform: translateX(0); } 10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); } 20%, 40%, 60%, 80% { transform: translateX(2px); } }
-@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-@keyframes ping { 75%, 100% { transform: scale(2); opacity: 0; } }
-@keyframes progressStripes { 0% { background-position: 0 0; } 100% { background-position: 20px 0; } }
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40%, 43% {
+    transform: translateY(-15px);
+  }
+  70% {
+    transform: translateY(-7px);
+  }
+  90% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-2px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(2px);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes progressStripes {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 20px 0;
+  }
+}
 
 /* Animation Classes */
-.fadeIn { animation: fadeIn 0.6s ease-out; }
-.slideUp { animation: slideUp 0.5s ease-out; }
-.slideDown { animation: slideDown 0.5s ease-out; }
-.slideLeft { animation: slideLeft 0.5s ease-out; }
-.slideRight { animation: slideRight 0.5s ease-out; }
-.scaleIn { animation: scaleIn 0.4s ease-out; }
-.bounce { animation: bounce 1s; }
-.pulse { animation: pulse 2s infinite; }
-.shake { animation: shake 0.5s; }
-.spin { animation: spin 1s linear infinite; }
-.ping { animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite; }
+.fadeIn {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.slideUp {
+  animation: slideUp 0.5s ease-out;
+}
+
+.slideDown {
+  animation: slideDown 0.5s ease-out;
+}
+
+.slideLeft {
+  animation: slideLeft 0.5s ease-out;
+}
+
+.slideRight {
+  animation: slideRight 0.5s ease-out;
+}
+
+.scaleIn {
+  animation: scaleIn 0.4s ease-out;
+}
+
+.bounce {
+  animation: bounce 1s;
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+.shake {
+  animation: shake 0.5s;
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+.ping {
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
 
 /* Timing Variations */
-.fast { animation-duration: 0.3s; }
-.slow { animation-duration: 1s; }
-.delay1 { animation-delay: 0.1s; }
-.delay2 { animation-delay: 0.2s; }
-.delay3 { animation-delay: 0.3s; }
+.fast {
+  animation-duration: 0.3s;
+}
+
+.slow {
+  animation-duration: 1s;
+}
+
+.delay1 {
+  animation-delay: 0.1s;
+}
+
+.delay2 {
+  animation-delay: 0.2s;
+}
+
+.delay3 {
+  animation-delay: 0.3s;
+}
 
 /* Hover Effects */
-.hoverFloat:hover { transform: translateY(-4px); transition: transform 0.3s ease; }
-.hoverScale:hover { transform: scale(1.05); transition: transform 0.3s ease; }
-.hoverRotate:hover { transform: rotate(5deg); transition: transform 0.3s ease; }
+.hoverFloat:hover {
+  transform: translateY(-4px);
+  transition: transform 0.3s ease;
+}
+
+.hoverScale:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+.hoverRotate:hover {
+  transform: rotate(5deg);
+  transition: transform 0.3s ease;
+}
