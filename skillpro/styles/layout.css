@@ -1,5 +1,6 @@
 /* Optimized Layout System */
 
+
 /* Header */
 .main-header {
   background: var(--surface-glass);
@@ -26,7 +27,6 @@
   font-weight: 800;
   color: var(--primary);
   text-decoration: none;
-  flex-shrink: 0;
 }
 
 .main-nav {
@@ -52,13 +52,13 @@
 /* Page Layout */
 .page-container {
   min-height: calc(100vh - 8rem);
-  max-width: 100vw;
+  max-width: 1200px;
   margin: 0 auto;
   padding: var(--space-8) var(--space-4);
 }
 
 main {
-  max-width: 100vw;
+  max-width: 100%;
   margin: 0 auto;
 }
 
