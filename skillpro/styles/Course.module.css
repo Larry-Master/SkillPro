@@ -2,7 +2,7 @@
 .coursesGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: var(--space-6);
+  gap: var(--space-8);
   margin-bottom: var(--space-8);
 }
 

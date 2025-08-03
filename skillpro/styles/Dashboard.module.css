@@ -42,7 +42,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: var(--space-4);
-  margin-bottom: var(--dashboard-spacing);
+  margin-bottom: var(--space-4);
 }
 
 .statCard {
