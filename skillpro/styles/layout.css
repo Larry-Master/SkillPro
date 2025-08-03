@@ -207,7 +207,6 @@ main button:hover {
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
-  animation: float 6s ease-in-out infinite;
 }
 
 /* Forms */
@@ -244,8 +243,8 @@ main button:hover {
   background: var(--text-primary); color: var(--text-inverse); text-align: center;
   padding: var(--space-8) var(--space-4); margin-top: var(--space-12);
 }
-.fade-in { animation: fadeIn 0.6s ease-out; }
-.pulse { animation: pulse 2s infinite; }
+.fade-in { /* animation: fadeIn 0.6s ease-out; */ opacity: 1; }
+.pulse { /* animation: pulse 2s infinite; */ transform: none; }
 
 /* Page Headers & Cards */
 .page-header {
