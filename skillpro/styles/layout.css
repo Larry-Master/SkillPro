@@ -10,6 +10,7 @@
   top: 0;
   z-index: 50;
   backdrop-filter: blur(12px);
+  width: 100%;
 }
 
 .header-content {
@@ -17,7 +18,7 @@
   align-items: center;
   justify-content: space-between;
   height: 4rem;
-  max-width: 1280px;
+  width: 100%;
   margin: 0 auto;
   padding: 0 var(--space-4);
 }
