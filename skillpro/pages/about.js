@@ -80,26 +80,55 @@ export default function About() {
       </div>
 
       <div className="about-section">
-        <h2>
+        <div className="team-title">
           <Users size={24} />
           Our Team
-        </h2>
+        </div>
         <div className="team-grid">
           <div className="team-member">
-            <div className="member-avatar">SP</div>
-            <h3>SkillPro Team</h3>
-            <p>Passionate educators and developers</p>
-          </div>
-          
-          <div className="team-member">
-            <div className="member-avatar">HB</div>
-            <h3>HTW Berlin</h3>
-            <p>Academic Excellence</p>
-          </div>
+            <a
+      className="member-avatar"
+      href="https://github.com/Aidaika09" // <-- Replace with actual GitHub URL
+      target="_blank"
+      rel="noopener noreferrer"
+      title="Aidai on GitHub"
+    ></a>
+            <div className="member-avatar image">
+            <img src="/avatars/aidai.jpg" alt="Aidai" />
+            <h3>Aidai</h3>
         </div>
       </div>
-
-      <div className="page-footer-note">
+      <div className="team-member">
+        <a
+      className="member-avatar"
+      href="https://github.com/Larry-Master" // <-- Replace with actual GitHub URL
+      target="_blank"
+      rel="noopener noreferrer"
+      title="Larry on GitHub"
+    ></a>
+            <div className="member-avatar image">
+            <img src="/avatars/larry.jpg" alt="Larry" />
+            </div>
+            <h3>Larry</h3>
+            </div>
+            <div className="team-member">
+            <a
+      className="member-avatar"
+      href="https://github.com/nicolemk12" // <-- Replace with actual GitHub URL
+      target="_blank"
+      rel="noopener noreferrer"
+      title="Nicole on GitHub"
+    ></a>
+            <div className="member-avatar image">
+            <img src="/avatars/nicole.jpg" alt="Nicole" />
+            </div> 
+            <h3>Nicole</h3>
+            <div className="page-footer-note">
+              </div>
+              </div>
+              </div>
+             
+      
         <p>
           Ready to start your learning journey?{" "}
           <Link href="/register" className="btn btn-primary">
