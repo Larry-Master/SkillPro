@@ -1,96 +1,36 @@
-import { useEffect, useState } from "react";
 import Head from "next/head";
-import CreateCourse from "@/pages/admin/createCourse";
+import CreateCourse from "@/components/admin/CreateCourse";
+import { useStudents } from "@/hooks/useStudents";
+import { useCourses } from "@/hooks/useCourses";
+import { useEnroll } from "@/hooks/useEnroll";
 import styles from "@/styles/AdminDashboard.module.css";
 
 import { Users, BookOpen, PlusCircle, Loader2, Trash2 } from "lucide-react";
 
 export default function AdminDashboard() {
-  const [students, setStudents] = useState([]);
-  const [courses, setCourses] = useState([]);
-
-  const [studentsLoading, setStudentsLoading] = useState(true);
-  const [coursesLoading, setCoursesLoading] = useState(true);
-
-  const [selectedStudent, setSelectedStudent] = useState("");
-  const [selectedCourse, setSelectedCourse] = useState("");
-  const [enrollLoading, setEnrollLoading] = useState(false);
-
-  useEffect(() => {
-    async function fetchStudents() {
-      try {
-        const res = await fetch("/api/students");
-        const data = await res.json();
-        setStudents(data);
-      } catch (err) {
-        console.error("Error loading students:", err);
-      } finally {
-        setStudentsLoading(false);
-      }
-    }
-    fetchStudents();
-  }, []);
-
-  useEffect(() => {
-    async function fetchCourses() {
-      try {
-        const res = await fetch("/api/courses");
-        const data = await res.json();
-        setCourses(data);
-      } catch (err) {
-        console.error("Error loading courses:", err);
-      } finally {
-        setCoursesLoading(false);
-      }
-    }
-    fetchCourses();
-  }, []);
+  const { students, loading: studentsLoading, error: studentsError, deleteStudent } = useStudents();
+  const { courses, loading: coursesLoading, error: coursesError, deleteCourse } = useCourses();
+  const {
+    selectedStudent,
+    setSelectedStudent,
+    selectedCourse,
+    setSelectedCourse,
+    enrollLoading,
+    error: enrollError,
+    handleEnroll
+  } = useEnroll();
 
   const handleDelete = async (id, type) => {
     if (!confirm(`Delete this ${type.toLowerCase()}?`)) return;
-    try {
-      const res = await fetch(`/api/${type.toLowerCase()}s/${id}`, {
-        method: "DELETE",
-      });
-      if (!res.ok) throw new Error("Delete failed");
-
-      if (type === "Student") {
-        setStudents((prev) => prev.filter((s) => s._id !== id));
-      } else if (type === "Course") {
-        setCourses((prev) => prev.filter((c) => c._id !== id));
-      }
-    } catch (err) {
-      console.error(err);
+    
+    const success = type === "Student" 
+      ? await deleteStudent(id)
+      : await deleteCourse(id);
+    
+    if (!success) {
       alert(`Error deleting ${type.toLowerCase()}`);
     }
   };
-
-  async function handleEnroll() {
-    if (!selectedStudent || !selectedCourse) {
-      alert("Select both student and course");
-      return;
-    }
-
-    setEnrollLoading(true);
-    try {
-      const res = await fetch("/api/enroll", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          studentId: selectedStudent,
-          courseId: selectedCourse,
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Failed to enroll");
-      alert("Enrollment successful!");
-    } catch (err) {
-      console.error(err);
-      alert(`Error: ${err.message}`);
-    } finally {
-      setEnrollLoading(false);
-    }
-  }
 
   return (
     <>

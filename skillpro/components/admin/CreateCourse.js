@@ -1,29 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useProfessors } from "@/hooks/useProfessors";
+import { coursesApi } from "@/lib/api";
 import styles from "@/styles/CreateCourse.module.css";
 import { PlusCircle } from "lucide-react";
 
 export default function CreateCourse({
   onCourseCreated
 }) {
-  const [professors, setProfessors] = useState([]);
+  const { professors, loading: professorsLoading } = useProfessors();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [professor, setProfessor] = useState("");
   const [capacity, setCapacity] = useState("");
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    async function fetchProfessors() {
-      try {
-        const res = await fetch("/api/professors");
-        const data = await res.json();
-        setProfessors(data);
-      } catch (err) {
-        console.error("Failed to load professors:", err);
-      }
-    }
-    fetchProfessors();
-  }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -31,18 +20,7 @@ export default function CreateCourse({
     setLoading(true);
 
     try {
-      const res = await fetch("/api/courses", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, description, professor, capacity }),
-      });
-
-      if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.message || "Failed to create course");
-      }
-
-      const newCourse = await res.json();
+      const newCourse = await coursesApi.create({ title, description, professor, capacity });
       alert("Course created!");
       onCourseCreated?.(newCourse);
       setTitle("");
@@ -50,7 +28,8 @@ export default function CreateCourse({
       setProfessor("");
       setCapacity("");
     } catch (err) {
-      alert(`Error: ${err.message}`);
+      console.error("Create course error:", err);
+      alert("Failed to create course");
     } finally {
       setLoading(false);
     }

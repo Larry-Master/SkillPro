@@ -1,27 +1,11 @@
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useCourses } from "@/hooks/useCourses";
 import { BookOpen, Users, Clock, Star, ArrowRight, Loader2 } from "lucide-react";
 import courseStyles from "@/styles/Course.module.css";
 import pageStyles from "@/styles/Page.module.css";
 
 export default function EnrollPage() {
-  const [courses, setCourses] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchCourses() {
-      try {
-        const res = await fetch("/api/courses");
-        const data = await res.json();
-        setCourses(data);
-      } catch (err) {
-        console.error("Error loading courses:", err);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchCourses();
-  }, []);
+  const { courses, loading } = useCourses();
 
   function enroll(courseTitle) {
     alert(`You have enrolled in ${courseTitle}!`);
