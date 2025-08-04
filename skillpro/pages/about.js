@@ -84,49 +84,44 @@ export default function About() {
           <Users size={24} />
           Our Team
         </div>
-        <div className="team-grid">
-          <div className="team-member">
-            <a
+       <div className="team-grid">
+  <div className="team-member">
+    <a
       className="member-avatar"
-      href="https://github.com/Aidaika09" // <-- Replace with actual GitHub URL
+      href="https://github.com/Aidaika09"
       target="_blank"
       rel="noopener noreferrer"
       title="Aidai on GitHub"
-    ></a>
-            <div className="member-avatar image">
-            <img src="/avatars/aidai.jpg" alt="Aidai" />
-            <h3>Aidai</h3>
-        </div>
-      </div>
-      <div className="team-member">
-        <a
+    >
+      <img src="/avatars/aidai.jpg" alt="Aidai" />
+    </a>
+    <h3>Aidai</h3>
+  </div>
+  <div className="team-member">
+    <a
       className="member-avatar"
-      href="https://github.com/Larry-Master" // <-- Replace with actual GitHub URL
+      href="https://github.com/Larry-Master"
       target="_blank"
       rel="noopener noreferrer"
       title="Larry on GitHub"
-    ></a>
-            <div className="member-avatar image">
-            <img src="/avatars/larry.jpg" alt="Larry" />
-            </div>
-            <h3>Larry</h3>
-            </div>
-            <div className="team-member">
-            <a
+    >
+      <img src="/avatars/larry.jpg" alt="Larry" />
+    </a>
+    <h3>Larry</h3>
+  </div>
+  <div className="team-member">
+    <a
       className="member-avatar"
-      href="https://github.com/nicolemk12" // <-- Replace with actual GitHub URL
+      href="https://github.com/nicolemk12"
       target="_blank"
       rel="noopener noreferrer"
       title="Nicole on GitHub"
-    ></a>
-            <div className="member-avatar image">
-            <img src="/avatars/nicole.jpg" alt="Nicole" />
-            </div> 
-            <h3>Nicole</h3>
-            <div className="page-footer-note">
-              </div>
-              </div>
-              </div>
+    >
+      <img src="/avatars/nicole.jpg" alt="Nicole" />
+    </a>
+    <h3>Nicole</h3>
+  </div>
+</div>
              
       
         <p>
