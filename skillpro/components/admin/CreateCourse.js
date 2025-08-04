@@ -37,7 +37,7 @@ export default function CreateCourse({
 
   return (
     <div className={styles.section}>
-      <h2 style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 700, fontSize: '1.2rem', marginBottom: 12 }}>
+      <h2>
         <PlusCircle size={18} /> Create New Course
       </h2>
 

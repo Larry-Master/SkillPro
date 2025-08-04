@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function MyApp({ Component, pageProps }) {
   return (
-    <>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <header className="main-header">
         <div className="header-content">
           <Link href="/" className="logo">SkillPro</Link>
@@ -18,12 +18,12 @@ export default function MyApp({ Component, pageProps }) {
           </nav>
         </div>
       </header>
-      <div className="page-container">
+      <div className="page-container" style={{ flex: 1 }}>
         <Component {...pageProps} />
       </div>
       <footer className="main-footer">
         <p>&copy; 2025 SkillPro. Learn. Grow. Succeed.</p>
       </footer>
-    </>
+    </div>
   );
 }

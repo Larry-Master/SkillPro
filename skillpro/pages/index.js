@@ -10,11 +10,10 @@ export default function Home() {
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="Track your enrolled courses, connect with mentors, and accelerate your learning journey" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet" />
       </Head>
 
       <div className="home-hero">
-        <div className="hero-content fade-in">
+        <div className="hero-content">
           <h1 className="hero-title">
             <span className="gradient-text">SkillPro</span>
             <br />
@@ -24,7 +23,7 @@ export default function Home() {
             Track your enrolled courses, connect with mentors, and accelerate your learning journey with a beautiful, modern platform designed for success.
           </p>
           <div className="hero-buttons">
-            <Link href="/dashboard" className="hero-cta pulse">
+            <Link href="/dashboard" className="hero-cta">
               Get Started
               <ArrowRight size={20} style={{ marginLeft: "0.5rem" }} />
             </Link>
@@ -34,7 +33,7 @@ export default function Home() {
             </Link>
           </div>
         </div>
-        <div className="hero-graphic float">
+        <div className="hero-graphic">
           <img src="/globe.svg" alt="Learning Globe" />
         </div>
       </div>

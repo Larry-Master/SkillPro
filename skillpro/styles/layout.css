@@ -11,6 +11,9 @@
   z-index: 50;
   backdrop-filter: blur(12px);
   width: 100%;
+  /* Force consistent width to prevent layout shifts */
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .header-content {
@@ -18,10 +21,13 @@
   align-items: center;
   justify-content: space-between;
   height: 4rem;
+  max-width: 1200px;
   width: 100%;
   margin: 0 auto;
   padding: 0 var(--space-4);
   position: relative;
+  /* Ensure consistent layout regardless of content */
+  box-sizing: border-box;
 }
 
 .logo {
@@ -31,6 +37,9 @@
   text-decoration: none;
   flex-shrink: 0;
   position: relative;
+  /* Prevent any text-based layout shifts */
+  white-space: nowrap;
+  min-width: fit-content;
 }
 
 .main-nav {
@@ -39,6 +48,8 @@
   gap: var(--space-6);
   height: 4rem;
   flex-shrink: 0;
+  /* Prevent nav from shifting when page content changes */
+  min-width: 0;
 }
 .main-nav a {
   font-weight: 500;
@@ -47,6 +58,9 @@
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-md);
   transition: all var(--transition-base);
+  /* Prevent layout shifts from text changes */
+  white-space: nowrap;
+  display: inline-block;
 }
 
 .main-nav a:hover {
@@ -56,10 +70,13 @@
 
 /* Page Layout */
 .page-container {
-  min-height: calc(100vh - 8rem);
-  max-width: 100%;
+  max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
   padding: var(--space-8) var(--space-4);
+  /* Ensure consistent container width to prevent layout shifts */
+  box-sizing: border-box;
+  /* Let flex grow handle the height instead of min-height */
 }
 
 main {
@@ -139,6 +156,8 @@ main button:hover {
   color: var(--text-inverse);
   padding: var(--space-8);
   border-radius: var(--radius-lg);
+  /* Match the margin pattern of pageHeader to prevent layout shifts */
+  margin-bottom: var(--space-10);
 }
 
 .hero-content {
@@ -247,8 +266,6 @@ main button:hover {
   background: var(--text-primary); color: var(--text-inverse); text-align: center;
   padding: var(--space-8) var(--space-4); margin-top: var(--space-12);
 }
-.fade-in { /* animation: fadeIn 0.6s ease-out; */ opacity: 1; }
-.pulse { /* animation: pulse 2s infinite; */ transform: none; }
 
 /* Page Headers & Cards */
 .page-header {
@@ -263,31 +280,6 @@ main button:hover {
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
 .page-subtitle { font-size: 1.25rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
-
-.course-card-modern {
-  background: var(--surface-glass); border-radius: var(--radius-xl); padding: var(--space-6);
-  border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: var(--shadow-lg);
-  backdrop-filter: blur(12px); transition: all var(--transition-base); position: relative; overflow: hidden;
-}
-.course-card-modern:hover { transform: translateY(-4px); box-shadow: var(--shadow-xl); border-color: var(--primary-light); }
-.course-card-modern::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-}
-.course-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--space-4); gap: var(--space-3); }
-.course-title-modern { font-size: 1.25rem; font-weight: 700; color: var(--text-primary); margin: 0; }
-.course-level {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-  color: var(--text-inverse); padding: var(--space-1) var(--space-3);
-  border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
-}
-.course-description { color: var(--text-secondary); margin-bottom: var(--space-5); }
-.course-footer { display: flex; justify-content: space-between; align-items: center; gap: var(--space-4); flex-wrap: wrap; }
-.course-info { display: flex; gap: var(--space-4); flex-wrap: wrap; }
-.course-duration, .course-students, .course-rating {
-  display: flex; align-items: center; gap: var(--space-1);
-  font-size: 0.875rem; color: var(--text-muted); font-weight: 500;
-}
 
 /* Dashboard & Stats */
 .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-4); margin-bottom: var(--space-8); }
@@ -349,9 +341,26 @@ main button:hover {
   .hero-buttons { justify-content: center; }
 }
 @media (max-width: 768px) {
-  .header-content { flex-direction: column; height: auto; padding: var(--space-4); gap: var(--space-4); }
-  .main-nav { gap: var(--space-4); margin-left: 0; flex-wrap: wrap; justify-content: center; }
-  .page-container { padding: var(--space-4); }
+  .header-content { 
+    flex-direction: column; 
+    height: auto; 
+    padding: var(--space-4); 
+    gap: var(--space-4);
+    /* Prevent layout shifts in mobile view */
+    min-height: 6rem;
+  }
+  .main-nav { 
+    gap: var(--space-4); 
+    margin-left: 0; 
+    flex-wrap: wrap; 
+    justify-content: center;
+    /* Ensure nav takes full width consistently */
+    width: 100%;
+  }
+  .page-container { 
+    padding: var(--space-4);
+    /* Flex layout handles the height automatically */
+  }
   main h1 { font-size: 2rem; }
   main ul { grid-template-columns: 1fr; }
   main li { flex-direction: column; text-align: center; gap: var(--space-3); }
