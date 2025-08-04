@@ -225,11 +225,22 @@ main button:hover {
 }
 
 .hero-graphic img {
-  width: 80%;
-  max-width: 500px;
+  width: 70%;
+  max-width: 450px;
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 /* Forms */

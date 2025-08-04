@@ -34,7 +34,7 @@ export default function Home() {
           </div>
         </div>
         <div className="hero-graphic">
-          <img src="/globe.svg" alt="Learning Globe" />
+          <img src="index_heroLogo.png" alt="Online Learning Hero" />
         </div>
       </div>
 
