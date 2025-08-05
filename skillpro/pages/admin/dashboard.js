@@ -106,7 +106,7 @@ export default function AdminDashboard() {
           <section className={styles.section}>
             <CreateCourse
               onCourseCreated={(newCourse) =>
-                setCourses((prev) => [newCourse, ...prev])
+                setSelectedCourse((prev) => [newCourse, ...prev])
               }
             />
           </section>
