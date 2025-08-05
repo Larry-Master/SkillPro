@@ -48,6 +48,7 @@ export default function CreateCourse({
           </label>
           <input
             id="title"
+            name="title"
             type="text"
             className={styles.input}
             value={title}
@@ -62,6 +63,7 @@ export default function CreateCourse({
           </label>
           <textarea
             id="description"
+            name="description"
             className={styles.textarea}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -75,6 +77,7 @@ export default function CreateCourse({
           </label>
           <input
             id="capacity"
+            name="capacity"
             type="number"
             className={styles.input}
             min="0"
@@ -90,6 +93,7 @@ export default function CreateCourse({
           </label>
           <select
             id="professor"
+            name="professorId"
             className={styles.input}
             value={professor}
             onChange={(e) => setProfessor(e.target.value)}

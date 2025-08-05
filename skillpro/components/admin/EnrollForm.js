@@ -13,47 +13,75 @@ export default function EnrollForm({
   enrollLoading,
   handleEnroll,
 }) {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (selectedStudent && selectedCourse && !enrollLoading) {
+      handleEnroll();
+    }
+  };
+
+  const isDisabled = studentsLoading || coursesLoading || enrollLoading;
+  const isValid = selectedStudent && selectedCourse;
+
   return (
     <section className={styles.section}>
       <h2>
         <PlusCircle size={20} /> Enroll
       </h2>
       
-      <select
-        className={styles.select}
-        value={selectedStudent}
-        onChange={(e) => setSelectedStudent(e.target.value)}
-        disabled={studentsLoading}
-      >
-        <option value="">Select Student</option>
-        {students.map((s) => (
-          <option key={s._id} value={s._id}>
-            {s.name}
-          </option>
-        ))}
-      </select>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="student-select" className={styles.label}>
+            Select Student *
+          </label>
+          <select
+            id="student-select"
+            name="studentId"
+            className={styles.select}
+            value={selectedStudent}
+            onChange={(e) => setSelectedStudent(e.target.value)}
+            disabled={isDisabled}
+            required
+          >
+            <option value="">{studentsLoading ? "Loading students..." : "Select Student"}</option>
+            {students.map((s) => (
+              <option key={s._id} value={s._id}>
+                {s.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
-      <select
-        className={styles.select}
-        value={selectedCourse}
-        onChange={(e) => setSelectedCourse(e.target.value)}
-        disabled={coursesLoading}
-      >
-        <option value="">Select Course</option>
-        {courses.map((c) => (
-          <option key={c._id} value={c._id}>
-            {c.title}
-          </option>
-        ))}
-      </select>
+        <div>
+          <label htmlFor="course-select" className={styles.label}>
+            Select Course *
+          </label>
+          <select
+            id="course-select"
+            name="courseId"
+            className={styles.select}
+            value={selectedCourse}
+            onChange={(e) => setSelectedCourse(e.target.value)}
+            disabled={isDisabled}
+            required
+          >
+            <option value="">{coursesLoading ? "Loading courses..." : "Select Course"}</option>
+            {courses.map((c) => (
+              <option key={c._id} value={c._id}>
+                {c.title}
+              </option>
+            ))}
+          </select>
+        </div>
 
-      <button
-        onClick={handleEnroll}
-        disabled={enrollLoading || studentsLoading || coursesLoading}
-        className={styles.enrollButton}
-      >
-        {enrollLoading ? "Enrolling..." : "Enroll"}
-      </button>
+        <button
+          type="submit"
+          disabled={!isValid || isDisabled}
+          className={styles.enrollButton}
+        >
+          {enrollLoading ? "Enrolling..." : "Enroll"}
+        </button>
+      </form>
     </section>
   );
 }
