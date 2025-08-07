@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import MentorTable from './_components/MentorTable';
+import MentorTable from '@components/MentorTable';
 
 export default function MentorListPage() {
   const [mentors, setMentors] = useState([]);
@@ -22,21 +22,20 @@ export default function MentorListPage() {
     }
   };
 
-  const handleEdit = (id) => router.push(`/mentors/${id}`);
   const handleDelete = async (id) => {
-    if (!confirm('Wirklich löschen?')) return;
+    if (!confirm('Delete this mentor?')) return;
     await fetch(`/api/mentors/${id}`, { method: 'DELETE' });
-    setMentors((prev) => prev.filter((m) => (m.id || m._id) !== id));
+    fetchMentors();
   };
 
-  if (loading) return <p>Lädt...</p>;
-  if (error) return <p>Fehler: {error}</p>;
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
-    <div>
-      <h1>Mentoren</h1>
-      <button onClick={() => router.push('/mentors/create')}>Neu</button>
-      <MentorTable mentors={mentors} onEdit={handleEdit} onDelete={handleDelete} />
+    <div className="container">
+      <h1>Mentors</h1>
+      <button className="btn" onClick={'/mentors/create'}>New Mentor</button>
+      <MentorTable mentors={mentors} onDelete={handleDelete} />
     </div>
   );
 }

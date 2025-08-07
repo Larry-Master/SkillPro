@@ -51,7 +51,7 @@ export default function MentorDetailPage() {
   if (error) return <p>Fehler: {error}</p>;
 
   return (
-    <div>
+    <div className="container">
       <h1>Mentor Details</h1>
       {editing ? (
         <MentorForm initialData={mentor} onSubmit={handleUpdate} />

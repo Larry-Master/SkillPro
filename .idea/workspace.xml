@@ -5,21 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4ffbe108-fbd9-4943-b314-8b079c767cd7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/pages/mentors/[id].js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/mentors/_components/MentorForm.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/mentors/_components/MentorTable.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/mentors/create.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/mentors/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/skillpro/pages/mentors/[id].js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/skillpro/pages/mentors/_components/MentorForm.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/skillpro/pages/mentors/_components/MentorTable.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/skillpro/pages/mentors/create.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/skillpro/pages/mentors/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/skillpro/pages/_document.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/skillpro/styles/MentorsPage.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copilotDiffState.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/copilotDiffState.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/mentors/[id].js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/mentors/_components/MentorForm.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/mentors/_components/MentorTable.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/mentors/create.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/mentors/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/skillpro/babel.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/skillpro/jsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/skillpro/jsconfig.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/skillpro/pages/_app.js" beforeDir="false" afterPath="$PROJECT_DIR$/skillpro/pages/_app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/skillpro/pages/api/mentors/[id].js" beforeDir="false" afterPath="$PROJECT_DIR$/skillpro/pages/api/mentors/[id].js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/skillpro/pages/api/mentors/[id]/reviews.js" beforeDir="false" afterPath="$PROJECT_DIR$/skillpro/pages/api/mentors/[id]/reviews.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/skillpro/pages/api/mentors/[id]/sessions.js" beforeDir="false" afterPath="$PROJECT_DIR$/skillpro/pages/api/mentors/[id]/sessions.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/skillpro/pages/api/mentors/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/skillpro/pages/api/mentors/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/skillpro/pages/mentors/[id].js" beforeDir="false" afterPath="$PROJECT_DIR$/skillpro/pages/mentors/[id].js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/skillpro/pages/mentors/_components/MentorTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/skillpro/pages/mentors/_components/MentorTable.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/skillpro/pages/mentors/create.js" beforeDir="false" afterPath="$PROJECT_DIR$/skillpro/pages/mentors/create.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/skillpro/pages/mentors/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/skillpro/pages/mentors/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/skillpro/styles/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/skillpro/styles/globals.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

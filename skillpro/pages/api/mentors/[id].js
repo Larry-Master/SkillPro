@@ -1,11 +1,18 @@
 // pages/api/mentors/[id].js
-const { connectDB } = require('../../../../lib/db');
-const Mentor = require('../../../../models/Mentor');
+import connectDB from '@lib/db';
+import Mentor   from '@models/Mentor';
 
-async function handler(req, res) {
-  await connectDB();
+export default async function handler(req, res) {
+  try {
+    await connectDB();
+  } catch (err) {
+    console.error('🛑 DB connection error:', err);
+    return res
+      .status(500)
+      .json({ success: false, message: 'Database connection failed' });
+  }
+
   const { id } = req.query;
-
   if (req.method === 'GET') {
     const mentor = await Mentor.findById(id);
     if (!mentor) return res.status(404).json({ success: false, message: 'Not found' });
@@ -18,6 +25,7 @@ async function handler(req, res) {
       if (!updated) return res.status(404).json({ success: false, message: 'Not found' });
       return res.status(200).json(updated);
     } catch (err) {
+      console.error('🛑 Mentor.update error:', err);
       return res.status(400).json({ success: false, message: err.message });
     }
   }
@@ -28,7 +36,7 @@ async function handler(req, res) {
     return res.status(200).json({ success: true });
   }
 
-  return res.status(405).json({ success: false, message: 'Method not allowed' });
+  return res
+    .status(405)
+    .json({ success: false, message: 'Method Not Allowed' });
 }
-
-module.exports = handler;

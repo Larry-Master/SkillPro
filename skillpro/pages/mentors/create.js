@@ -1,3 +1,4 @@
+//pages/mentors/create.js
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import MentorForm from './_components/MentorForm';
@@ -25,7 +26,7 @@ export default function MentorCreatePage() {
   };
 
   return (
-    <div>
+    <div className="container">
       <h1>Mentor anlegen</h1>
       {error && <div style={{ color: "red" }}>{error}</div>}
       <MentorForm onSubmit={handleCreate} loading={loading} />

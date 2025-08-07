@@ -19,7 +19,7 @@ export default function MentorTable({ mentors, onDelete }) {
             <td>{m.email}</td>
             <td>{m.industry}</td>
             <td>
-              <Link href={`/mentors/${m._id}`}><a>Edit</a></Link>
+              <Link href={`/mentors/${m._id}`}>Edit</Link>
               {' | '}
               <button onClick={() => onDelete(m._id)}>Delete</button>
             </td>
