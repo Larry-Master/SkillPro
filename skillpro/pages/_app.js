@@ -15,6 +15,7 @@ export default function MyApp({ Component, pageProps }) {
             <Link href="/login">Login</Link>
             <Link href="/register">Register</Link>
             <Link href="/admin/dashboard">Admin</Link>
+            <li><Link href="/mentors">Mentors</Link>
           </nav>
         </div>
       </header>

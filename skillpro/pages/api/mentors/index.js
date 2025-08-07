@@ -1,26 +1,33 @@
 // pages/api/mentors/index.js
-const connectDB = require("../../../lib/db");
-const Mentor = require("../../../models/Mentor");
+const connectDB = require('../../../lib/db');
+const Mentor   = require('../../../models/Mentor');
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   await connectDB();
 
-  if (req.method === "GET") {
-    // GET /api/mentors
-    const mentors = await Mentor.find({});
-    return res.status(200).json({ success: true, data: mentors });
-  }
-
-  if (req.method === "POST") {
-    // POST /api/mentors
+  if (req.method === 'GET') {
     try {
-      const mentor = await Mentor.create(req.body);
-      return res.status(201).json({ success: true, data: mentor });
+      const mentors = await Mentor.find({});
+      return res.status(200).json(mentors);
     } catch (err) {
-      return res.status(400).json({ success: false, error: err.message });
+      return res.status(500).json({ success: false, message: err.message });
     }
   }
 
-  res.setHeader("Allow", ["GET", "POST"]);
-  res.status(405).end(`Method ${req.method} Not Allowed`);
+  if (req.method === 'POST') {
+    try {
+      const doc = await Mentor.create(req.body);
+      return res.status(201).json(doc);
+    } catch (err) {
+      return res.status(400).json({ success: false, message: err.message });
+    }
+  }
+
+  // Method Not Allowed for other HTTP verbs
+  res.setHeader('Allow', ['GET', 'POST']);
+  return res.status(405).json({ success: false, message: `Method ${req.method} Not Allowed` });
 }
+
+module.exports = handler;
+// ensure default export for Next.js
+module.exports.default = handler;
