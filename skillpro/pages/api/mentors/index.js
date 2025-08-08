@@ -1,19 +1,9 @@
 // pages/api/mentors/index.js
-import connectDB from '../../../lib/db';
-import Mentor   from '../../../models/Mentor';
+import { withApiHandler, ApiErrors } from '@/lib/apiHelpers';
+import Mentor from '@/models/Mentor';
 
-export default async function handler(req, res) {
-  // 1) DB connect with error handling
-  try {
-    await connectDB();
-  } catch (err) {
-    console.error('🛑 DB connection error:', err);
-    return res
-      .status(500)
-      .json({ success: false, message: 'Database connection failed' });
-  }
-
-  // 2) CRUD methods
+async function handler(req, res) {
+  // GET /api/mentors - Get all mentors
   if (req.method === 'GET') {
     try {
       const mentors = await Mentor.find({});
@@ -24,19 +14,18 @@ export default async function handler(req, res) {
     }
   }
 
+  // POST /api/mentors - Create new mentor
   if (req.method === 'POST') {
     try {
-      const doc = await Mentor.create(req.body);
-      return res.status(201).json(doc);
+      const mentor = await Mentor.create(req.body);
+      return res.status(201).json(mentor);
     } catch (err) {
       console.error('🛑 Mentor.create error:', err);
-      return res.status(400).json({ success: false, message: err.message });
+      return ApiErrors.validationError(res, err);
     }
   }
 
-  // 3) Method not allowed
-  res.setHeader('Allow', ['GET','POST']);
-  return res
-    .status(405)
-    .json({ success: false, message: `Method ${req.method} Not Allowed` });
+  return ApiErrors.methodNotAllowed(req, res, ['GET', 'POST']);
 }
+
+export default withApiHandler(handler);

@@ -1,6 +1,6 @@
 // pages/api/mentors/[id].js
-import connectDB from '@lib/db';
-import Mentor   from '@models/Mentor';
+import connectDB from '@/lib/db';
+import Mentor   from '@/models/Mentor';
 
 export default async function handler(req, res) {
   try {
@@ -12,16 +12,16 @@ export default async function handler(req, res) {
       .json({ success: false, message: 'Database connection failed' });
   }
 
-  const { id } = req.query;
+  const { mentorId } = req.query;
   if (req.method === 'GET') {
-    const mentor = await Mentor.findById(id);
+    const mentor = await Mentor.findById(mentorId);
     if (!mentor) return res.status(404).json({ success: false, message: 'Not found' });
     return res.status(200).json(mentor);
   }
 
   if (req.method === 'PUT') {
     try {
-      const updated = await Mentor.findByIdAndUpdate(id, req.body, { new: true });
+      const updated = await Mentor.findByIdAndUpdate(mentorId, req.body, { new: true });
       if (!updated) return res.status(404).json({ success: false, message: 'Not found' });
       return res.status(200).json(updated);
     } catch (err) {
@@ -31,7 +31,7 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'DELETE') {
-    const deleted = await Mentor.findByIdAndDelete(id);
+    const deleted = await Mentor.findByIdAndDelete(mentorId);
     if (!deleted) return res.status(404).json({ success: false, message: 'Not found' });
     return res.status(200).json({ success: true });
   }

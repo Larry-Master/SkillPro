@@ -3,24 +3,24 @@ import Mentor from '../../../../models/Mentor';
 
 export default async function handler(req, res) {
   await connectDB();
-  const { id } = req.query;
+  const { mentorId } = req.query;
 
   if (req.method === 'GET') {
-    const mentor = await Mentor.findById(id).select('rating');
+    const mentor = await Mentor.findById(id).select('sessionsCompleted');
     if (!mentor) return res.status(404).json({ success: false, message: 'Not found' });
-    return res.status(200).json({ success: true, data: { rating: mentor.rating } });
+    return res.status(200).json({ success: true, data: { sessionsCompleted: mentor.sessionsCompleted } });
   }
 
   if (req.method === 'POST') {
-    const { rating } = req.body;
     const updated = await Mentor.findByIdAndUpdate(
       id,
-      { $inc: { rating } },
+      { $inc: { sessionsCompleted: 1 } },
       { new: true }
     );
     if (!updated) return res.status(404).json({ success: false, message: 'Not found' });
-    return res.status(200).json({ success: true, data: { rating: updated.rating } });
+    return res.status(200).json({ success: true, data: { sessionsCompleted: updated.sessionsCompleted } });
   }
 
   return res.status(405).json({ success: false, message: 'Method not allowed' });
 }
+

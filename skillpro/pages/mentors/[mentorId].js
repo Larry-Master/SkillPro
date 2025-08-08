@@ -1,21 +1,20 @@
-// pages/mentors/[id].js
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import MentorForm from '@/components/mentors/MentorForm';
 
 export default function MentorDetailPage() {
   const router = useRouter();
-  const { id } = router.query;
+  const { mentorId } = router.query;
   const [mentor, setMentor] = useState(null);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!id) return;
+    if (!mentorId) return;
     (async () => {
       try {
-        const res = await fetch(`/api/mentors/${id}`);
+        const res = await fetch(`/api/mentors/${mentorId}`);
         if (!res.ok) throw new Error('Nicht gefunden');
         setMentor(await res.json());
       } catch (err) {
@@ -24,11 +23,11 @@ export default function MentorDetailPage() {
         setLoading(false);
       }
     })();
-  }, [id]);
+  }, [mentorId]);
 
   const handleUpdate = async (data) => {
     try {
-      const res = await fetch(`/api/mentors/${id}`, {
+      const res = await fetch(`/api/mentors/${mentorId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -43,7 +42,7 @@ export default function MentorDetailPage() {
 
   const handleDelete = async () => {
     if (!confirm('Wirklich löschen?')) return;
-    await fetch(`/api/mentors/${id}`, { method: 'DELETE' });
+    await fetch(`/api/mentors/${mentorId}`, { method: 'DELETE' });
     router.push('/mentors');
   };
 

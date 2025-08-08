@@ -1,8 +1,8 @@
-const connectDB = require("@/lib/db");
-const Course = require("@/models/Course");
-const Student = require("@/models/Student");
-const Professor = require("@/models/Professor");
-const mongoose = require("mongoose");
+import connectDB from "@/lib/db";
+import Course from "@/models/Course";
+import Student from "@/models/Student";
+import Professor from "@/models/Professor";
+import mongoose from "mongoose";
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
