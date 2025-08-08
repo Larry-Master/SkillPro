@@ -1,12 +1,11 @@
-const { createMocks } = require('node-mocks-http');
-const handler = require('../../pages/api/mentors/[id]/sessions');
-const Mentor = require('../../models/Mentor');
+import { createMocks } from 'node-mocks-http';
+import handler from '@/pages/api/mentors/[mentorId]/sessions.js';
+import Mentor from '@/models/Mentor';
 
 // 🧪 Mock connectDB to avoid real DB hit
-jest.mock('../../lib/db', () => {
+jest.mock('@/lib/db', () => {
   const fn = jest.fn().mockResolvedValue();
-  fn.connectDB = fn;
-  return fn;
+  return { __esModule: true, default: fn };
 });
 
 describe('Mentor Sessions API (Unit)', () => {
@@ -20,7 +19,7 @@ describe('Mentor Sessions API (Unit)', () => {
 
     const { req, res } = createMocks({
       method: 'GET',
-      query: { id: 'nonexistent-id' },
+      query: { mentorId: 'nonexistent-id' },
     });
 
     await handler(req, res);
@@ -37,7 +36,7 @@ describe('Mentor Sessions API (Unit)', () => {
 
     const { req, res } = createMocks({
       method: 'GET',
-      query: { id: 'some-id' },
+      query: { mentorId: 'some-id' },
     });
 
     await handler(req, res);
@@ -56,7 +55,7 @@ describe('Mentor Sessions API (Unit)', () => {
 
     const { req, res } = createMocks({
       method: 'POST',
-      query: { id: 'abc123' },
+      query: { mentorId: 'abc123' },
     });
 
     await handler(req, res);

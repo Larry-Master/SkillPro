@@ -1,8 +1,15 @@
-// pages/api/mentors/index.js
-import { withApiHandler, ApiErrors } from '@/lib/apiHelpers';
+import connectDB from '@/lib/db';
 import Mentor from '@/models/Mentor';
 
-async function handler(req, res) {
+export default async function handler(req, res) {
+  // Database connection with error handling
+  try {
+    await connectDB();
+  } catch (err) {
+    console.error('🛑 DB connection error:', err);
+    return res.status(500).json({ success: false, message: 'Database connection failed' });
+  }
+
   // GET /api/mentors - Get all mentors
   if (req.method === 'GET') {
     try {
@@ -21,11 +28,11 @@ async function handler(req, res) {
       return res.status(201).json(mentor);
     } catch (err) {
       console.error('🛑 Mentor.create error:', err);
-      return ApiErrors.validationError(res, err);
+      return res.status(400).json({ success: false, message: err.message });
     }
   }
 
-  return ApiErrors.methodNotAllowed(req, res, ['GET', 'POST']);
+  // Method not allowed
+  res.setHeader('Allow', ['GET', 'POST']);
+  return res.status(405).json({ success: false, message: `Method ${req.method} Not Allowed` });
 }
-
-export default withApiHandler(handler);
