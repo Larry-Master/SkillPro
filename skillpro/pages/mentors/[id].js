@@ -1,7 +1,7 @@
 // pages/mentors/[id].js
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import MentorForm from './_components/MentorForm';
+import MentorForm from '@/components/mentors/MentorForm';
 
 export default function MentorDetailPage() {
   const router = useRouter();

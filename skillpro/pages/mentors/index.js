@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import MentorTable from '@components/MentorTable';
+import MentorTable from '@/components/mentors/MentorTable';
 
 export default function MentorListPage() {
   const [mentors, setMentors] = useState([]);
@@ -32,10 +32,12 @@ export default function MentorListPage() {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div className="container">
-      <h1>Mentors</h1>
-      <button className="btn" onClick={'/mentors/create'}>New Mentor</button>
-      <MentorTable mentors={mentors} onDelete={handleDelete} />
-    </div>
-  );
+      <div className="container">
+        <h1>Mentors</h1>
+        <button className="btn" onClick={() => router.push('/mentors/create')}>
+          New Mentor
+        </button>
+        <MentorTable mentors={mentors} onDelete={handleDelete} />
+      </div>
+    );
 }
