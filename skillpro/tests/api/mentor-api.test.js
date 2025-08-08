@@ -114,6 +114,22 @@ describe('Mentor API (E2E)', () => {
       expect(postRes.body.sessionsCompleted).toBe(1);
     });
 
+    it('returns 0 for GET /sessions when mentor has no sessionsCompleted field', async () => {
+      // Create mentor without sessionsCompleted field
+      const mentor = new Mentor({
+        name: 'Test Mentor',
+        email: 'test@example.com',
+        industry: 'Tech',
+      });
+      // Remove the sessionsCompleted field that gets set by default
+      mentor.sessionsCompleted = undefined;
+      await mentor.save();
+
+      const res = await request.get(`/api/mentors/${mentor._id}/sessions`);
+      expect(res.status).toBe(200);
+      expect(res.body.sessionsCompleted).toBe(0);
+    });
+
     it('handles multiple session increments correctly', async () => {
       const mentor = await Mentor.create({
         name: 'Test Mentor',
@@ -207,6 +223,134 @@ describe('Mentor API (E2E)', () => {
         .set('Content-Type', 'application/json');
       expect(postRes2.status).toBe(200);
       expect(postRes2.body.rating).toBe(8);
+    });
+  });
+
+  describe('Invalid mentorId validation', () => {
+    it('returns 400 for invalid mentorId on GET /sessions', async () => {
+      const res = await request.get('/api/mentors/invalid-id/sessions');
+      expect(res.status).toBe(400);
+      expect(res.body).toEqual({ message: 'Invalid mentorId' });
+    });
+
+    it('returns 400 for invalid mentorId on POST /sessions', async () => {
+      const res = await request.post('/api/mentors/invalid-id/sessions').send();
+      expect(res.status).toBe(400);
+      expect(res.body).toEqual({ message: 'Invalid mentorId' });
+    });
+
+    it('returns 400 for invalid mentorId on GET /reviews', async () => {
+      const res = await request.get('/api/mentors/invalid-id/reviews');
+      expect(res.status).toBe(400);
+      expect(res.body).toEqual({ message: 'Invalid mentorId' });
+    });
+
+    it('returns 400 for invalid mentorId on POST /reviews', async () => {
+      const res = await request
+        .post('/api/mentors/invalid-id/reviews')
+        .send({ rating: 5 });
+      expect(res.status).toBe(400);
+      expect(res.body).toEqual({ message: 'Invalid mentorId' });
+    });
+  });
+
+  describe('Error handling', () => {
+    it('handles database errors gracefully on sessions GET', async () => {
+      const validId = new mongoose.Types.ObjectId();
+      
+      // Mock Mentor.findById to throw a database error
+      const originalFindById = Mentor.findById;
+      Mentor.findById = jest.fn().mockRejectedValue(new Error('Database connection failed'));
+      
+      const res = await request.get(`/api/mentors/${validId}/sessions`);
+      expect(res.status).toBe(500);
+      expect(res.body.error).toBe('Internal Server Error');
+      
+      // Restore original method
+      Mentor.findById = originalFindById;
+    });
+
+    it('handles database errors gracefully on sessions POST', async () => {
+      const validId = new mongoose.Types.ObjectId();
+      
+      // Mock Mentor.findByIdAndUpdate to throw a database error
+      const originalFindByIdAndUpdate = Mentor.findByIdAndUpdate;
+      Mentor.findByIdAndUpdate = jest.fn().mockRejectedValue(new Error('Database connection failed'));
+      
+      const res = await request.post(`/api/mentors/${validId}/sessions`).send();
+      expect(res.status).toBe(500);
+      expect(res.body.error).toBe('Internal Server Error');
+      
+      // Restore original method
+      Mentor.findByIdAndUpdate = originalFindByIdAndUpdate;
+    });
+
+    it('handles database errors gracefully on reviews GET', async () => {
+      const validId = new mongoose.Types.ObjectId();
+      
+      // Mock Mentor.findById to throw a database error
+      const originalFindById = Mentor.findById;
+      Mentor.findById = jest.fn().mockRejectedValue(new Error('Database connection failed'));
+      
+      const res = await request.get(`/api/mentors/${validId}/reviews`);
+      expect(res.status).toBe(500);
+      expect(res.body.error).toBe('Internal Server Error');
+      
+      // Restore original method
+      Mentor.findById = originalFindById;
+    });
+
+    it('handles database errors gracefully on reviews POST', async () => {
+      const validId = new mongoose.Types.ObjectId();
+      
+      // Mock Mentor.findByIdAndUpdate to throw a database error
+      const originalFindByIdAndUpdate = Mentor.findByIdAndUpdate;
+      Mentor.findByIdAndUpdate = jest.fn().mockRejectedValue(new Error('Database connection failed'));
+      
+      const res = await request
+        .post(`/api/mentors/${validId}/reviews`)
+        .send({ rating: 5 });
+      expect(res.status).toBe(500);
+      expect(res.body.error).toBe('Internal Server Error');
+      
+      // Restore original method
+      Mentor.findByIdAndUpdate = originalFindByIdAndUpdate;
+    });
+
+    it('handles validation errors gracefully on reviews POST', async () => {
+      const validId = new mongoose.Types.ObjectId();
+      
+      // Mock Mentor.findByIdAndUpdate to throw a validation error
+      const originalFindByIdAndUpdate = Mentor.findByIdAndUpdate;
+      const validationError = new Error('Validation failed');
+      validationError.name = 'ValidationError';
+      Mentor.findByIdAndUpdate = jest.fn().mockRejectedValue(validationError);
+      
+      const res = await request
+        .post(`/api/mentors/${validId}/reviews`)
+        .send({ rating: 5 });
+      expect(res.status).toBe(400);
+      expect(res.body.error).toBe('Validation Error');
+      
+      // Restore original method
+      Mentor.findByIdAndUpdate = originalFindByIdAndUpdate;
+    });
+
+    it('handles validation errors gracefully on sessions POST', async () => {
+      const validId = new mongoose.Types.ObjectId();
+      
+      // Mock Mentor.findByIdAndUpdate to throw a validation error
+      const originalFindByIdAndUpdate = Mentor.findByIdAndUpdate;
+      const validationError = new Error('Validation failed');
+      validationError.name = 'ValidationError';
+      Mentor.findByIdAndUpdate = jest.fn().mockRejectedValue(validationError);
+      
+      const res = await request.post(`/api/mentors/${validId}/sessions`).send();
+      expect(res.status).toBe(400);
+      expect(res.body.error).toBe('Validation Error');
+      
+      // Restore original method
+      Mentor.findByIdAndUpdate = originalFindByIdAndUpdate;
     });
   });
 
