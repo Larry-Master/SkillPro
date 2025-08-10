@@ -14,7 +14,7 @@ export default function MyApp({ Component, pageProps }) {
             <Link href="/enroll">Courses</Link>
             <Link href="/login">Login</Link>
             <Link href="/register">Register</Link>
-            <Link href="/admin/dashboard">Admin</Link>
+            <Link href="/admin/admin_dashboard">Admin</Link>
             <Link href="/mentors">Mentors</Link>
           </nav>
         </div>
